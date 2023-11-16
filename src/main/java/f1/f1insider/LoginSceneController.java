@@ -22,7 +22,19 @@ public class LoginSceneController {
 
     @FXML
     void onLoginUser(ActionEvent event) {
-
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("MainScene.fxml"));
+            MainSceneController controller = new MainSceneController();
+            loader.setController(controller);
+            Parent mainMenuScene = loader.load();
+            Stage mainMenuStage = (Stage) loginButton.getScene().getWindow();
+            mainMenuStage.setScene(new Scene(mainMenuScene));
+            mainMenuStage.setTitle("Standings");
+            mainMenuStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
