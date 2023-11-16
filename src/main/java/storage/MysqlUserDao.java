@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 public class MysqlUserDao implements UserDao {
     private JdbcTemplate jdbcTemplate;
@@ -24,9 +25,14 @@ public class MysqlUserDao implements UserDao {
 
     @Override
     public String givePassword(String username) throws EntityNotFoundException {
+        Objects.requireNonNull(username, "username cannot be null");
         String query = "SELECT password FROM User WHERE username = ?";
-        String password = jdbcTemplate.queryForObject(query, String.class, username);
-        return password;
+        try {
+            String password = jdbcTemplate.queryForObject(query, String.class, username);
+            return password;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -56,6 +62,7 @@ public class MysqlUserDao implements UserDao {
 
                 return true;
             } else {
+                System.out.println("Username is taken");
                 return false;
             }
         } catch (EmptyResultDataAccessException e) {

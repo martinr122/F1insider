@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.dao.EmptyResultDataAccessException;
 import storage.DaoFactory;
 import storage.EntityNotFoundException;
 import storage.User;
@@ -37,26 +38,39 @@ public class RegisterSceneController {
 
     @FXML
     void onCreateUser(ActionEvent event) {
-        User newUser = new User();
-        newUser.setUsername(LoginTextField.getText());
-        String passw = PasswordTextField.getText();
-        String conpassw = ConfirmPasswordTextField.getText();
-        if (passw.equals(conpassw)){
-            if (isValidPassword(passw)){
-                newUser.setPassUser(passw);
-                UserDao userDao = DaoFactory.INSTANCE.getUserDao();
-                if (userDao.add(newUser)){
-                    System.out.println("Account created!");
-                }else {
-                    System.out.println("Change Username!");
-                }
-                System.out.println("password created");
-            }else {
-                System.out.println("password isnt strong!");
-            }
-        }else {
-            System.out.println("Password and confirm password must be same!");
+        String username = LoginTextField.getText();
+        if (username.length() == 0){
+            System.out.println("Select Username");
+            return;
         }
+        try {
+            User newUser = new User();
+            String passw = PasswordTextField.getText();
+            if (passw == null){
+                return;
+            }
+            newUser.setUsername(username);
+
+            String conpassw = ConfirmPasswordTextField.getText();
+            if (passw.equals(conpassw)){
+                if (isValidPassword(passw)){
+                    newUser.setPassUser(passw);
+                    UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+                    if (userDao.add(newUser)){
+                        System.out.println("Account created!");
+                    }else {
+                        System.out.println("Change Username!");
+                    }
+                }else {
+                    System.out.println("password isnt strong!");
+                }
+            }else {
+                System.out.println("Password and confirm password must be same!");
+            }
+        }catch (EmptyResultDataAccessException e){
+            System.out.println("Registration is incorrect");
+        }
+
     }
 
     @FXML

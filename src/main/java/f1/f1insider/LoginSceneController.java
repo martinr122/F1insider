@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.dao.EmptyResultDataAccessException;
 import storage.DaoFactory;
 import storage.EntityNotFoundException;
 import storage.User;
@@ -33,17 +34,23 @@ public class LoginSceneController {
     private Button loginButton;
     @FXML
     void onLoginUser(ActionEvent event) throws EntityNotFoundException {
-        UserDao userDao = DaoFactory.INSTANCE.getUserDao();
-        String password = userDao.givePassword(LoginTextField.getText());
-        if(password.equals(null)){
-            System.out.println("Username is incorrect");
-        }else {
-            if (password.equals(PasswordTextField.getText())){
-                System.out.println("Logged in");
+        try{
+            UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+            String username = LoginTextField.getText();
+            String password = userDao.givePassword(username);
+            if(password == null || password == null){
+                System.out.println("Username is incorrect");
             }else {
-                System.out.println("Incorect password");
+                if (password.equals(PasswordTextField.getText())){
+                    System.out.println("Logged in");
+                }else {
+                    System.out.println("Incorect password");
+                }
             }
+        }catch (EmptyResultDataAccessException e){
+            System.out.println("Login is incorrect");
         }
+
     }
 
     @FXML
