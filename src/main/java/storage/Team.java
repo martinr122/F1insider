@@ -1,4 +1,4 @@
-package f1.f1insider;
+package storage;
 
 public class Team {
     private int idTeam;

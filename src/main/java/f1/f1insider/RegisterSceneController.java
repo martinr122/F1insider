@@ -9,8 +9,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import storage.DaoFactory;
+import storage.EntityNotFoundException;
+import storage.User;
+import storage.UserDao;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterSceneController {
 
@@ -31,7 +37,26 @@ public class RegisterSceneController {
 
     @FXML
     void onCreateUser(ActionEvent event) {
-
+        User newUser = new User();
+        newUser.setUsername(LoginTextField.getText());
+        String passw = PasswordTextField.getText();
+        String conpassw = ConfirmPasswordTextField.getText();
+        if (passw.equals(conpassw)){
+            if (isValidPassword(passw)){
+                newUser.setPassUser(passw);
+                UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+                if (userDao.add(newUser)){
+                    System.out.println("Account created!");
+                }else {
+                    System.out.println("Change Username!");
+                }
+                System.out.println("password created");
+            }else {
+                System.out.println("password isnt strong!");
+            }
+        }else {
+            System.out.println("Password and confirm password must be same!");
+        }
     }
 
     @FXML
@@ -49,6 +74,12 @@ public class RegisterSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private boolean isValidPassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
 }
