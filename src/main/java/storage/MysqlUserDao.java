@@ -23,8 +23,10 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
-    public User getByUsername(String username) throws EntityNotFoundException {
-        return null;
+    public String givePassword(String username) throws EntityNotFoundException {
+        String query = "SELECT password FROM User WHERE username = ?";
+        String password = jdbcTemplate.queryForObject(query, String.class, username);
+        return password;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class MysqlUserDao implements UserDao {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement preparedStatement = connection.prepareStatement(finalQuery, Statement.RETURN_GENERATED_KEYS);
                         preparedStatement.setString(1, user.getUsername());
+                        // TO DO Hashovanie
                         preparedStatement.setString(2, user.getPass());
                         return preparedStatement;
                     }
