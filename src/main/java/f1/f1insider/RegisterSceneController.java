@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,6 +21,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterSceneController {
+
+    @FXML
+    private Label RegistrationAlert;
 
     @FXML
     private PasswordField ConfirmPasswordTextField;
@@ -40,7 +44,7 @@ public class RegisterSceneController {
     void onCreateUser(ActionEvent event) {
         String username = LoginTextField.getText();
         if (username.length() == 0){
-            System.out.println("Select Username");
+            RegistrationAlert.setText("Select Username");
             return;
         }
         try {
@@ -57,18 +61,18 @@ public class RegisterSceneController {
                     newUser.setPassUser(passw);
                     UserDao userDao = DaoFactory.INSTANCE.getUserDao();
                     if (userDao.add(newUser)){
-                        System.out.println("Account created!");
+                        RegistrationAlert.setText("Account created!");
                     }else {
-                        System.out.println("Change Username!");
+                        RegistrationAlert.setText("Change Username!");
                     }
                 }else {
-                    System.out.println("password isnt strong!");
+                    RegistrationAlert.setText("Password isnt strong!");
                 }
             }else {
-                System.out.println("Password and confirm password must be same!");
+                RegistrationAlert.setText("Passwords must be same!");
             }
         }catch (EmptyResultDataAccessException e){
-            System.out.println("Registration is incorrect");
+            RegistrationAlert.setText("Registration is incorrect");
         }
 
     }

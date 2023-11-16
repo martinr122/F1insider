@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,6 +21,10 @@ import java.io.IOException;
 
 public class LoginSceneController {
 
+
+
+    @FXML
+    private Label LoginAlert;
 
     @FXML
     private TextField LoginTextField;
@@ -39,16 +44,16 @@ public class LoginSceneController {
             String username = LoginTextField.getText();
             String password = userDao.givePassword(username);
             if(password == null || password == null){
-                System.out.println("Username is incorrect");
+                LoginAlert.setText("Username is incorrect");
             }else {
                 if (password.equals(PasswordTextField.getText())){
-                    System.out.println("Logged in");
+                    LoginAlert.setText("Logged in");
                 }else {
-                    System.out.println("Incorect password");
+                    LoginAlert.setText("Incorect password");
                 }
             }
         }catch (EmptyResultDataAccessException e){
-            System.out.println("Login is incorrect");
+            LoginAlert.setText("Login is incorrect");
         }
 
     }
