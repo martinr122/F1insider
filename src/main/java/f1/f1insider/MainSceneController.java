@@ -57,7 +57,6 @@ public class MainSceneController {
 
     @FXML
     void onShowRacing(ActionEvent event) {
-
     }
 
     @FXML
