@@ -72,7 +72,7 @@ public class RegisterSceneController {
                 RegistrationAlert.setText("Passwords must be same!");
             }
         }catch (EmptyResultDataAccessException e){
-            RegistrationAlert.setText("Registration is incorrect");
+            RegistrationAlert.setText("Registration is incorrect!");
         }
 
     }
