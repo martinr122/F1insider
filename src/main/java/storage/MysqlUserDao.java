@@ -48,8 +48,8 @@ public class MysqlUserDao implements UserDao {
                     public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                         PreparedStatement preparedStatement = connection.prepareStatement(finalQuery, Statement.RETURN_GENERATED_KEYS);
                         preparedStatement.setString(1, user.getUsername());
-                        // TO DO Hashovanie
-                        preparedStatement.setString(2, user.getPass());
+                        String password = PasswordHashing.doHashing(user.getPass());
+                        preparedStatement.setString(2, password);
                         return preparedStatement;
                     }
                 };

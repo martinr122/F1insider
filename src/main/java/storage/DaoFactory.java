@@ -12,8 +12,8 @@ public enum DaoFactory {
     private JdbcTemplate getJdbcTemplate() {
         if (jdbcTemplate == null) {
             MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setUser("root");
-            dataSource.setPassword("autobus12");
+            dataSource.setUser("admin");
+            dataSource.setPassword("F1insider123");
             dataSource.setUrl("jdbc:mysql://localhost:3306/f1insider");
             jdbcTemplate = new JdbcTemplate(dataSource);
         }
