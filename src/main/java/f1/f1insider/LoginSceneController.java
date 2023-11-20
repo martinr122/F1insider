@@ -11,10 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
-import storage.DaoFactory;
-import storage.EntityNotFoundException;
-import storage.User;
-import storage.UserDao;
+import storage.*;
 
 import java.io.IOException;
 
@@ -42,18 +39,21 @@ public class LoginSceneController {
         try{
             UserDao userDao = DaoFactory.INSTANCE.getUserDao();
             String username = LoginTextField.getText();
-            String password = userDao.givePassword(username);
-            if(password == null || password == null){
-                LoginAlert.setText("Username is incorrect");
+            String userPassword = userDao.givePassword(username);
+            String loginPassword = PasswordTextField.getText();
+            loginPassword = PasswordHashing.doHashing(loginPassword);
+            if(userPassword == null || userPassword == null){
+                LoginAlert.setText("Username is incorrect!");
             }else {
-                if (password.equals(PasswordTextField.getText())){
-                    LoginAlert.setText("Logged in");
+                if (userPassword.equals(loginPassword)){
+                    //TO DO login to next
+                    LoginAlert.setText("you are in");
                 }else {
-                    LoginAlert.setText("Incorect password");
+                    LoginAlert.setText("Incorect password!");
                 }
             }
         }catch (EmptyResultDataAccessException e){
-            LoginAlert.setText("Login is incorrect");
+            LoginAlert.setText("Login is incorrect!");
         }
 
     }
