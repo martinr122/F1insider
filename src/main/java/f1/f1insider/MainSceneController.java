@@ -53,7 +53,6 @@ public class MainSceneController {
     @FXML
     void initialize() {
         UsernameLabel.setText(user.toString());
-
     }
 
     @FXML
@@ -85,7 +84,7 @@ public class MainSceneController {
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("StandingsMenuScene.fxml"));
-            StandingsMenuSceneController controller = new StandingsMenuSceneController();
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user);
             loader.setController(controller);
             Parent standingsMenuScene = loader.load();
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();

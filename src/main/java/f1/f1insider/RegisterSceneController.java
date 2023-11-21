@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import storage.DaoFactory;
@@ -23,9 +20,6 @@ import java.util.regex.Pattern;
 public class RegisterSceneController {
 
     @FXML
-    private Label RegistrationAlert;
-
-    @FXML
     private PasswordField ConfirmPasswordTextField;
 
     @FXML
@@ -38,7 +32,44 @@ public class RegisterSceneController {
     private Button RegisterButton;
 
     @FXML
+    private Label RegistrationAlert;
+
+    @FXML
+    private CheckBox VisibilityCheckBox;
+
+    @FXML
+    private TextField VisibleConfirmPasswordTextField;
+
+    @FXML
+    private TextField VisiblePasswordTextField;
+
+    @FXML
     private Button loginButton;
+
+
+
+    @FXML
+    void onVisibleCheck(ActionEvent event) {
+        boolean isChecked = VisibilityCheckBox.isSelected();
+        VisiblePasswordTextField.setVisible(isChecked);
+        VisiblePasswordTextField.setManaged(isChecked);
+        VisibleConfirmPasswordTextField.setVisible(isChecked);
+        VisibleConfirmPasswordTextField.setManaged(isChecked);
+
+        PasswordTextField.setVisible(!isChecked);
+        PasswordTextField.setManaged(!isChecked);
+        ConfirmPasswordTextField.setVisible(!isChecked);
+        ConfirmPasswordTextField.setManaged(!isChecked);
+
+        if (isChecked) {
+            VisiblePasswordTextField.setText(PasswordTextField.getText());
+            VisibleConfirmPasswordTextField.setText(ConfirmPasswordTextField.getText());
+        } else {
+            PasswordTextField.setText(VisiblePasswordTextField.getText());
+            ConfirmPasswordTextField.setText(VisibleConfirmPasswordTextField.getText());
+        }
+
+    }
 
     @FXML
     void onCreateUser(ActionEvent event) {
@@ -80,7 +111,7 @@ public class RegisterSceneController {
                         RegistrationAlert.setText("Change Username!");
                     }
                 }else {
-                    RegistrationAlert.setText("Password isnt strong!");
+                    RegistrationAlert.setText("Password isn´t strong!");
                 }
             }else {
                 RegistrationAlert.setText("Passwords must be same!");

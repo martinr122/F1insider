@@ -6,7 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import storage.User;
 
 import java.io.IOException;
 
@@ -23,7 +25,18 @@ public class StandingsMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+    @FXML
+    private Label UsernameLabel;
+    private User user;
 
+    public StandingsMenuSceneController(User user){
+        this.user = user;
+    }
+
+    @FXML
+    void initialize() {
+        UsernameLabel.setText(user.toString());
+    }
     @FXML
     void onLogout(ActionEvent event) {
         try {
