@@ -34,6 +34,7 @@ public class LoginSceneController {
 
     @FXML
     private Button loginButton;
+
     @FXML
     void onLoginUser(ActionEvent event) throws EntityNotFoundException {
         try{
@@ -48,6 +49,19 @@ public class LoginSceneController {
                 if (userPassword.equals(loginPassword)){
                     //TO DO login to next
                     LoginAlert.setText("you are in");
+                    try{
+                        FXMLLoader loader = new FXMLLoader(
+                                getClass().getResource("MainScene.fxml"));
+                        MainSceneController controller = new MainSceneController();
+                        loader.setController(controller);
+                        Parent mainMenuScene = loader.load();
+                        Stage mainMenuStage = (Stage) loginButton.getScene().getWindow();
+                        mainMenuStage.setScene(new Scene(mainMenuScene));
+                        mainMenuStage.setTitle("Standings");
+                        mainMenuStage.show();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
                 }else {
                     LoginAlert.setText("Incorect password!");
                 }
