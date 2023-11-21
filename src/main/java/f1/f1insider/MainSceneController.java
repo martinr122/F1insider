@@ -1,16 +1,23 @@
 package f1.f1insider;
 
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
+
 import javafx.stage.Stage;
+import storage.User;
 
 import java.io.IOException;
+
 
 public class MainSceneController {
 
@@ -34,6 +41,20 @@ public class MainSceneController {
 
     @FXML
     private Button showStandingsButton;
+
+    private User user;
+
+    @FXML
+    private Label UsernameLabel;
+
+    public MainSceneController(User user) {
+        this.user = user;
+    }
+    @FXML
+    void initialize() {
+        UsernameLabel.setText(user.toString());
+
+    }
 
     @FXML
     void loadLastGrandPrixTextField(ActionEvent event) {

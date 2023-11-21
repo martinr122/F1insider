@@ -61,7 +61,21 @@ public class RegisterSceneController {
                     newUser.setPassUser(passw);
                     UserDao userDao = DaoFactory.INSTANCE.getUserDao();
                     if (userDao.add(newUser)){
-                        RegistrationAlert.setText("Account created!");
+                        try{
+                            newUser.setPassUser(null);
+                            FXMLLoader loader = new FXMLLoader(
+                                    getClass().getResource("MainScene.fxml"));
+                            MainSceneController controller = new MainSceneController(newUser);
+                            loader.setController(controller);
+                            Parent mainMenuScene = loader.load();
+                            Stage mainMenuStage = (Stage) loginButton.getScene().getWindow();
+                            mainMenuStage.setScene(new Scene(mainMenuScene));
+                            mainMenuStage.setTitle("Standings");
+                            mainMenuStage.centerOnScreen();
+                            mainMenuStage.show();
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
                     }else {
                         RegistrationAlert.setText("Change Username!");
                     }
