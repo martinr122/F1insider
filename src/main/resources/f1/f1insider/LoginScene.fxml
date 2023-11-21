@@ -36,5 +36,10 @@
             <Font size="30.0" />
          </font>
       </Label>
+      <Label fx:id="LoginAlert" layoutX="74.0" layoutY="272.0" textFill="RED">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
