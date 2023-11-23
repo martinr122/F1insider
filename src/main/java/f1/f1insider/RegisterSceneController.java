@@ -20,6 +20,9 @@ import java.util.regex.Pattern;
 public class RegisterSceneController {
 
     @FXML
+    private Label RegistrationAlert;
+
+    @FXML
     private PasswordField ConfirmPasswordTextField;
 
     @FXML
@@ -32,9 +35,6 @@ public class RegisterSceneController {
     private Button RegisterButton;
 
     @FXML
-    private Label RegistrationAlert;
-
-    @FXML
     private CheckBox VisibilityCheckBox;
 
     @FXML
@@ -43,33 +43,9 @@ public class RegisterSceneController {
     @FXML
     private TextField VisiblePasswordTextField;
 
+
     @FXML
     private Button loginButton;
-
-
-
-    @FXML
-    void onVisibleCheck(ActionEvent event) {
-        boolean isChecked = VisibilityCheckBox.isSelected();
-        VisiblePasswordTextField.setVisible(isChecked);
-        VisiblePasswordTextField.setManaged(isChecked);
-        VisibleConfirmPasswordTextField.setVisible(isChecked);
-        VisibleConfirmPasswordTextField.setManaged(isChecked);
-
-        PasswordTextField.setVisible(!isChecked);
-        PasswordTextField.setManaged(!isChecked);
-        ConfirmPasswordTextField.setVisible(!isChecked);
-        ConfirmPasswordTextField.setManaged(!isChecked);
-
-        if (isChecked) {
-            VisiblePasswordTextField.setText(PasswordTextField.getText());
-            VisibleConfirmPasswordTextField.setText(ConfirmPasswordTextField.getText());
-        } else {
-            PasswordTextField.setText(VisiblePasswordTextField.getText());
-            ConfirmPasswordTextField.setText(VisibleConfirmPasswordTextField.getText());
-        }
-
-    }
 
     @FXML
     void onCreateUser(ActionEvent event) {
@@ -92,26 +68,12 @@ public class RegisterSceneController {
                     newUser.setPassUser(passw);
                     UserDao userDao = DaoFactory.INSTANCE.getUserDao();
                     if (userDao.add(newUser)){
-                        try{
-                            newUser.setPassUser(null);
-                            FXMLLoader loader = new FXMLLoader(
-                                    getClass().getResource("MainScene.fxml"));
-                            MainSceneController controller = new MainSceneController(newUser);
-                            loader.setController(controller);
-                            Parent mainMenuScene = loader.load();
-                            Stage mainMenuStage = (Stage) loginButton.getScene().getWindow();
-                            mainMenuStage.setScene(new Scene(mainMenuScene));
-                            mainMenuStage.setTitle("Standings");
-                            mainMenuStage.centerOnScreen();
-                            mainMenuStage.show();
-                        }catch(IOException e){
-                            e.printStackTrace();
-                        }
+                        RegistrationAlert.setText("Account created!");
                     }else {
                         RegistrationAlert.setText("Change Username!");
                     }
                 }else {
-                    RegistrationAlert.setText("Password isn´t strong!");
+                    RegistrationAlert.setText("Password isnt strong!");
                 }
             }else {
                 RegistrationAlert.setText("Passwords must be same!");
@@ -137,6 +99,28 @@ public class RegisterSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    void onVisibleCheck(ActionEvent event) {
+        boolean isChecked = VisibilityCheckBox.isSelected();
+        VisiblePasswordTextField.setVisible(isChecked);
+        VisiblePasswordTextField.setManaged(isChecked);
+        VisibleConfirmPasswordTextField.setVisible(isChecked);
+        VisibleConfirmPasswordTextField.setManaged(isChecked);
+
+        PasswordTextField.setVisible(!isChecked);
+        PasswordTextField.setManaged(!isChecked);
+        ConfirmPasswordTextField.setVisible(!isChecked);
+        ConfirmPasswordTextField.setManaged(!isChecked);
+
+        if (isChecked) {
+            VisiblePasswordTextField.setText(PasswordTextField.getText());
+            VisibleConfirmPasswordTextField.setText(ConfirmPasswordTextField.getText());
+        } else {
+            PasswordTextField.setText(VisiblePasswordTextField.getText());
+            ConfirmPasswordTextField.setText(VisibleConfirmPasswordTextField.getText());
+        }
+
     }
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
