@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: red;">
          <items>
@@ -15,7 +19,7 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="showRacingButton" disable="true" mnemonicParsing="false" onAction="#onShowRacing" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: white;" text="Racing">
+            <Button fx:id="showRacingButton" mnemonicParsing="false" onAction="#onShowRacing" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: white;" text="Racing">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -25,7 +29,6 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <ComboBox fx:id="showHistoryComboBox" prefHeight="31.0" prefWidth="120.0" promptText="History" style="-fx-background-color: white;" />
             <Button fx:id="showHistoryButton" mnemonicParsing="false" onAction="#onShowHistory" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: black;" text="History" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -36,6 +39,14 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
+            <Label fx:id="UsernameLabel" text="Label" textAlignment="RIGHT">
+               <padding>
+                  <Insets left="400.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
          </items>
          <padding>
             <Insets bottom="3.0" left="3.0" />

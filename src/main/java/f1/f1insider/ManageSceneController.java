@@ -42,6 +42,9 @@ public class ManageSceneController {
     private TextField nameOfGP;
 
     @FXML
+    private TextField placeOfGP;
+
+    @FXML
     private CheckBox isSprintRace;
 
     @FXML
@@ -128,7 +131,8 @@ public class ManageSceneController {
         race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
 
         race.setSprintWeekend(isSprintRace.isSelected());
-        race.setPlace(nameOfGP.getText());
+        race.setName(nameOfGP.getText());
+        race.setPlace(placeOfGP.getText());
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         raceDao.saveRace(race);
         listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces()));

@@ -12,6 +12,16 @@ public class Race {
     private LocalDateTime whenSecondSession;
     private LocalDateTime whenThirdSession;
     private boolean isSprintWeekend;
+    private String place;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public boolean isSprintWeekend() {
         return isSprintWeekend;
@@ -20,8 +30,6 @@ public class Race {
     public void setSprintWeekend(boolean sprintWeekend) {
         isSprintWeekend = sprintWeekend;
     }
-
-    private String place;
 
     public int getId() {
         return id;

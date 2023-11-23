@@ -95,16 +95,6 @@ public class MainSceneController {
     }
 
     @FXML
-    void loadLastGrandPrixTextField(ActionEvent event) {
-
-    }
-
-    @FXML
-    void loadNextGrandPrixTextField(ActionEvent event) {
-
-    }
-
-    @FXML
     void onLogout(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -124,11 +114,24 @@ public class MainSceneController {
 
     @FXML
     void onShowHistory(ActionEvent event) {
-
     }
 
     @FXML
     void onShowRacing(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
