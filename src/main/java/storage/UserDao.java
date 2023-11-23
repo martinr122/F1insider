@@ -4,11 +4,13 @@ import java.util.List;
 
 public interface UserDao {
 
-        String givePassword(String username) throws EntityNotFoundException;
-        User getById(long id) throws EntityNotFoundException;
-        Boolean add(User user);
-        void delete(long id) throws EntityNotFoundException;
+    User getById(long id) throws EntityNotFoundException;
 
-    }
+    String givePassword(String username) throws EntityNotFoundException;
+        Boolean add(User user);
+        boolean isAdmin(String username) throws EntityNotFoundException;
+
+    void delete(long id) throws EntityNotFoundException;
+}
 
 

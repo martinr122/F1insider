@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import storage.*;
 
-import java.awt.event.KeyEvent;
+import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 
 
@@ -33,11 +33,44 @@ public class LoginSceneController {
 
     @FXML
     private Button loginButton;
+
     @FXML
     private CheckBox VisibilityCheckBox;
     @FXML
     private TextField VisiblePasswordField;
 
+
+
+    @FXML
+    private void initialize() {
+        LoginTextField.setOnKeyPressed(e -> {
+            try {
+                onKeyPressed(e);
+            } catch (EntityNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        PasswordTextField.setOnKeyPressed(e -> {
+            try {
+                onKeyPressed(e);
+            } catch (EntityNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        VisiblePasswordField.setOnKeyPressed(e -> {
+            try {
+                onKeyPressed(e);
+            } catch (EntityNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+    }
+
+    protected void onKeyPressed(KeyEvent e) throws EntityNotFoundException {
+        if (e.getCode() == KeyCode.ENTER) {
+            onLoginUser(new ActionEvent());
+        }
+    }
 
     @FXML
     void onVisibleCheck(ActionEvent event) {
@@ -70,6 +103,7 @@ public class LoginSceneController {
                     try{
                         User user = new User();
                         user.setUsername(username);
+                        user.setAdmin(userDao.isAdmin(username));
                         FXMLLoader loader = new FXMLLoader(
                                 getClass().getResource("MainScene.fxml"));
                         MainSceneController controller = new MainSceneController(user);

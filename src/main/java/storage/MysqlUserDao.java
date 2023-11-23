@@ -71,6 +71,22 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
+    public boolean isAdmin(String username) {
+        Objects.requireNonNull(username, "username cannot be null");
+        String query = "SELECT admin FROM User WHERE username = ?";
+        try {
+            int admin = jdbcTemplate.queryForObject(query, Integer.class, username);
+            if (admin == 1){
+                return true;
+            }else {
+                return false;
+            }
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+    }
+
+    @Override
     public void delete(long id) throws EntityNotFoundException {
 
     }

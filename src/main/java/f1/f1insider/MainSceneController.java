@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
 
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import storage.User;
 
@@ -41,6 +42,8 @@ public class MainSceneController {
 
     @FXML
     private Button showStandingsButton;
+    @FXML
+    private Button manageButton;
 
     private User user;
 
@@ -53,6 +56,9 @@ public class MainSceneController {
     @FXML
     void initialize() {
         UsernameLabel.setText(user.toString());
+        if (!user.isAdmin()){
+            manageButton.setVisible(false);
+        }
     }
 
     @FXML
@@ -67,7 +73,20 @@ public class MainSceneController {
 
     @FXML
     void onLogout(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("LoginScene.fxml"));
+            LoginSceneController controller = new LoginSceneController();
+            loader.setController(controller);
+            Parent loginScene = loader.load();
+            Stage loginStage = (Stage) logoutButton.getScene().getWindow();;
+            loginStage.setScene(new Scene(loginScene));
+            loginStage.setTitle("Login - F1Insider");
+            loginStage.centerOnScreen();
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -94,5 +113,19 @@ public class MainSceneController {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+    @FXML
+    void onManage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("ManageScene.fxml"));
+        ManageSceneController controller = new ManageSceneController(user);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("F1Insider - Manager");
+        stage.show();
     }
 }
