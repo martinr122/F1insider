@@ -5,14 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import storage.*;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 
@@ -34,6 +33,27 @@ public class LoginSceneController {
 
     @FXML
     private Button loginButton;
+    @FXML
+    private CheckBox VisibilityCheckBox;
+    @FXML
+    private TextField VisiblePasswordField;
+
+
+    @FXML
+    void onVisibleCheck(ActionEvent event) {
+        boolean isChecked = VisibilityCheckBox.isSelected();
+        VisiblePasswordField.setVisible(isChecked);
+        VisiblePasswordField.setManaged(isChecked);
+        PasswordTextField.setVisible(!isChecked);
+        PasswordTextField.setManaged(!isChecked);
+
+        if (isChecked) {
+            VisiblePasswordField.setText(PasswordTextField.getText());
+        } else {
+            PasswordTextField.setText(VisiblePasswordField.getText());
+        }
+
+    }
 
     @FXML
     void onLoginUser(ActionEvent event) throws EntityNotFoundException {
@@ -47,17 +67,18 @@ public class LoginSceneController {
                 LoginAlert.setText("Username is incorrect!");
             }else {
                 if (userPassword.equals(loginPassword)){
-                    //TO DO login to next
-                    LoginAlert.setText("you are in");
                     try{
+                        User user = new User();
+                        user.setUsername(username);
                         FXMLLoader loader = new FXMLLoader(
                                 getClass().getResource("MainScene.fxml"));
-                        MainSceneController controller = new MainSceneController();
+                        MainSceneController controller = new MainSceneController(user);
                         loader.setController(controller);
                         Parent mainMenuScene = loader.load();
                         Stage mainMenuStage = (Stage) loginButton.getScene().getWindow();
                         mainMenuStage.setScene(new Scene(mainMenuScene));
                         mainMenuStage.setTitle("Standings");
+                        mainMenuStage.centerOnScreen();
                         mainMenuStage.show();
                     }catch(IOException e){
                         e.printStackTrace();

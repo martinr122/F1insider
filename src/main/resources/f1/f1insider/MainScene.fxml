@@ -67,6 +67,14 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
+            <Label fx:id="UsernameLabel" text="Label" textAlignment="RIGHT">
+               <padding>
+                  <Insets left="600.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
         </items>
          <padding>
             <Insets bottom="3.0" left="3.0" />
