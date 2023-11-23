@@ -1,15 +1,15 @@
 package storage;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Race {
     private int id;
     private int year;
-    private Date whenRace;
-    private Date whenQuali;
-    private Date whenFirstSession;
-    private Date whenSecondSession;
-    private Date whenThirdSession;
+    private LocalDate whenRace;
+    private LocalDate whenQuali;
+    private LocalDate whenFirstSession;
+    private LocalDate whenSecondSession;
+    private LocalDate whenThirdSession;
     private boolean isSprintWeekend;
 
     public boolean isSprintWeekend() {
@@ -38,43 +38,43 @@ public class Race {
         this.year = year;
     }
 
-    public Date getWhenRace() {
+    public LocalDate getWhenRace() {
         return whenRace;
     }
 
-    public void setWhenRace(Date whenRace) {
+    public void setWhenRace(LocalDate whenRace) {
         this.whenRace = whenRace;
     }
 
-    public Date getWhenQuali() {
+    public LocalDate getWhenQuali() {
         return whenQuali;
     }
 
-    public void setWhenQuali(Date whenQuali) {
+    public void setWhenQuali(LocalDate whenQuali) {
         this.whenQuali = whenQuali;
     }
 
-    public Date getWhenFirstSession() {
+    public LocalDate getWhenFirstSession() {
         return whenFirstSession;
     }
 
-    public void setWhenFirstSession(Date whenFirstSession) {
+    public void setWhenFirstSession(LocalDate whenFirstSession) {
         this.whenFirstSession = whenFirstSession;
     }
 
-    public Date getWhenSecondSession() {
+    public LocalDate getWhenSecondSession() {
         return whenSecondSession;
     }
 
-    public void setWhenSecondSession(Date whenSecondSession) {
+    public void setWhenSecondSession(LocalDate whenSecondSession) {
         this.whenSecondSession = whenSecondSession;
     }
 
-    public Date getWhenThirdSession() {
+    public LocalDate getWhenThirdSession() {
         return whenThirdSession;
     }
 
-    public void setWhenThirdSession(Date whenThirdSession) {
+    public void setWhenThirdSession(LocalDate whenThirdSession) {
         this.whenThirdSession = whenThirdSession;
     }
 
@@ -84,5 +84,10 @@ public class Race {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    @Override
+    public String toString() {
+        return place.trim() + " / " + year;
     }
 }

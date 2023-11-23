@@ -80,6 +80,7 @@ public class MainSceneController {
 
         if (raceDao.getNextRace() == null){
             nextGpLabel.setText("");
+            nextGpDateLabel.setText("");
         }else {
             nextGpLabel.setText(raceDao.getNextRace().getPlace());
             nextGpDateLabel.setText(raceDao.getNextRace().getWhenRace().toString());

@@ -92,7 +92,12 @@ public class LoginSceneController {
             UserDao userDao = DaoFactory.INSTANCE.getUserDao();
             String username = LoginTextField.getText();
             String userPassword = userDao.givePassword(username);
-            String loginPassword = PasswordTextField.getText();
+            String loginPassword;
+            if (PasswordTextField.isVisible()){
+                 loginPassword = PasswordTextField.getText();
+            }else {
+                 loginPassword = VisiblePasswordField.getText();
+            }
             loginPassword = PasswordHashing.doHashing(loginPassword);
             if(username == null || userPassword == null){
                 LoginAlert.setText("Username is incorrect!");

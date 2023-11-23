@@ -12,6 +12,7 @@
    <children>
       <TextField fx:id="LoginTextField" layoutX="277.0" layoutY="144.0" />
       <PasswordField fx:id="PasswordTextField" layoutX="277.0" layoutY="187.0" />
+      <TextField fx:id="VisiblePasswordField" layoutX="277.0" layoutY="187.0" visible="false" />
       <Label layoutX="174.0" layoutY="145.0" prefHeight="22.0" prefWidth="46.0" text="Login:">
          <font>
             <Font size="15.0" />
@@ -43,6 +44,5 @@
          </font>
       </Label>
       <CheckBox fx:id="VisibilityCheckBox" layoutX="439.0" layoutY="191.0" mnemonicParsing="false" onAction="#onVisibleCheck" />
-      <TextField fx:id="VisiblePasswordField" layoutX="277.0" layoutY="187.0" visible="false" />
    </children>
 </AnchorPane>

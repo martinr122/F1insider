@@ -2,11 +2,12 @@ package storage;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.List;
 
 public class MysqlRaceDao implements RaceDao{
 
@@ -22,11 +23,11 @@ public class MysqlRaceDao implements RaceDao{
                 Race race = new Race();
                 race.setId(rs.getInt("idRace"));
                 race.setYear(rs.getInt("Season_year"));
-                race.setWhenRace(rs.getDate("when_race"));
-                race.setWhenQuali(rs.getDate("when_quali"));
-                race.setWhenFirstSession(rs.getDate("when_1_session"));
-                race.setWhenSecondSession(rs.getDate("when_2_session"));
-                race.setWhenThirdSession(rs.getDate("when_3_session"));
+                race.setWhenRace(rs.getDate("when_race").toLocalDate());
+                race.setWhenQuali(rs.getDate("when_quali").toLocalDate());
+                race.setWhenFirstSession(rs.getDate("when_1_session").toLocalDate());
+                race.setWhenSecondSession(rs.getDate("when_2_session").toLocalDate());
+                race.setWhenThirdSession(rs.getDate("when_3_session").toLocalDate());
                 if (rs.getInt("is_sprint_weekend") == 1){
                     race.setSprintWeekend(true);
                 }else {
@@ -62,4 +63,38 @@ public class MysqlRaceDao implements RaceDao{
             return null;
         }
     }
-}
+
+    @Override
+    public List<Race> getAllRaces() {
+        String sql = "SELECT * from race"
+                + " ORDER BY when_race";
+        return jdbcTemplate.query(sql, raceRM());
+    }
+    @Override
+    public void saveRace(Race race){
+                String query = "INSERT INTO race (Season_year, when_race, when_quali, when_1_session" +
+                        ", when_2_session, when_3_session, is_sprint_weekend, place) "
+                        + "VALUES (?,?,?,?,?,?,?,?)";
+                jdbcTemplate.update(new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                        PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                        statement.setInt(1, race.getYear());
+                        statement.setDate(2, Date.valueOf(race.getWhenRace()));
+                        statement.setDate(3, Date.valueOf(race.getWhenQuali()));
+                        statement.setDate(4, Date.valueOf(race.getWhenFirstSession()));
+                        statement.setDate(5, Date.valueOf(race.getWhenSecondSession()));
+                        statement.setDate(6, Date.valueOf(race.getWhenThirdSession()));
+                        if (race.isSprintWeekend()){
+                            statement.setInt(7, 1);
+                        }else {
+                            statement.setInt(7, 0);
+                        }
+                        statement.setString(8, race.getPlace());
+                        return statement;
+                    }
+                });
+            }
+        }
+
+
