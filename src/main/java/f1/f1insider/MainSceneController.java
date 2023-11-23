@@ -15,7 +15,7 @@ import javafx.scene.control.Pagination;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import storage.User;
+import storage.*;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -73,14 +73,13 @@ public class MainSceneController {
     void initialize() throws EntityNotFoundException {
 
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
-        Date today = new Date();
         UsernameLabel.setText(user.toString());
         if (!user.isAdmin()){
             manageButton.setVisible(false);
         }
-        nextGpLabel.setText(raceDao.getNextRace(today));
-        nextGpDateLabel.setText(raceDao.getNextRaceDate(today));
-        lastGpLabel.setText(raceDao.getLastRace(today));
+        nextGpLabel.setText(raceDao.getNextRace().getPlace());
+        nextGpDateLabel.setText(raceDao.getNextRace().getWhenRace().toString());
+        lastGpLabel.setText(raceDao.getLastRace().getPlace());
     }
 
     @FXML

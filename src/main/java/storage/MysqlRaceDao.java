@@ -1,7 +1,11 @@
 package storage;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class MysqlRaceDao implements RaceDao{
@@ -10,25 +14,52 @@ public class MysqlRaceDao implements RaceDao{
 
     public MysqlRaceDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
 
-    public String getNextRace(Date date) throws EntityNotFoundException {
-        String sql = "SELECT place FROM race WHERE when_race >= ? " +
+    private RowMapper<Race> raceRM(){
+        return new RowMapper<Race>() {
+
+            @Override
+            public Race mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Race race = new Race();
+                race.setId(rs.getInt("idRace"));
+                race.setYear(rs.getInt("Season_year"));
+                race.setWhenRace(rs.getDate("when_race"));
+                race.setWhenQuali(rs.getDate("when_quali"));
+                race.setWhenFirstSession(rs.getDate("when_1_session"));
+                race.setWhenSecondSession(rs.getDate("when_2_session"));
+                race.setWhenThirdSession(rs.getDate("when_3_session"));
+                if (rs.getInt("is_sprint_weekend") == 1){
+                    race.setSprintWeekend(true);
+                }else {
+                    race.setSprintWeekend(false);
+                }
+                race.setPlace(rs.getString("place"));
+                return race;
+            }
+        };
+    }
+
+    public Race getNextRace() throws EntityNotFoundException {
+        String sql = "SELECT * FROM race WHERE when_race >= CURRENT_DATE " +
                 "ORDER BY when_race ASC LIMIT 1";
-        return jdbcTemplate.queryForObject(sql, new Object[]{date}, String.class);
+        try {
+            return jdbcTemplate.queryForObject(sql, raceRM());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+
     }
 
     @Override
-    public String getNextRaceDate(Date date) throws EntityNotFoundException {
-        String sql = "SELECT when_race FROM race WHERE when_race >= ? " +
-                "ORDER BY when_race ASC LIMIT 1";
-        return jdbcTemplate.queryForObject(sql, new Object[]{date}, String.class);
-    }
-
-    @Override
-    public String getLastRace(Date date) throws EntityNotFoundException {
-        String sql = "SELECT place " +
+    public Race getLastRace() throws EntityNotFoundException {
+        String sql = "SELECT * " +
                 "FROM race " +
                 "WHERE when_race = (Select MAX(race.when_race) from race " +
                 "JOIN race_results ON race.idRace = race_results.Race_idRace)";
-        return jdbcTemplate.queryForObject(sql, String.class);
+
+        try {
+            return jdbcTemplate.queryForObject(sql, raceRM());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
