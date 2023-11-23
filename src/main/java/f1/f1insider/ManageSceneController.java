@@ -15,6 +15,7 @@ import storage.RaceDao;
 import storage.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.FormatStyle;
 
@@ -111,13 +112,21 @@ public class ManageSceneController {
     void OnAddRace(ActionEvent event) {
         Race race = new Race();
         race.setYear(dateOfRace.getValue().getYear());
-        LocalDate raceDate = dateOfRace.getValue();
-        LocalTime raceTime = timeOfRace.getValue();
-        race.setWhenRace(LocalDate.from(raceDate.atTime(raceTime)));
-        race.setWhenQuali(LocalDate.from(raceDate.atTime(raceTime)));
-        race.setWhenFirstSession(LocalDate.from(raceDate.atTime(raceTime)));
-        race.setWhenSecondSession(LocalDate.from(raceDate.atTime(raceTime)));
-        race.setWhenThirdSession(LocalDate.from(raceDate.atTime(raceTime)));
+        LocalDate date = dateOfRace.getValue();
+        race.setWhenRace(date.atTime(timeOfRace.getValue()));
+
+        date = dateOfQualifying.getValue();
+        race.setWhenQuali(date.atTime(timeOfQualifying.getValue()));
+
+        date = dateOfpractice1.getValue();
+        race.setWhenFirstSession(date.atTime(timeOfPractice1.getValue()));
+
+        date = dateOfpractice2.getValue();
+        race.setWhenSecondSession(date.atTime(timeOfPractice2.getValue()));
+
+        date = dateOfpractice3.getValue();
+        race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
+
         race.setSprintWeekend(isSprintRace.isSelected());
         race.setPlace(nameOfGP.getText());
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();

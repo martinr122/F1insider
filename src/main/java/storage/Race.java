@@ -1,15 +1,16 @@
 package storage;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Race {
     private int id;
     private int year;
-    private LocalDate whenRace;
-    private LocalDate whenQuali;
-    private LocalDate whenFirstSession;
-    private LocalDate whenSecondSession;
-    private LocalDate whenThirdSession;
+    private LocalDateTime whenRace;
+    private LocalDateTime whenQuali;
+    private LocalDateTime whenFirstSession;
+    private LocalDateTime whenSecondSession;
+    private LocalDateTime whenThirdSession;
     private boolean isSprintWeekend;
 
     public boolean isSprintWeekend() {
@@ -38,43 +39,43 @@ public class Race {
         this.year = year;
     }
 
-    public LocalDate getWhenRace() {
+    public LocalDateTime getWhenRace() {
         return whenRace;
     }
 
-    public void setWhenRace(LocalDate whenRace) {
+    public void setWhenRace(LocalDateTime whenRace) {
         this.whenRace = whenRace;
     }
 
-    public LocalDate getWhenQuali() {
+    public LocalDateTime getWhenQuali() {
         return whenQuali;
     }
 
-    public void setWhenQuali(LocalDate whenQuali) {
+    public void setWhenQuali(LocalDateTime whenQuali) {
         this.whenQuali = whenQuali;
     }
 
-    public LocalDate getWhenFirstSession() {
+    public LocalDateTime getWhenFirstSession() {
         return whenFirstSession;
     }
 
-    public void setWhenFirstSession(LocalDate whenFirstSession) {
+    public void setWhenFirstSession(LocalDateTime whenFirstSession) {
         this.whenFirstSession = whenFirstSession;
     }
 
-    public LocalDate getWhenSecondSession() {
+    public LocalDateTime getWhenSecondSession() {
         return whenSecondSession;
     }
 
-    public void setWhenSecondSession(LocalDate whenSecondSession) {
+    public void setWhenSecondSession(LocalDateTime whenSecondSession) {
         this.whenSecondSession = whenSecondSession;
     }
 
-    public LocalDate getWhenThirdSession() {
+    public LocalDateTime getWhenThirdSession() {
         return whenThirdSession;
     }
 
-    public void setWhenThirdSession(LocalDate whenThirdSession) {
+    public void setWhenThirdSession(LocalDateTime whenThirdSession) {
         this.whenThirdSession = whenThirdSession;
     }
 

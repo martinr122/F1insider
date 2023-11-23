@@ -23,11 +23,11 @@ public class MysqlRaceDao implements RaceDao{
                 Race race = new Race();
                 race.setId(rs.getInt("idRace"));
                 race.setYear(rs.getInt("Season_year"));
-                race.setWhenRace(rs.getDate("when_race").toLocalDate());
-                race.setWhenQuali(rs.getDate("when_quali").toLocalDate());
-                race.setWhenFirstSession(rs.getDate("when_1_session").toLocalDate());
-                race.setWhenSecondSession(rs.getDate("when_2_session").toLocalDate());
-                race.setWhenThirdSession(rs.getDate("when_3_session").toLocalDate());
+                race.setWhenRace(rs.getDate("when_race").toLocalDate().atTime(rs.getTime("when_race").toLocalTime()));
+                race.setWhenQuali(rs.getDate("when_quali").toLocalDate().atTime(rs.getTime("when_quali").toLocalTime()));
+                race.setWhenFirstSession(rs.getDate("when_1_session").toLocalDate().atTime(rs.getTime("when_1_session").toLocalTime()));
+                race.setWhenSecondSession(rs.getDate("when_2_session").toLocalDate().atTime(rs.getTime("when_2_session").toLocalTime()));
+                race.setWhenThirdSession(rs.getDate("when_3_session").toLocalDate().atTime(rs.getTime("when_3_session").toLocalTime()));
                 if (rs.getInt("is_sprint_weekend") == 1){
                     race.setSprintWeekend(true);
                 }else {
@@ -80,11 +80,11 @@ public class MysqlRaceDao implements RaceDao{
                     public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                         PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                         statement.setInt(1, race.getYear());
-                        statement.setDate(2, Date.valueOf(race.getWhenRace()));
-                        statement.setDate(3, Date.valueOf(race.getWhenQuali()));
-                        statement.setDate(4, Date.valueOf(race.getWhenFirstSession()));
-                        statement.setDate(5, Date.valueOf(race.getWhenSecondSession()));
-                        statement.setDate(6, Date.valueOf(race.getWhenThirdSession()));
+                        statement.setTimestamp(2, Timestamp.valueOf(race.getWhenRace()));
+                        statement.setTimestamp(3, Timestamp.valueOf(race.getWhenQuali()));
+                        statement.setTimestamp(4, Timestamp.valueOf(race.getWhenFirstSession()));
+                        statement.setTimestamp(5, Timestamp.valueOf(race.getWhenSecondSession()));
+                        statement.setTimestamp(6, Timestamp.valueOf(race.getWhenThirdSession()));
                         if (race.isSprintWeekend()){
                             statement.setInt(7, 1);
                         }else {
