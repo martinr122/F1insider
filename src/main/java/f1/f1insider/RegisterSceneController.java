@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import storage.DaoFactory;
@@ -36,6 +33,16 @@ public class RegisterSceneController {
 
     @FXML
     private Button RegisterButton;
+
+    @FXML
+    private CheckBox VisibilityCheckBox;
+
+    @FXML
+    private TextField VisibleConfirmPasswordTextField;
+
+    @FXML
+    private TextField VisiblePasswordTextField;
+
 
     @FXML
     private Button loginButton;
@@ -92,6 +99,28 @@ public class RegisterSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    void onVisibleCheck(ActionEvent event) {
+        boolean isChecked = VisibilityCheckBox.isSelected();
+        VisiblePasswordTextField.setVisible(isChecked);
+        VisiblePasswordTextField.setManaged(isChecked);
+        VisibleConfirmPasswordTextField.setVisible(isChecked);
+        VisibleConfirmPasswordTextField.setManaged(isChecked);
+
+        PasswordTextField.setVisible(!isChecked);
+        PasswordTextField.setManaged(!isChecked);
+        ConfirmPasswordTextField.setVisible(!isChecked);
+        ConfirmPasswordTextField.setManaged(!isChecked);
+
+        if (isChecked) {
+            VisiblePasswordTextField.setText(PasswordTextField.getText());
+            VisibleConfirmPasswordTextField.setText(ConfirmPasswordTextField.getText());
+        } else {
+            PasswordTextField.setText(VisiblePasswordTextField.getText());
+            ConfirmPasswordTextField.setText(VisibleConfirmPasswordTextField.getText());
+        }
+
     }
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";

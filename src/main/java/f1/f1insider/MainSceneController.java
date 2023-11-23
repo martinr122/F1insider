@@ -14,9 +14,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
 
 import javafx.stage.Stage;
-import storage.User;
+import storage.*;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainSceneController {
@@ -44,21 +46,37 @@ public class MainSceneController {
 
     private User user;
 
+    private Race race;
+
+    @FXML
+    private Button showRaceButton;
+
     @FXML
     private Label UsernameLabel;
+
+    @FXML
+    private Label nextGpLabel;
+
+    @FXML
+    private Label nextGpDateLabel;
+
+    @FXML
+    private Label lastGpLabel;
 
     public MainSceneController(User user) {
         this.user = user;
     }
     @FXML
-    void initialize() {
+    void initialize() throws EntityNotFoundException {
+
+        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+        Date today = new Date();
         UsernameLabel.setText(user.toString());
+        nextGpLabel.setText(raceDao.getNextRace(today));
+        nextGpDateLabel.setText(raceDao.getNextRaceDate(today));
+        lastGpLabel.setText(raceDao.getLastRace(today));
     }
 
-    @FXML
-    void loadLastGrandPrixTextField(ActionEvent event) {
-
-    }
 
     @FXML
     void loadNextGrandPrixTextField(ActionEvent event) {
@@ -106,5 +124,13 @@ public class MainSceneController {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+    @FXML
+    void onShowHome(ActionEvent event){
+
+    }
+    @FXML
+    void onShowRace(ActionEvent event) {
+
     }
 }

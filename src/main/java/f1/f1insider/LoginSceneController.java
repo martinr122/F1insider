@@ -17,8 +17,6 @@ import java.io.IOException;
 
 public class LoginSceneController {
 
-
-
     @FXML
     private Label LoginAlert;
 
@@ -109,6 +107,4 @@ public class LoginSceneController {
             e.printStackTrace();
         }
     }
-
 }
-

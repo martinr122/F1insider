@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public enum DaoFactory {
     INSTANCE;
     private UserDao userDao;
+    private RaceDao raceDao;
     private JdbcTemplate jdbcTemplate;
 
     private JdbcTemplate getJdbcTemplate() {
@@ -25,5 +26,10 @@ public enum DaoFactory {
         return userDao;
     }
 
+    public RaceDao getRaceDao(){
+        if (raceDao == null)
+            raceDao = new MysqlRaceDao(getJdbcTemplate());
+        return raceDao;
+    }
 
 }
