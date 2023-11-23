@@ -43,7 +43,7 @@ public class LoginSceneController {
             String userPassword = userDao.givePassword(username);
             String loginPassword = PasswordTextField.getText();
             loginPassword = PasswordHashing.doHashing(loginPassword);
-            if(userPassword == null || userPassword == null){
+            if(username == null || userPassword == null){
                 LoginAlert.setText("Username is incorrect!");
             }else {
                 if (userPassword.equals(loginPassword)){

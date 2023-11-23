@@ -66,7 +66,7 @@ public class RegisterSceneController {
                         RegistrationAlert.setText("Change Username!");
                     }
                 }else {
-                    RegistrationAlert.setText("Password isnt strong!");
+                    RegistrationAlert.setText("Password isn't strong!");
                 }
             }else {
                 RegistrationAlert.setText("Passwords must be same!");

@@ -47,7 +47,19 @@ public class MainSceneController {
 
     @FXML
     void onLogout(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("LoginScene.fxml"));
+            LoginSceneController controller = new LoginSceneController();
+            loader.setController(controller);
+            Parent loginScene = loader.load();
+            Stage loginStage = (Stage) logoutButton.getScene().getWindow();;
+            loginStage.setScene(new Scene(loginScene));
+            loginStage.setTitle("Login - F1Insider");
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
