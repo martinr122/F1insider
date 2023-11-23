@@ -77,9 +77,20 @@ public class MainSceneController {
         if (!user.isAdmin()){
             manageButton.setVisible(false);
         }
-        nextGpLabel.setText(raceDao.getNextRace().getPlace());
-        nextGpDateLabel.setText(raceDao.getNextRace().getWhenRace().toString());
-        lastGpLabel.setText(raceDao.getLastRace().getPlace());
+
+        if (raceDao.getNextRace() == null){
+            nextGpLabel.setText("");
+        }else {
+            nextGpLabel.setText(raceDao.getNextRace().getPlace());
+            nextGpDateLabel.setText(raceDao.getNextRace().getWhenRace().toString());
+        }
+
+        if (raceDao.getLastRace() == null){
+            lastGpLabel.setText("");
+        }else {
+            lastGpLabel.setText(raceDao.getLastRace().getPlace());
+        }
+
     }
 
     @FXML
