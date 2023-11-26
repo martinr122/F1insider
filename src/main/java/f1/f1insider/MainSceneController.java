@@ -18,41 +18,25 @@ import javafx.stage.Stage;
 import storage.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 public class MainSceneController {
-
-    @FXML
-    private ListView<?> lastGrandPrixTextField;
-
-    @FXML
-    private Pagination lastRaceCommentsField;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private ListView<?> nextGrandPrixTextField;
-
-    @FXML
-    private Button showHistoryButton;
 
     @FXML
     private Button showRacingButton;
 
     @FXML
     private Button showStandingsButton;
+
+    @FXML
+    private Button showHistoryButton;
+
+    @FXML
+    private Button logoutButton;
+
     @FXML
     private Button manageButton;
-
-    private User user;
-
-    private Race race;
-
-    @FXML
-    private Button showRaceButton;
 
     @FXML
     private Label UsernameLabel;
@@ -64,7 +48,25 @@ public class MainSceneController {
     private Label nextGpDateLabel;
 
     @FXML
+    private Label leaderOfDriversLabel;
+
+    @FXML
     private Label lastGpLabel;
+
+    @FXML
+    private ListView<?> lastRaceTextField;
+
+    @FXML
+    private Button showRaceButton;
+
+    @FXML
+    private Label leaderOfTeamsLabel;
+
+    @FXML
+    private Pagination lastRaceCommentsField;
+
+    private User user;
+    private Race race;
 
     public MainSceneController(User user) {
         this.user = user;
@@ -74,6 +76,8 @@ public class MainSceneController {
 
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         UsernameLabel.setText(user.toString());
+        leaderOfDriversLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/2023/drivers.html"));
+        leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/2023/team.html"));
         if (!user.isAdmin()){
             manageButton.setVisible(false);
         }
@@ -139,7 +143,7 @@ public class MainSceneController {
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("StandingsMenuScene.fxml"));
-            StandingsMenuSceneController controller = new StandingsMenuSceneController(user);
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, LocalDate.now().getYear());
             loader.setController(controller);
             Parent standingsMenuScene = loader.load();
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();

@@ -80,14 +80,12 @@ public class RacingMenuSceneController {
         racingTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 try {
-                    // otvorte okno s výsledkami vybraného preteku
                     openResultsWindow(newSelection);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-
         racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces()));
     }
     private void openResultsWindow(Race selectedRace) throws IOException {
