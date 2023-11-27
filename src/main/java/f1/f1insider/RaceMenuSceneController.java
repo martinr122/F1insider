@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import storage.EntityNotFoundException;
+import storage.Race;
 import storage.User;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ import java.io.IOException;
 public class RaceMenuSceneController {
 
     private User user;
+    private Race race;
+    private String season;
     @FXML
     private Label UsernameLabel;
 
@@ -38,8 +41,9 @@ public class RaceMenuSceneController {
     @FXML
     private Button showStandingsButton;
 
-    public RaceMenuSceneController(User user) {
+    public RaceMenuSceneController(User user, Race race) {
         this.user = user;
+        this.race = race;
     }
     @FXML
     void initialize() throws EntityNotFoundException {
@@ -79,7 +83,7 @@ public class RaceMenuSceneController {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("RacingMenuScene.fxml"));
-            RacingMenuSceneController controller = new RacingMenuSceneController(user);
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, season);
             loader.setController(controller);
             Parent racingMenuScene = loader.load();
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
@@ -94,7 +98,19 @@ public class RaceMenuSceneController {
 
     @FXML
     void onShowStandings(ActionEvent event) {
-
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("StandingsMenuScene.fxml"));
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, String.valueOf(race.getYear()));
+            loader.setController(controller);
+            Parent standingsMenuScene = loader.load();
+            Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();
+            standingsMenuStage.setScene(new Scene(standingsMenuScene));
+            standingsMenuStage.setTitle("Standings");
+            standingsMenuStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 }

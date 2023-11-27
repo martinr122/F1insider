@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Pagination;
+import javafx.scene.control.*;
 
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
@@ -20,6 +17,7 @@ import storage.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class MainSceneController {
@@ -69,8 +67,11 @@ public class MainSceneController {
     @FXML
     private Pagination lastRaceCommentsField;
 
+    @FXML
+    private MenuButton chooseHistory;
+
     private User user;
-    private Race race;
+    private Race lastRace;
     private String season;
 
     public MainSceneController(User user) {
@@ -92,20 +93,28 @@ public class MainSceneController {
             manageButton.setVisible(false);
         }
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
         if (raceDao.getNextRace() == null){
             nextGpLabel.setText("");
             nextGpDateLabel.setText("");
         }else {
             nextGpLabel.setText(raceDao.getNextRace().getPlace());
-            nextGpDateLabel.setText(raceDao.getNextRace().getWhenRace().toString());
+            nextGpDateLabel.setText(formatter.format(raceDao.getNextRace().getWhenRace()));
         }
 
         if (raceDao.getLastRace() == null){
             lastGpLabel.setText("");
         }else {
+            lastRace = raceDao.getLastRace();
             lastGpLabel.setText(raceDao.getLastRace().getPlace());
         }
 
+        for (String season : raceDao.getAllSeason()) {
+            MenuItem menuItem = new MenuItem(season);
+            menuItem.setOnAction(this::onChooseHistory);
+            chooseHistory.getItems().add(menuItem);
+        }
     }
 
     @FXML
@@ -135,7 +144,7 @@ public class MainSceneController {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("RacingMenuScene.fxml"));
-            RacingMenuSceneController controller = new RacingMenuSceneController(user);
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, season);
             loader.setController(controller);
             Parent racingMenuScene = loader.load();
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
@@ -170,7 +179,20 @@ public class MainSceneController {
     }
     @FXML
     void onShowRace(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RaceMenuScene.fxml"));
+            RaceMenuSceneController controller = new RaceMenuSceneController(user, lastRace);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     void onManage(ActionEvent event) throws IOException {
@@ -185,5 +207,27 @@ public class MainSceneController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("F1Insider - Manager");
         stage.show();
+    }
+
+    @FXML
+    void onChooseHistory(ActionEvent event){
+
+        MenuItem clickedMenuItem = (MenuItem) event.getSource();
+        String selectedOption = clickedMenuItem.getText();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, selectedOption);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

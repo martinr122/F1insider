@@ -23,7 +23,7 @@ public class WebPageReader {
                 String[] nameSplited = name.split(" ");
                 String finalName = "";
 
-                for (int i = 0; i < nameSplited.length-1; i++) {
+                for (int i = 0; i < nameSplited.length - 1; i++) {
                     finalName += nameSplited[i];
                     finalName += " ";
                 }
@@ -57,7 +57,14 @@ public class WebPageReader {
                 String[] driverName = cells.get(2).text().split(" ");
                 int points = Integer.parseInt(cells.get(5).text());
 
-                Driver driver = new Driver(driverName[0], driverName[1], points);
+                String surname = "";
+
+                for (int i = 1; i < driverName.length - 1; i++) {
+                    surname += driverName[i];
+                    surname += " ";
+                }
+
+                Driver driver = new Driver(driverName[0], surname, points);
                 drivers.add(driver);
             }
 
@@ -66,4 +73,30 @@ public class WebPageReader {
         }
         return drivers;
     }
+
+    public static List<Team> getTeamsStandings(String url){
+        List<Team> teams = new ArrayList<>();
+        try {
+            Document document = Jsoup.connect(url).get();
+            Element table = document.select("table.resultsarchive-table").first();
+
+            if (table == null){
+                return null;
+            }
+
+            Elements rows = table.select("tbody tr");
+
+            for (Element row : rows) {
+                Elements cells = row.select("td");
+
+                String name = cells.get(2).text();
+                int points = Integer.parseInt(cells.get(5).text());
+                Team team = new Team(name, points);
+                teams.add(team);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return teams;    }
 }

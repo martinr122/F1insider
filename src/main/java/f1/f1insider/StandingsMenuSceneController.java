@@ -31,6 +31,10 @@ public class StandingsMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+
+    @FXML
+    private Button showHomeButton;
+
     @FXML
     private Label UsernameLabel;
 
@@ -66,7 +70,7 @@ public class StandingsMenuSceneController {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
         pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
-        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/2024/drivers.html");
+        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/"+season+"/drivers.html");
 
         if (driversStandings != null) {
             standingsDriverTable.setItems(FXCollections.observableList(driversStandings));
@@ -111,7 +115,20 @@ public class StandingsMenuSceneController {
 
     @FXML
     void onShowRacing(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, season);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -119,5 +136,21 @@ public class StandingsMenuSceneController {
 
     }
 
-
+    @FXML
+    void onShowHome(ActionEvent event){
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("MainScene.fxml"));
+            MainSceneController controller = new MainSceneController(user);
+            loader.setController(controller);
+            Parent mainMenuScene = loader.load();
+            Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
+            mainMenuStage.setScene(new Scene(mainMenuScene));
+            mainMenuStage.setTitle("Standings");
+            mainMenuStage.centerOnScreen();
+            mainMenuStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 }

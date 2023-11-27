@@ -66,6 +66,15 @@ public class MysqlRaceDao implements RaceDao{
     }
 
     @Override
+    public List<Race> getAllRaces(String season) {
+        String sql = "SELECT * from race " +
+                "WHERE season_year = "+
+                season
+                + " ORDER BY when_race";
+        return jdbcTemplate.query(sql, raceRM());
+    }
+
+    @Override
     public List<Race> getAllRaces() {
         String sql = "SELECT * from race"
                 + " ORDER BY when_race";
@@ -73,30 +82,37 @@ public class MysqlRaceDao implements RaceDao{
     }
     @Override
     public void saveRace(Race race){
-                String query = "INSERT INTO race (Season_year, place, name, when_race, when_quali, when_1_session" +
+        String query = "INSERT INTO race (Season_year, place, name, when_race, when_quali, when_1_session" +
                         ", when_2_session, when_3_session, is_sprint_weekend) "
                         + "VALUES (?,?,?,?,?,?,?,?,?)";
-                jdbcTemplate.update(new PreparedStatementCreator() {
-                    @Override
-                    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                        PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                        statement.setInt(1, race.getYear());
-                        statement.setString(2, race.getPlace());
-                        statement.setString(3, race.getName());
-                        statement.setTimestamp(4, Timestamp.valueOf(race.getWhenRace()));
-                        statement.setTimestamp(5, Timestamp.valueOf(race.getWhenQuali()));
-                        statement.setTimestamp(6, Timestamp.valueOf(race.getWhenFirstSession()));
-                        statement.setTimestamp(7, Timestamp.valueOf(race.getWhenSecondSession()));
-                        statement.setTimestamp(8, Timestamp.valueOf(race.getWhenThirdSession()));
-                        if (race.isSprintWeekend()){
-                            statement.setInt(9, 1);
-                        }else {
-                            statement.setInt(9, 0);
-                        }
-                        return statement;
-                    }
-                });
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                statement.setInt(1, race.getYear());
+                statement.setString(2, race.getPlace());
+                statement.setString(3, race.getName());
+                statement.setTimestamp(4, Timestamp.valueOf(race.getWhenRace()));
+                statement.setTimestamp(5, Timestamp.valueOf(race.getWhenQuali()));
+                statement.setTimestamp(6, Timestamp.valueOf(race.getWhenFirstSession()));
+                statement.setTimestamp(7, Timestamp.valueOf(race.getWhenSecondSession()));
+                statement.setTimestamp(8, Timestamp.valueOf(race.getWhenThirdSession()));
+                if (race.isSprintWeekend()){
+                    statement.setInt(9, 1);
+                }else {
+                    statement.setInt(9, 0);
+                }
+                return statement;
             }
-        }
+        });
+    }
+
+    @Override
+    public List<String> getAllSeason() {
+        String sql = "SELECT DISTINCT season_year " +
+                "FROM race";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+}
 
 

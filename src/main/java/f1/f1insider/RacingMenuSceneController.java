@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,11 +23,13 @@ import storage.User;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class RacingMenuSceneController {
 
     private User user;
-
+    private String season;
     @FXML
     private Label UsernameLabel;
 
@@ -60,8 +63,9 @@ public class RacingMenuSceneController {
     @FXML
     private Button showStandingsButton;
 
-    public RacingMenuSceneController(User user) {
+    public RacingMenuSceneController(User user, String season) {
         this.user = user;
+        this.season = season;
     }
 
     @FXML
@@ -70,12 +74,23 @@ public class RacingMenuSceneController {
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         UsernameLabel.setText(user.toString());
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
         //filling the table
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Race, String>("whenRace"));
+        dateColumn.setCellValueFactory(cellData -> {
+            Race race = cellData.getValue();
+            if (race != null) {
+                LocalDateTime raceDateTime = race.getWhenRace();
+                String formattedDateTime = formatter.format(raceDateTime);
+                return new SimpleStringProperty(formattedDateTime);
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
         placeColumn.setCellValueFactory(new PropertyValueFactory<Race, String>("place"));
         nameOfGrandPrix.setCellValueFactory(new PropertyValueFactory<Race, String>("name"));
 
-        racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces()));
+        racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces(season)));
 
         racingTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -86,7 +101,6 @@ public class RacingMenuSceneController {
                 }
             }
         });
-        racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces()));
     }
     private void openResultsWindow(Race selectedRace) throws IOException {
         // V tomto mieste otvorte okno s výsledkami pre vybraný pretek
@@ -94,7 +108,7 @@ public class RacingMenuSceneController {
 
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("RaceMenuScene.fxml"));
-        RaceMenuSceneController controller = new RaceMenuSceneController(user);
+        RaceMenuSceneController controller = new RaceMenuSceneController(user, selectedRace);
         loader.setController(controller);
         Parent raceScene = loader.load();
         // Vytvorenie a zobrazenie druhého okna
@@ -153,7 +167,19 @@ public class RacingMenuSceneController {
 
     @FXML
     void onShowStandings(ActionEvent event) {
-
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("StandingsMenuScene.fxml"));
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, season);
+            loader.setController(controller);
+            Parent standingsMenuScene = loader.load();
+            Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();
+            standingsMenuStage.setScene(new Scene(standingsMenuScene));
+            standingsMenuStage.setTitle("Standings");
+            standingsMenuStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 }
