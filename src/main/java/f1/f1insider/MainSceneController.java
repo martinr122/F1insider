@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Pagination;
 
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import storage.*;
@@ -51,6 +52,9 @@ public class MainSceneController {
     private Label leaderOfDriversLabel;
 
     @FXML
+    private ImageView leaderDriverImage;
+
+    @FXML
     private Label lastGpLabel;
 
     @FXML
@@ -67,17 +71,23 @@ public class MainSceneController {
 
     private User user;
     private Race race;
+    private String season;
 
     public MainSceneController(User user) {
         this.user = user;
+        this.season = String.valueOf(LocalDate.now().getYear());
     }
     @FXML
     void initialize() throws EntityNotFoundException {
 
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         UsernameLabel.setText(user.toString());
-        leaderOfDriversLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/2023/drivers.html"));
-        leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/2023/team.html"));
+
+        String leaderName = WebPageReader.getLeader("https://www.formula1.com/en/results.html/"+season+"/drivers.html");
+
+        leaderOfDriversLabel.setText(leaderName);
+        leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/"+season+"/team.html"));
+
         if (!user.isAdmin()){
             manageButton.setVisible(false);
         }
@@ -143,7 +153,7 @@ public class MainSceneController {
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("StandingsMenuScene.fxml"));
-            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, LocalDate.now().getYear());
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, season);
             loader.setController(controller);
             Parent standingsMenuScene = loader.load();
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();

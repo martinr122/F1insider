@@ -19,36 +19,23 @@ public class WebPageReader {
             Elements cells = rows.select("td");
             String name = cells.get(2).text();
 
-            return name;
+            if (url.contains("driver")){
+                String[] nameSplited = name.split(" ");
+                String finalName = "";
+
+                for (int i = 0; i < nameSplited.length-1; i++) {
+                    finalName += nameSplited[i];
+                    finalName += " ";
+                }
+
+                return finalName;
+            }else{
+                return name;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "";
-    }
-
-    static void vypis(){
-        try {
-            String url = "https://www.formula1.com/en/results.html/2023/drivers.html";
-            Document document = Jsoup.connect(url).get();
-            Element table = document.select("table.resultsarchive-table").first();
-            Elements rows = table.select("tbody tr");
-
-            for (Element row : rows) {
-                Elements cells = row.select("td");
-
-                String position = cells.get(1).text();
-                String driverName = cells.get(2).text();
-                String points = cells.get(5).text();
-
-                System.out.println("Position: " + position);
-                System.out.println("Driver: " + driverName);
-                System.out.println("Points: " + points);
-                System.out.println("------------------");
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static List<Driver> getDriversStandings(String url){
@@ -57,6 +44,11 @@ public class WebPageReader {
         try {
             Document document = Jsoup.connect(url).get();
             Element table = document.select("table.resultsarchive-table").first();
+
+            if (table == null){
+                return null;
+            }
+
             Elements rows = table.select("tbody tr");
 
             for (Element row : rows) {
