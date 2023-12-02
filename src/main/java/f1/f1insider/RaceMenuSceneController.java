@@ -47,7 +47,6 @@ public class RaceMenuSceneController {
     }
     @FXML
     void initialize() throws EntityNotFoundException {
-
         UsernameLabel.setText(user.toString());
     }
     @FXML

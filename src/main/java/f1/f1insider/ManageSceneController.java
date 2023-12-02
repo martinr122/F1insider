@@ -1,155 +1,84 @@
 package f1.f1insider;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.util.converter.TimeStringConverter;
-import storage.DaoFactory;
-import storage.Race;
-import storage.RaceDao;
-import storage.User;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.stage.Stage;
+import storage.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.FormatStyle;
+import java.util.List;
 
 public class ManageSceneController {
-    @FXML
-    private DatePicker dateOfQualifying;
-
-    @FXML
-    private DatePicker dateOfRace;
-
-    @FXML
-    private DatePicker dateOfpractice1;
-
-    @FXML
-    private DatePicker dateOfpractice2;
-
-    @FXML
-    private DatePicker dateOfpractice3;
-
-    @FXML
-    private ListView<Race> listOfRaces;
-
-    @FXML
-    private TextField nameOfGP;
-
-    @FXML
-    private TextField placeOfGP;
-
-    @FXML
-    private CheckBox isSprintRace;
-
-    @FXML
-    private Spinner<LocalTime> timeOfPractice1;
-
-    @FXML
-    private Spinner<LocalTime> timeOfPractice2;
-
-    @FXML
-    private Spinner<LocalTime> timeOfPractice3;
-
-    @FXML
-    private Spinner<LocalTime> timeOfQualifying;
-
-    @FXML
-    private Spinner<LocalTime> timeOfRace;
-
     private User user;
+    private List<String> seasons;
+    private RaceDao raceDao;
+    @FXML
+    private ComboBox<String> seasonComboBox;
+    @FXML
+    private Spinner<Integer> seasonYear;
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    private Button newButton;
+
     public ManageSceneController(User user){
         this.user = user;
-    }
-    public void initialize() {
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
-        listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces()));
-
-        timeOfRace.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfQualifying.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice3.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice2.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice1.setValueFactory(createNewSpinnerFactory().getValueFactory());
+        seasons = raceDao.getAllSeason();
     }
-
-    private Spinner<LocalTime> createNewSpinnerFactory() {
-        Spinner<LocalTime> spinner = new Spinner<>(createSpinnerFactory());
-        spinner.setEditable(true);
-        return spinner;
-    }
-
-    private SpinnerValueFactory<LocalTime> createSpinnerFactory() {
-        return new SpinnerValueFactory<LocalTime>() {
-            {
-                setValue(LocalTime.NOON);
-            }
-            @Override
-            public void decrement(int steps) {
-                if (getValue() == null)
-                    setValue(LocalTime.NOON);
-                else {
-                    LocalTime time = getValue();
-                    setValue(time.minusMinutes(30 * steps));
-                }
-            }
-
-            @Override
-            public void increment(int steps) {
-                if (getValue() == null)
-                    setValue(LocalTime.NOON);
-                else {
-                    LocalTime time = getValue();
-                    setValue(time.plusMinutes(30 * steps));
-                }
-            }
-        };
-    }
-
-
     @FXML
-    void OnAddRace(ActionEvent event) {
-        Race race = new Race();
-        race.setYear(dateOfRace.getValue().getYear());
-        LocalDate date = dateOfRace.getValue();
-        race.setWhenRace(date.atTime(timeOfRace.getValue()));
-
-        date = dateOfQualifying.getValue();
-        race.setWhenQuali(date.atTime(timeOfQualifying.getValue()));
-
-        date = dateOfpractice1.getValue();
-        race.setWhenFirstSession(date.atTime(timeOfPractice1.getValue()));
-
-        date = dateOfpractice2.getValue();
-        race.setWhenSecondSession(date.atTime(timeOfPractice2.getValue()));
-
-        date = dateOfpractice3.getValue();
-        race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
-
-        race.setSprintWeekend(isSprintRace.isSelected());
-        race.setName(nameOfGP.getText());
-        race.setPlace(placeOfGP.getText());
-        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
-        raceDao.saveRace(race);
-        listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces()));
+    void initialize() throws EntityNotFoundException {
+        seasonComboBox.setItems(FXCollections.observableList(seasons));
+        LocalDate localDate = LocalDate.now();
+        seasonYear.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1950, localDate.getYear(), localDate.getYear()));
     }
 
     @FXML
-    void onAddDriverButton(ActionEvent event) {
-
+    void onEditSeason(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("SeasonScene.fxml"));
+            SeasonSceneController controller = new SeasonSceneController(user, seasonComboBox.getSelectionModel().getSelectedIndex());
+            loader.setController(controller);
+            Parent ManageParent = loader.load();
+            Stage SeasonStage = (Stage) editButton.getScene().getWindow();
+            SeasonStage.setScene(new Scene(ManageParent));
+            SeasonStage.setTitle("Season");
+            SeasonStage.centerOnScreen();
+            SeasonStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void onAddRaceResultsButton(ActionEvent event) {
-
+    void onNewSeason(ActionEvent event) {
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("SeasonScene.fxml"));
+            SeasonSceneController controller = new SeasonSceneController(user, seasonYear.getValue());
+            loader.setController(controller);
+            Parent ManageParent = loader.load();
+            Stage SeasonStage = (Stage) newButton.getScene().getWindow();
+            SeasonStage.setScene(new Scene(ManageParent));
+            SeasonStage.setTitle("Season");
+            SeasonStage.centerOnScreen();
+            SeasonStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
-    @FXML
-    void onAddTeamButton(ActionEvent event) {
-
-    }
 }
