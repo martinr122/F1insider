@@ -67,7 +67,7 @@ public class SeasonSceneController {
     }
     public void initialize() {
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
-        listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces()));
+        listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
         seasonYearDisplay.setText(String.valueOf(year));
 
         timeOfRace.setValueFactory(createNewSpinnerFactory().getValueFactory());
