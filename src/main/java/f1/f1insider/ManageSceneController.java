@@ -41,6 +41,7 @@ public class ManageSceneController {
     @FXML
     void initialize() throws EntityNotFoundException {
         seasonComboBox.setItems(FXCollections.observableList(seasons));
+        seasonComboBox.getSelectionModel().selectLast();
         LocalDate localDate = LocalDate.now();
         seasonYear.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1950, localDate.getYear(), localDate.getYear()));
     }
@@ -50,7 +51,7 @@ public class ManageSceneController {
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("SeasonScene.fxml"));
-            SeasonSceneController controller = new SeasonSceneController(user, seasonComboBox.getSelectionModel().getSelectedIndex());
+            SeasonSceneController controller = new SeasonSceneController(user, Integer.parseInt(seasonComboBox.getSelectionModel().getSelectedItem()));
             loader.setController(controller);
             Parent ManageParent = loader.load();
             Stage SeasonStage = (Stage) editButton.getScene().getWindow();

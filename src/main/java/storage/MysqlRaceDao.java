@@ -76,7 +76,7 @@ public class MysqlRaceDao implements RaceDao{
     @Override
     public List<Race> getAllRaces() {
         String sql = "SELECT * from race"
-                + " ORDER BY when_race";
+                + " ORDER BY when_race desc";
         return jdbcTemplate.query(sql, raceRM());
     }
     @Override

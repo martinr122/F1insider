@@ -64,6 +64,7 @@ public class SeasonSceneController {
         this.year = year;
     }
     public void initialize() {
+
         listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
         seasonYearDisplay.setText(String.valueOf(year));
 
