@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import storage.DaoFactory;
-import storage.Race;
-import storage.RaceDao;
-import storage.User;
+import storage.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -59,6 +56,7 @@ public class SeasonSceneController {
     @FXML
     private Label wrongFormat;
     private int year;
+    private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
 
     private User user;
     public SeasonSceneController(User user, int year){
@@ -66,7 +64,6 @@ public class SeasonSceneController {
         this.year = year;
     }
     public void initialize() {
-        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
         seasonYearDisplay.setText(String.valueOf(year));
 
@@ -77,11 +74,11 @@ public class SeasonSceneController {
         timeOfPractice1.setValueFactory(createNewSpinnerFactory().getValueFactory());
 
         LocalDate defaultDate = LocalDate.now();
-        dateOfRace.setValue(defaultDate);
-        dateOfQualifying.setValue(defaultDate.minusDays(1));
-        dateOfpractice3.setValue(defaultDate.minusDays(1));
-        dateOfpractice2.setValue(defaultDate.minusDays(2));
-        dateOfpractice1.setValue(defaultDate.minusDays(2));
+        dateOfRace.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year));
+        dateOfQualifying.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
+        dateOfpractice3.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
+        dateOfpractice2.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
+        dateOfpractice1.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
 
     }
 
@@ -120,7 +117,7 @@ public class SeasonSceneController {
 
 
     @FXML
-    void OnAddRace(ActionEvent event) {
+    void OnAddRace(ActionEvent event) throws EntityNotFoundException {
         if (dateOfRace.getValue().getYear() == year && dateOfQualifying.getValue().getYear() == year &&
         dateOfpractice3.getValue().getYear() == year && dateOfpractice2.getValue().getYear() == year &&
         dateOfpractice1.getValue().getYear() == year){
@@ -144,9 +141,10 @@ public class SeasonSceneController {
             race.setSprintWeekend(isSprintRace.isSelected());
             race.setName(nameOfGP.getText());
             race.setPlace(placeOfGP.getText());
-            RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+            SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+            seasonDao.addSeason(year,null,null);
             raceDao.saveRace(race);
-            listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces()));
+            listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
             wrongFormat.setVisible(false);
         }else {
             wrongFormat.setVisible(true);
