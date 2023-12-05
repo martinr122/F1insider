@@ -3,13 +3,23 @@ package f1.f1insider;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import storage.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class SeasonSceneController {
+    @FXML
+    private Button addDriverButton;
+
+    @FXML
+    private Button addTeamButton;
     @FXML
     private DatePicker dateOfQualifying;
 
@@ -165,6 +175,19 @@ public class SeasonSceneController {
 
     @FXML
     void onAddTeamButton(ActionEvent event) {
-
+        try{
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("TeamAddScene.fxml"));
+            TeamAddSceneController controller = new TeamAddSceneController(year);
+            loader.setController(controller);
+            Parent seasonParent = loader.load();
+            Stage teamAddStage = (Stage) addTeamButton.getScene().getWindow();
+            teamAddStage.setScene(new Scene(seasonParent));
+            teamAddStage.setTitle("F1Insider - Add Team");
+            teamAddStage.centerOnScreen();
+            teamAddStage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

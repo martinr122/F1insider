@@ -2,7 +2,7 @@ package storage;
 
 public class Team {
     private int idTeam;
-    private String nameTeam;
+    private String teamName;
     private String nameEngine;
     private String namePrincipal;
     private String nameFounder;
@@ -11,8 +11,88 @@ public class Team {
     private int year;
     private int points;
 
-    public Team(String nameTeam, int points) {
-        this.nameTeam = nameTeam;
+    public Team(String teamName, int points) {
+        this.teamName = teamName;
         this.points = points;
+    }
+    public Team() {
+
+    }
+
+    public int getIdTeam() {
+        return idTeam;
+    }
+
+    public void setIdTeam(int idTeam) {
+        this.idTeam = idTeam;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getNameEngine() {
+        return nameEngine;
+    }
+
+    public void setNameEngine(String nameEngine) {
+        this.nameEngine = nameEngine;
+    }
+
+    public String getNamePrincipal() {
+        return namePrincipal;
+    }
+
+    public void setNamePrincipal(String namePrincipal) {
+        this.namePrincipal = namePrincipal;
+    }
+
+    public String getNameFounder() {
+        return nameFounder;
+    }
+
+    public void setNameFounder(String nameFounder) {
+        this.nameFounder = nameFounder;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getNameMonopost() {
+        return nameMonopost;
+    }
+
+    public void setNameMonopost(String nameMonopost) {
+        this.nameMonopost = nameMonopost;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    @Override
+    public String toString() {
+        return teamName;
     }
 }
