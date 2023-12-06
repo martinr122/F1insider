@@ -1,15 +1,20 @@
 package storage;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
+
 
 public class Driver {
     private int id;
     private String firstName;
     private String surname;
     private String country;
-    private Date birthday;
+    private LocalDate birthday;
     private int raceNumber;
     private int points;
+
+    public Driver() {
+    }
 
     public int getId() {
         return id;
@@ -25,6 +30,12 @@ public class Driver {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return Character.toUpperCase(firstName.charAt(0))+firstName.substring(1) + " "
+                + Character.toUpperCase(surname.charAt(0))+surname.substring(1);
     }
 
     public String getSurname() {
@@ -43,11 +54,11 @@ public class Driver {
         this.country = country;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -71,5 +82,18 @@ public class Driver {
         this.firstName = firstName;
         this.surname = surname;
         this.points = points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id == driver.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

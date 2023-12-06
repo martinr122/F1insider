@@ -1,5 +1,7 @@
 package storage;
 
+import java.util.Objects;
+
 public class Team {
     private int idTeam;
     private String teamName;
@@ -10,6 +12,10 @@ public class Team {
     private String nameMonopost;
     private int year;
     private int points;
+    private Driver firstDriver;
+    private Driver secondDriver;
+
+
 
     public Team(String teamName, int points) {
         this.teamName = teamName;
@@ -94,5 +100,33 @@ public class Team {
     @Override
     public String toString() {
         return teamName;
+    }
+    public Driver getFirstDriver() {
+        return firstDriver;
+    }
+
+    public void setFirstDriver(Driver firstDriver) {
+        this.firstDriver = firstDriver;
+    }
+
+    public Driver getSecondDriver() {
+        return secondDriver;
+    }
+
+    public void setSecondDriver(Driver secondDriver) {
+        this.secondDriver = secondDriver;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return idTeam == team.idTeam;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTeam);
     }
 }

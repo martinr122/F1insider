@@ -1,6 +1,5 @@
 package storage;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -63,14 +62,36 @@ public class MySqlTeamDao implements TeamDao{
     }
 
     @Override
+    public List<Team> getTeamsbyDriver(int idDriver) {
+        String sql = "SELECT DISTINCT  t.* FROM team t " +
+                "JOIN driver_has_team dht ON t.idTeam = dht.Team_idTeam " +
+                "WHERE dhst.Driver_idDriver = ?";
+        return jdbcTemplate.query(sql, teamRM(), idDriver);
+    }
+
+    @Override
     public Team getTeamByName(String name, int year) {
-        String sql = "select * from team where team_name = ? and Season_year = ?";
+        String sql = "SELECT * FROM team WHERE team_name = ? AND Season_year = ?";
         return jdbcTemplate.queryForObject(sql,teamRM(),name,year);
     }
 
     @Override
     public void deleteByName(String name, int year) {
-        String sql = "delete from team where team_name = ? and Season_year = ? limit 1";
+        String sql = "DELETE FROM team WHERE team_name = ? AND Season_year = ? limit 1";
         jdbcTemplate.update(sql, name, year);
+    }
+
+    @Override
+    public int getID(String name, int year) {
+        String sql = "SELECT idTeam FROM team WHERE team_name = ? AND Season_year = ?";
+        return jdbcTemplate.queryForObject(sql,Integer.class,name,year);
+    }
+
+    @Override
+    public void addDriversToTeam(int teamId, int driverId) {
+        String sql = "INSERT INTO driver_has_team (Driver_idDriver, Team_idTeam) "
+                + "VALUES (?,?)";
+        jdbcTemplate.update(sql, driverId, teamId);
+
     }
 }

@@ -16,8 +16,7 @@ import java.time.LocalTime;
 
 public class SeasonSceneController {
     @FXML
-    private Button addDriverButton;
-
+    private Button backButton;
     @FXML
     private Button addTeamButton;
     @FXML
@@ -164,11 +163,6 @@ public class SeasonSceneController {
     }
 
     @FXML
-    void onAddDriverButton(ActionEvent event) {
-
-    }
-
-    @FXML
     void onAddRaceResultsButton(ActionEvent event) {
 
     }
@@ -178,7 +172,7 @@ public class SeasonSceneController {
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("TeamAddScene.fxml"));
-            TeamAddSceneController controller = new TeamAddSceneController(year);
+            TeamAddSceneController controller = new TeamAddSceneController(user,year);
             loader.setController(controller);
             Parent seasonParent = loader.load();
             Stage teamAddStage = (Stage) addTeamButton.getScene().getWindow();
@@ -187,6 +181,22 @@ public class SeasonSceneController {
             teamAddStage.centerOnScreen();
             teamAddStage.show();
         }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void onBack(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("ManageScene.fxml"));
+            ManageSceneController controller = new ManageSceneController(user);
+            loader.setController(controller);
+            Parent manageScene = loader.load();
+            Stage manageSceneStage = (Stage) backButton.getScene().getWindow();
+            manageSceneStage.setScene(new Scene(manageScene));
+            manageSceneStage.setTitle("F1Insider - Manager");
+            manageSceneStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
