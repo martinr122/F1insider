@@ -1,11 +1,9 @@
 package storage;
 
-import com.mysql.cj.jdbc.Blob;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.List;
@@ -39,8 +37,11 @@ public class MySqlDriverDao implements  DriverDao{
 
     @Override
     public List<Driver> getAllDrivers() {
-        String sql = "SELECT * from driver" +
-                " ORDER BY birthday";
+        String sql = "SELECT d.* FROM driver d " +
+                "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
+                "JOIN team t ON dht.Team_idTeam = t.idTeam " +
+                "GROUP BY d.idDriver " +
+                "ORDER BY MAX(t.Season_year) DESC, surname_driver ASC";
         return jdbcTemplate.query(sql, driverRM());
     }
 
@@ -76,6 +77,13 @@ public class MySqlDriverDao implements  DriverDao{
     public Driver getByName(String firstName, String surname) {
         String sql = "select * from driver where first_name_driver = ? and surname_driver = ?";
         return jdbcTemplate.queryForObject(sql,driverRM(),firstName,surname);
+    }
+
+    @Override
+    public List<Driver> getByNameLike(String nameLike) {
+        String sql = "SELECT * FROM driver WHERE first_name_driver LIKE ? OR surname_driver LIKE ?";
+        String editedNameLike = "%" + nameLike + "%";
+        return jdbcTemplate.query(sql, driverRM(), editedNameLike, editedNameLike);
     }
 
     @Override
