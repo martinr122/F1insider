@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import storage.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TeamAddSceneController {
@@ -93,9 +95,28 @@ public class TeamAddSceneController {
         }
     }
 
+    private List<Label> getLabelsFromGridPane(GridPane gridPane){
+        List<Label> labels = new ArrayList<>();
+
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Label) {
+                labels.add((Label) node);
+            }
+        }
+        return labels;
+    }
+
     private void handleLastGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
+
+            for (Label label : getLabelsFromGridPane(lastYearGridPane)) {
+                if (label != clickedLabel) {
+                    label.setStyle("-fx-background-color: transparent;");
+                }else {
+                    clickedLabel.setStyle("-fx-background-color: #fa899a;");
+                }
+            }
             Team team = teamDao.getTeamByName(clickedLabel.getText(),year-1);
             teamNameTextField.setText(team.getTeamName());
             EngineTextField.setText(team.getNameEngine());
@@ -104,7 +125,6 @@ public class TeamAddSceneController {
             countryTextField.setText(team.getCountry());
             monopostTextField.setText(team.getNameMonopost());
             List<Driver> drivers = driverDao.getDriversbyTeam(team.getIdTeam());
-            System.out.println(drivers.toString());
             firstDriver = drivers.get(0);
             secondDriver = drivers.get(1);
             firstNameLabel.setText(firstDriver.toString());

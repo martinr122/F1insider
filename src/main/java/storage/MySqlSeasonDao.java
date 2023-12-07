@@ -3,6 +3,7 @@ package storage;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.sql.*;
+import java.util.List;
 
 public class MySqlSeasonDao implements SeasonDao{
     private JdbcTemplate jdbcTemplate;
@@ -28,5 +29,22 @@ public class MySqlSeasonDao implements SeasonDao{
                 }
             });
         }
+    }
+
+    @Override
+    public boolean isSeason(int year) {
+        String sql = "SELECT COUNT(*) FROM season WHERE year = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, year);
+        if(count > 0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> getAllSeason() {
+        String sql = "SELECT DISTINCT year FROM season ORDER BY year DESC";
+        return jdbcTemplate.queryForList(sql, String.class);
     }
 }

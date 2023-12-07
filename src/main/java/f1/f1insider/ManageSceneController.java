@@ -35,13 +35,13 @@ public class ManageSceneController {
 
     public ManageSceneController(User user){
         this.user = user;
-        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
-        seasons = raceDao.getAllSeason();
     }
     @FXML
     void initialize() throws EntityNotFoundException {
+        SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+        seasons = seasonDao.getAllSeason();
         seasonComboBox.setItems(FXCollections.observableList(seasons));
-        seasonComboBox.getSelectionModel().selectLast();
+        seasonComboBox.getSelectionModel().selectFirst();
         LocalDate localDate = LocalDate.now();
         seasonYear.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1950, localDate.getYear(), localDate.getYear()));
     }

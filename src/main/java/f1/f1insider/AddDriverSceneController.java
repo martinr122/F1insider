@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -19,6 +20,7 @@ import storage.DriverDao;
 import storage.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddDriverSceneController {
@@ -142,10 +144,28 @@ public class AddDriverSceneController {
         addDriverButton.getScene().getWindow().hide();
     }
 
+    private List<Label> getLabelsFromGridPane(GridPane gridPane){
+        List<Label> labels = new ArrayList<>();
 
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof Label) {
+                labels.add((Label) node);
+            }
+        }
+        return labels;
+    }
     private void handleDriverGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
+
+            for (Label label : getLabelsFromGridPane(driverGridPane)) {
+                if (label != clickedLabel) {
+                    label.setStyle("-fx-background-color: transparent;");
+                }else {
+                    clickedLabel.setStyle("-fx-background-color: #fa899a;");
+                }
+            }
+
             String[] driverName = clickedLabel.getText().trim().split(" ");
             Driver driver = driverDao.getByName(driverName[0], driverName[1]);
             firstnameTextField.setText(driver.getFirstName());
@@ -153,7 +173,6 @@ public class AddDriverSceneController {
             surnameTextField.setText(driver.getSurname());
             countryTextField.setText(driver.getCountry());
             birthdayDatePicker.setValue(driver.getBirthday());
-
         }
     }
 

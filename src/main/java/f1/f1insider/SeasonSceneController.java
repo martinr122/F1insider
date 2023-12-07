@@ -66,6 +66,7 @@ public class SeasonSceneController {
     private Label wrongFormat;
     private int year;
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+    private SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
 
     private User user;
     public SeasonSceneController(User user, int year){
@@ -168,7 +169,10 @@ public class SeasonSceneController {
     }
 
     @FXML
-    void onAddTeamButton(ActionEvent event) {
+    void onAddTeamButton(ActionEvent event) throws EntityNotFoundException {
+        if (!seasonDao.isSeason(year)){
+            seasonDao.addSeason(year,null,null);
+        }
         try{
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("TeamAddScene.fxml"));
