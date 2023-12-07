@@ -165,7 +165,22 @@ public class SeasonSceneController {
 
     @FXML
     void onAddRaceResultsButton(ActionEvent event) {
-
+        if(listOfRaces.getSelectionModel().getSelectedItem() != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("RaceResultsEditScene.fxml"));
+                RaceResultsEditSceneController controller = new RaceResultsEditSceneController(user, listOfRaces.getSelectionModel().getSelectedItem());
+                loader.setController(controller);
+                Parent seasonParent = loader.load();
+                Stage teamAddStage = (Stage) addTeamButton.getScene().getWindow();
+                teamAddStage.setScene(new Scene(seasonParent));
+                teamAddStage.setTitle("F1Insider - Add Team");
+                teamAddStage.centerOnScreen();
+                teamAddStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

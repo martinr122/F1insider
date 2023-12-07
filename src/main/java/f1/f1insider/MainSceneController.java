@@ -133,10 +133,6 @@ public class MainSceneController {
     }
 
     @FXML
-    void onShowHistory(ActionEvent event) {
-    }
-
-    @FXML
     void onShowRacing(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -176,19 +172,21 @@ public class MainSceneController {
     }
     @FXML
     void onShowRace(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("RaceMenuScene.fxml"));
-            RaceMenuSceneController controller = new RaceMenuSceneController(user, lastRace);
-            loader.setController(controller);
-            Parent racingMenuScene = loader.load();
-            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
-            racingMenuStage.setScene(new Scene(racingMenuScene));
-            racingMenuStage.setTitle("Racing");
-            racingMenuStage.centerOnScreen();
-            racingMenuStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (lastRace != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource("RaceMenuScene.fxml"));
+                RaceMenuSceneController controller = new RaceMenuSceneController(user, lastRace);
+                loader.setController(controller);
+                Parent racingMenuScene = loader.load();
+                Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+                racingMenuStage.setScene(new Scene(racingMenuScene));
+                racingMenuStage.setTitle("Racing");
+                racingMenuStage.centerOnScreen();
+                racingMenuStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     @FXML
