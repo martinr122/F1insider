@@ -29,7 +29,7 @@ public class MainSceneController {
     private Button showStandingsButton;
 
     @FXML
-    private Button showHistoryButton;
+    private MenuButton chooseHistory;
 
     @FXML
     private Button logoutButton;
@@ -66,9 +66,6 @@ public class MainSceneController {
 
     @FXML
     private Pagination lastRaceCommentsField;
-
-    @FXML
-    private MenuButton chooseHistory;
 
     private User user;
     private Race lastRace;
