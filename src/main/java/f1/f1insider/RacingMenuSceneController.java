@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -75,7 +76,9 @@ public class RacingMenuSceneController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-        //filling the table
+        roundNumberColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().
+                getItems().indexOf(cellData.getValue()) + 1).asObject());
+
         dateColumn.setCellValueFactory(cellData -> {
             Race race = cellData.getValue();
             if (race != null) {

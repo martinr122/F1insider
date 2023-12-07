@@ -9,12 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
 import storage.EntityNotFoundException;
 import storage.Race;
 import storage.User;
 
-import javax.naming.Name;
+import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
@@ -36,6 +39,9 @@ public class RaceMenuSceneController {
 
     @FXML
     private Label PlaceOfGrandPrixLabel;
+
+    @FXML
+    private ImageView RaceTrackImage;
 
     @FXML
     private Label SecondSessionLabel;
@@ -107,6 +113,9 @@ public class RaceMenuSceneController {
             WhenFourthSessionLabel.setText(formatter.format(race.getWhenQuali()));
             FourthSessionLabel.setText("Qualifying:");
         }
+//        File file = new File("images/Brazil.png");
+//        Image image = new Image(file.toURI().toString());
+//        RaceTrackImage.setImage(image);
     }
     @FXML
     void onLogout(ActionEvent event) {

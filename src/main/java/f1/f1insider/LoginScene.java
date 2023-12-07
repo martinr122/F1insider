@@ -20,7 +20,6 @@ public class LoginScene extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Login - F1Insider");
         primaryStage.show();
-
     }
     public static void main(String[] args) {
         launch(args);
