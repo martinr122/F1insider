@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.MenuButton;
 import javafx.stage.Stage;
 import storage.EntityNotFoundException;
 import storage.Race;
@@ -17,20 +17,52 @@ import java.io.IOException;
 
 public class RaceMenuSceneController {
 
-    private User user;
     private Race race;
-    private String season;
+    private User user;
+    @FXML
+    private Label FifthSession;
+
+    @FXML
+    private Label FirstSession;
+
+    @FXML
+    private Label FourthSession;
+
+    @FXML
+    private Label NameOfGrandPrix;
+
+    @FXML
+    private Label PlaceOfGrandPrix;
+
+    @FXML
+    private Label SecondSession;
+
+    @FXML
+    private Label ThirdSession;
+
     @FXML
     private Label UsernameLabel;
 
     @FXML
+    private Label WhenFifthosession;
+
+    @FXML
+    private Label WhenFirstSession;
+
+    @FXML
+    private Label WhenFourthSession;
+
+    @FXML
+    private Label WhenSecondSession;
+
+    @FXML
+    private Label WhenThirdSession;
+
+    @FXML
+    private MenuButton chooseHistory;
+
+    @FXML
     private Button logoutButton;
-
-    @FXML
-    private Button showHistoryButton;
-
-    @FXML
-    private ComboBox<?> showHistoryComboBox;
 
     @FXML
     private Button showHomeButton;
@@ -40,6 +72,11 @@ public class RaceMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+
+    @FXML
+    void onChooseHistory(ActionEvent event) {
+
+    }
 
     public RaceMenuSceneController(User user, Race race) {
         this.user = user;
@@ -82,7 +119,7 @@ public class RaceMenuSceneController {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("RacingMenuScene.fxml"));
-            RacingMenuSceneController controller = new RacingMenuSceneController(user, season);
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, String.valueOf(race.getYear()));
             loader.setController(controller);
             Parent racingMenuScene = loader.load();
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;

@@ -44,7 +44,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: red;">
          <items>
@@ -63,11 +63,6 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="showHistoryButton" mnemonicParsing="false" onAction="#onShowHistory" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: black;" text="History" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Button>
             <MenuButton fx:id="chooseHistory" mnemonicParsing="false" onAction="#onChooseHistory" prefWidth="120.0" style="-fx-background-color: black;" text="History" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -82,7 +77,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Button>
-            <Label fx:id="UsernameLabel" text="Label" textAlignment="RIGHT">
+            <Label fx:id="UsernameLabel" prefHeight="21.0" prefWidth="533.0" text="Label" textAlignment="RIGHT">
                <padding>
                   <Insets left="400.0" />
                </padding>
@@ -100,37 +95,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="600.0" layoutY="67.0" prefHeight="30.0" prefWidth="437.0" text="LEADER OF WORLD DRIVER CHAMPIONSHIP">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="336.0" text="LAST GRAND PRIX:">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="14.0" layoutY="601.0" text="COMMENTS:">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Pagination fx:id="lastRaceCommentsField" layoutX="201.0" layoutY="446.0" prefHeight="340.0" prefWidth="360.0" style="-fx-background-color: silver;" />
-      <Label layoutX="600.0" layoutY="256.0" text="LEADER OF WORLD CONSTRUCTORS CHAMPIONSHIP">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="leaderOfDriversLabel" layoutX="600.0" layoutY="97.0" prefHeight="147.0" prefWidth="400.0" text="LEADER OF WDC" textAlignment="CENTER">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="leaderOfTeamsLabel" layoutX="600.0" layoutY="286.0" prefHeight="147.0" prefWidth="508.0" text="LEADER OF WCC">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
       <Label fx:id="nextGpLabel" layoutX="228.0" layoutY="67.0" text="NAME OF NEXT GP">
          <font>
             <Font size="36.0" />
@@ -141,6 +105,21 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Label layoutX="600.0" layoutY="67.0" prefHeight="30.0" prefWidth="437.0" text="LEADER OF WORLD DRIVER CHAMPIONSHIP">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="leaderOfDriversLabel" layoutX="600.0" layoutY="97.0" prefHeight="147.0" prefWidth="400.0" text="LEADER OF WDC" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="336.0" text="LAST GRAND PRIX:">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
       <Label fx:id="lastGpLabel" layoutX="232.0" layoutY="256.0" text="NAME OF LAST GP">
          <font>
             <Font size="36.0" />
@@ -148,6 +127,22 @@
       </Label>
       <ListView fx:id="lastRaceTextField" layoutX="232.0" layoutY="309.0" prefHeight="102.0" prefWidth="299.0" />
       <Button fx:id="showRaceButton" layoutX="232.0" layoutY="411.0" mnemonicParsing="false" onAction="#onShowRace" prefHeight="25.0" prefWidth="299.0" text="VIEW RESULTS" />
+      <Label layoutX="600.0" layoutY="256.0" text="LEADER OF WORLD CONSTRUCTORS CHAMPIONSHIP">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="leaderOfTeamsLabel" layoutX="600.0" layoutY="286.0" prefHeight="147.0" prefWidth="508.0" text="LEADER OF WCC">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="601.0" text="COMMENTS:">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Pagination fx:id="lastRaceCommentsField" layoutX="201.0" layoutY="446.0" prefHeight="340.0" prefWidth="360.0" style="-fx-background-color: silver;" />
       <ImageView fx:id="leaderDriverImage" fitHeight="150.0" fitWidth="200.0" layoutX="900.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="900.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" />
    </children>
