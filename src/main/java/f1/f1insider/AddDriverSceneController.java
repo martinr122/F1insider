@@ -1,5 +1,7 @@
 package f1.f1insider;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -42,6 +44,8 @@ public class AddDriverSceneController {
 
     @FXML
     private TextField surnameTextField;
+    @FXML
+    private TextField searchTextField;
     private boolean firstDriver;
     DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamAddSceneController teamAddSceneController;
@@ -65,6 +69,23 @@ public class AddDriverSceneController {
             label.setOnMouseClicked(mouseEvent -> handleDriverGridClick(mouseEvent));
             driverGridPane.addRow(i, label);
         }
+        searchTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                driverGridPane.getChildren().clear();
+                List<Driver> drivers = driverDao.getByNameLike(newValue);
+                if (!drivers.isEmpty()) {
+                    for (int i = 0; i < drivers.size(); i++) {
+                        Driver driver = drivers.get(i);
+                        Label label = new Label(driver.toString());
+                        label.setFont(new Font(18));
+                        label.setOnMouseClicked(mouseEvent -> handleDriverGridClick(mouseEvent));
+                        driverGridPane.addRow(i, label);
+                    }
+                }
+            }
+        });
 
     }
 

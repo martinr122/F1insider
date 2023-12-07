@@ -77,8 +77,13 @@ public class MySqlTeamDao implements TeamDao{
 
     @Override
     public void deleteByName(String name, int year) {
-        String sql = "DELETE FROM team WHERE team_name = ? AND Season_year = ? limit 1";
-        jdbcTemplate.update(sql, name, year);
+        String sqlDht = "DELETE dht FROM driver_has_team dht " +
+                "JOIN team t ON dht.Team_idTeam = t.idTeam " +
+                "WHERE t.team_name = ? AND t.Season_year = ?";
+        jdbcTemplate.update(sqlDht, name, year);
+
+        String sqlTeam = "DELETE FROM team WHERE team_name = ? AND Season_year = ? limit 1";
+        jdbcTemplate.update(sqlTeam, name, year);
     }
 
     @Override
