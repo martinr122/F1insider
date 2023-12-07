@@ -43,7 +43,7 @@ public class ManageSceneController {
         seasonComboBox.setItems(FXCollections.observableList(seasons));
         seasonComboBox.getSelectionModel().selectFirst();
         LocalDate localDate = LocalDate.now();
-        seasonYear.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1950, localDate.getYear(), localDate.getYear()));
+        seasonYear.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1950, localDate.getYear() + 1, localDate.getYear()));
     }
 
     @FXML

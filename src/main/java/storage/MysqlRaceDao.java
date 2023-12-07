@@ -69,7 +69,7 @@ public class MysqlRaceDao implements RaceDao{
     public List<Race> getAllRaces(String season) {
         String sql = "SELECT * from race " +
                 "WHERE season_year = ?" +
-                " ORDER BY when_race desc";
+                " ORDER BY when_race";
         return jdbcTemplate.query(sql, raceRM(), season);
     }
 
