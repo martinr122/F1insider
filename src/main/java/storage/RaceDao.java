@@ -11,4 +11,5 @@ public interface RaceDao {
         List<Race> getAllRaces();
         void saveRace(Race race);
         List<String> getAllSeason();
+        int getRaceId(Race race);
 }

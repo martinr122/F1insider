@@ -9,13 +9,15 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
 
-public class MysqlRaceDao implements RaceDao{
+public class MysqlRaceDao implements RaceDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public MysqlRaceDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
+    public MysqlRaceDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
-    private RowMapper<Race> raceRM(){
+    private RowMapper<Race> raceRM() {
         return new RowMapper<Race>() {
 
             @Override
@@ -30,9 +32,9 @@ public class MysqlRaceDao implements RaceDao{
                 race.setWhenFirstSession(rs.getDate("when_1_session").toLocalDate().atTime(rs.getTime("when_1_session").toLocalTime()));
                 race.setWhenSecondSession(rs.getDate("when_2_session").toLocalDate().atTime(rs.getTime("when_2_session").toLocalTime()));
                 race.setWhenThirdSession(rs.getDate("when_3_session").toLocalDate().atTime(rs.getTime("when_3_session").toLocalTime()));
-                if (rs.getInt("is_sprint_weekend") == 1){
+                if (rs.getInt("is_sprint_weekend") == 1) {
                     race.setSprintWeekend(true);
-                }else {
+                } else {
                     race.setSprintWeekend(false);
                 }
                 return race;
@@ -79,11 +81,12 @@ public class MysqlRaceDao implements RaceDao{
                 + " ORDER BY when_race desc";
         return jdbcTemplate.query(sql, raceRM());
     }
+
     @Override
-    public void saveRace(Race race){
+    public void saveRace(Race race) {
         String query = "INSERT INTO race (Season_year, place, name, when_race, when_quali, when_1_session" +
-                        ", when_2_session, when_3_session, is_sprint_weekend) "
-                        + "VALUES (?,?,?,?,?,?,?,?,?)";
+                ", when_2_session, when_3_session, is_sprint_weekend) "
+                + "VALUES (?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
@@ -96,9 +99,9 @@ public class MysqlRaceDao implements RaceDao{
                 statement.setTimestamp(6, Timestamp.valueOf(race.getWhenFirstSession()));
                 statement.setTimestamp(7, Timestamp.valueOf(race.getWhenSecondSession()));
                 statement.setTimestamp(8, Timestamp.valueOf(race.getWhenThirdSession()));
-                if (race.isSprintWeekend()){
+                if (race.isSprintWeekend()) {
                     statement.setInt(9, 1);
-                }else {
+                } else {
                     statement.setInt(9, 0);
                 }
                 return statement;
@@ -112,6 +115,18 @@ public class MysqlRaceDao implements RaceDao{
                 "FROM race";
         return jdbcTemplate.queryForList(sql, String.class);
     }
+
+    @Override
+    public int getRaceId(Race race) {
+        String sql = "SELECT idRace FROM race WHERE Season_year = ? " +
+                "AND place = ? " +
+                "AND name = ? " +
+                "AND when_race = ?";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, race.getYear(), race.getPlace(), race.getName(), Timestamp.valueOf(race.getWhenRace()));
+
+    }
+
 }
 
 

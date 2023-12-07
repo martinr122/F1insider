@@ -24,6 +24,12 @@ public class MysqlUserDao implements UserDao {
     }
 
     @Override
+    public int getIdbyUsername(String username) {
+        String sql = "SELECT idUser FROM User WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, username);
+    }
+
+    @Override
     public String givePassword(String username) throws EntityNotFoundException {
         Objects.requireNonNull(username, "username cannot be null");
         String query = "SELECT password FROM User WHERE username = ?";

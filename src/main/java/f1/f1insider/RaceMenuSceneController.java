@@ -5,26 +5,29 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import storage.EntityNotFoundException;
-import storage.Race;
-import storage.User;
+import storage.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class RaceMenuSceneController {
 
     private Race race;
     private User user;
+    @FXML
+    private TextArea commentTextArea;
+    @FXML
+    private GridPane commentGridPane;
     @FXML
     private Label FifthSessionLabel;
 
@@ -81,13 +84,24 @@ public class RaceMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
-
+    private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
+    private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
     public RaceMenuSceneController(User user, Race race) {
         this.user = user;
         this.race = race;
     }
     @FXML
     void initialize() throws EntityNotFoundException {
+        List<Comment> comments = commentDao.allCommentByRace(raceDao.getRaceId(race));
+        for (int i = 0; i < comments.size(); i++) {
+            Comment comment = comments.get(i);
+
+            Text newCommentText = new Text(comment.getComment());
+            newCommentText.setWrappingWidth(280.0);
+            Text userName = new Text(user.getUsername()+":");
+            userName.setWrappingWidth(70);
+            commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
         UsernameLabel.setText(user.toString());
@@ -212,5 +226,18 @@ public class RaceMenuSceneController {
     @FXML
     void onChooseHistory(ActionEvent event) {
 
+    }
+    @FXML
+    void onAddComment(ActionEvent event) {
+        UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+        Comment comment = new Comment(commentTextArea.getText(), userDao.getIdbyUsername(user.getUsername()), race.getId());
+
+        Text newCommentText = new Text(commentTextArea.getText());
+        newCommentText.setWrappingWidth(280.0);
+        Text userName = new Text(user.getUsername()+":");
+        userName.setWrappingWidth(70);
+        commentDao.add(comment);
+        commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
+        commentTextArea.clear();
     }
 }
