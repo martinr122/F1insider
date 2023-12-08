@@ -203,6 +203,8 @@ public class TeamAddSceneController {
             alertLabel.setText("Add drivers!");
             return;
         }
+        System.out.println(firstDriver);
+        System.out.println(secondDriver.toString());
         team.setFirstDriver(firstDriver);
         team.setSecondDriver(secondDriver);
         teamDao.add(team);

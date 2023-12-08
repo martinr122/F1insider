@@ -2,14 +2,13 @@ package f1.f1insider;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -36,7 +35,7 @@ public class AddDriverSceneController {
     private TextField countryTextField;
 
     @FXML
-    private GridPane driverGridPane;
+    private ListView<Driver> driversListView;
 
     @FXML
     private TextField firstnameTextField;
@@ -51,6 +50,7 @@ public class AddDriverSceneController {
     private boolean firstDriver;
     DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamAddSceneController teamAddSceneController;
+    private ObservableList<Driver> driversModel;
 
     public AddDriverSceneController(boolean firstDriver) {
         this.firstDriver = firstDriver;
@@ -62,32 +62,31 @@ public class AddDriverSceneController {
 
     public void initialize() {
         birthdayDatePicker.setValue(LocalDate.now().minusYears(18));
-        driverGridPane.getChildren().clear();
         List<Driver> drivers = driverDao.getAllDrivers();
-        for (int i = 0; i < drivers.size(); i++) {
-            Driver driver = drivers.get(i);
-            Label label = new Label(driver.toString());
-            label.setFont(new Font(18));
-            label.setOnMouseClicked(mouseEvent -> handleDriverGridClick(mouseEvent));
-            driverGridPane.addRow(i, label);
-        }
-        searchTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
+        driversModel = FXCollections.observableList(drivers);
+        driversListView.setItems(driversModel);
 
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                driverGridPane.getChildren().clear();
-                List<Driver> drivers = driverDao.getByNameLike(newValue);
-                if (!drivers.isEmpty()) {
-                    for (int i = 0; i < drivers.size(); i++) {
-                        Driver driver = drivers.get(i);
-                        Label label = new Label(driver.toString());
-                        label.setFont(new Font(18));
-                        label.setOnMouseClicked(mouseEvent -> handleDriverGridClick(mouseEvent));
-                        driverGridPane.addRow(i, label);
-                    }
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            List<Driver> driversFiltered = driverDao.getByNameLike(newValue);
+            ObservableList<Driver> observableDriversFiltered = FXCollections.observableArrayList(driversFiltered);
+            driversListView.setItems(observableDriversFiltered);
+        });
+
+        driversListView.setCellFactory(param -> new ListCell<Driver>() {
+            @Override
+            protected void updateItem(Driver driver, boolean empty) {
+                super.updateItem(driver, empty);
+
+                if (empty || driver == null) {
+                    setText(null);
+                } else {
+                    setText(driver.toString());
+                    setFont(new Font(18));
+                    setOnMouseClicked(mouseEvent -> handleDriverListClick(mouseEvent));
                 }
             }
         });
+
 
     }
 
@@ -154,20 +153,13 @@ public class AddDriverSceneController {
         }
         return labels;
     }
-    private void handleDriverGridClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getSource() instanceof Label) {
-            Label clickedLabel = (Label) mouseEvent.getSource();
+    private void handleDriverListClick(MouseEvent mouseEvent) {
+        Driver driverSelected = driversListView.getSelectionModel().getSelectedItem();
 
-            for (Label label : getLabelsFromGridPane(driverGridPane)) {
-                if (label != clickedLabel) {
-                    label.setStyle("-fx-background-color: transparent;");
-                }else {
-                    clickedLabel.setStyle("-fx-background-color: #fa899a;");
-                }
-            }
-
-            String[] driverName = clickedLabel.getText().trim().split(" ");
-            Driver driver = driverDao.getByName(driverName[0], driverName[1]);
+        if (driverSelected != null) {
+            Driver driver = driverDao.getByName(driverSelected.getFirstName(),
+                    driverSelected.getSurname());
+            System.out.println(driver.getBirthday().toString());
             firstnameTextField.setText(driver.getFirstName());
             raceNumberTextField.setText(String.valueOf(driver.getRaceNumber()));
             surnameTextField.setText(driver.getSurname());
@@ -175,5 +167,4 @@ public class AddDriverSceneController {
             birthdayDatePicker.setValue(driver.getBirthday());
         }
     }
-
 }

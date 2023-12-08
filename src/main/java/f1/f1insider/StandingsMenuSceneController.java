@@ -65,7 +65,6 @@ public class StandingsMenuSceneController {
         UsernameLabel.setText(user.toString());
 
 
-        //filling the table
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
         pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
@@ -79,17 +78,7 @@ public class StandingsMenuSceneController {
             standingsDriverTable.setItems(FXCollections.emptyObservableList());
         }
 
-//        racingTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//            if (newSelection != null) {
-//                try {
-//                    openResultsWindow(newSelection);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces()));
+        positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
     }
     @FXML
     void onLogout(ActionEvent event) {

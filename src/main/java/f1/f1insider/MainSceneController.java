@@ -201,6 +201,7 @@ public class MainSceneController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("F1Insider - Manager");
+        stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
         stage.show();
     }
 

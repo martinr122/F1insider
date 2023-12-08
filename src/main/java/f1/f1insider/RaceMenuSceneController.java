@@ -225,7 +225,23 @@ public class RaceMenuSceneController {
 
     @FXML
     void onChooseHistory(ActionEvent event) {
+        MenuItem clickedMenuItem = (MenuItem) event.getSource();
+        String selectedOption = clickedMenuItem.getText();
 
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, selectedOption);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     void onAddComment(ActionEvent event) {

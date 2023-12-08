@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import storage.*;
 
@@ -180,6 +181,9 @@ public class SeasonSceneController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t choose race to add race results.");
+            alert.show();
         }
     }
 

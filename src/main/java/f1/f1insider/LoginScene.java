@@ -19,6 +19,7 @@ public class LoginScene extends Application {
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Login - F1Insider");
+        primaryStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
         primaryStage.show();
     }
     public static void main(String[] args) {
