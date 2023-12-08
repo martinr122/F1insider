@@ -9,20 +9,30 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import storage.DaoFactory;
 import storage.Driver;
 import storage.DriverDao;
 import storage.Team;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddDriverSceneController {
+    @FXML
+    private Button closeButton;
+    @FXML
+    private ImageView imageViewer;
+    @FXML
+    private Button imagechooseButton;
     @FXML
     private Label alertLabel;
     @FXML
@@ -47,6 +57,7 @@ public class AddDriverSceneController {
     private TextField surnameTextField;
     @FXML
     private TextField searchTextField;
+    private Image driverImage;
     private boolean firstDriver;
     DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamAddSceneController teamAddSceneController;
@@ -109,6 +120,13 @@ public class AddDriverSceneController {
         } else {
             driver.setSurname(surnameTextField.getText());
         }
+        if (driverImage == null) {
+            alertLabel.setVisible(true);
+            alertLabel.setText("Please select image");
+            return;
+        } else {
+            driver.setPhoto(driverImage);
+        }
 
         if (countryTextField.getText().trim().isEmpty() || countryTextField.getText().trim().length() > 3) {
             alertLabel.setVisible(true);
@@ -159,12 +177,42 @@ public class AddDriverSceneController {
         if (driverSelected != null) {
             Driver driver = driverDao.getByName(driverSelected.getFirstName(),
                     driverSelected.getSurname());
-            System.out.println(driver.getBirthday().toString());
+            imageViewer.setVisible(true);
+            imageViewer.setImage(driver.getPhoto());
+            imagechooseButton.setVisible(false);
             firstnameTextField.setText(driver.getFirstName());
             raceNumberTextField.setText(String.valueOf(driver.getRaceNumber()));
             surnameTextField.setText(driver.getSurname());
             countryTextField.setText(driver.getCountry());
             birthdayDatePicker.setValue(driver.getBirthday());
+            closeButton.setVisible(true);
+        }
+    }
+    @FXML
+    void onCloseImage(ActionEvent event) {
+    driverImage = null;
+    imagechooseButton.setVisible(true);
+    imageViewer.setVisible(false);
+    closeButton.setVisible(false);
+    }
+    @FXML
+    void onChoose(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select race image");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        driverImage = new Image(file.toURI().toString());
+
+        if (file != null) {
+            imagechooseButton.setVisible(false);
+            imageViewer.setVisible(true);
+            closeButton.setVisible(true);
+            imageViewer.setImage(driverImage);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Image error");
+            alert.setHeaderText("Error in image! Please choose again.");
+            alert.showAndWait();
         }
     }
 }

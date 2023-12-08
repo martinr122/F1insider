@@ -1,20 +1,24 @@
 package storage;
 
+import javafx.scene.image.Image;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.io.InputStream;
+import java.io.*;
+import java.net.URI;
 import java.sql.*;
 import java.util.List;
 
-public class MySqlDriverDao implements  DriverDao{
+public class MySqlDriverDao implements DriverDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public MySqlDriverDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
+    public MySqlDriverDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
-    private RowMapper<Driver> driverRM(){
+    private RowMapper<Driver> driverRM() {
         return new RowMapper<Driver>() {
 
             @Override
@@ -23,6 +27,10 @@ public class MySqlDriverDao implements  DriverDao{
                 driver.setId(rs.getInt("idDriver"));
                 driver.setFirstName(rs.getString("first_name_driver"));
                 driver.setSurname(rs.getString("surname_driver"));
+                Blob imageBlob = rs.getBlob("photo");
+                InputStream file = imageBlob.getBinaryStream();
+                Image image = new Image(file);
+                driver.setPhoto(image);
                 driver.setCountry(rs.getString("country"));
                 driver.setBirthday(rs.getDate("birthday").toLocalDate());
                 driver.setRaceNumber(rs.getInt("race_number"));
@@ -30,10 +38,7 @@ public class MySqlDriverDao implements  DriverDao{
             }
         };
     }
-    @Override
-    public InputStream getImage(String firstName, String surname) {
-        return null;
-    }
+
 
     @Override
     public List<Driver> getAllDrivers() {
@@ -56,18 +61,25 @@ public class MySqlDriverDao implements  DriverDao{
 
     @Override
     public void add(Driver driver) {
-        String query = "INSERT INTO driver (first_name_driver, surname_driver, country, birthday" +
-                ", race_number) "
-                + "VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO driver (first_name_driver, surname_driver, photo," +
+                "country, birthday, race_number) "
+                + "VALUES (?,?,?,?,?,?)";
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 statement.setString(1, driver.getFirstName());
                 statement.setString(2, driver.getSurname());
-                statement.setString(3, driver.getCountry());
-                statement.setDate(4, Date.valueOf(String.valueOf(driver.getBirthday())));
-                statement.setInt(5, driver.getRaceNumber());
+                String path = driver.getPhoto().getUrl().substring("file:/".length());
+                File file = new File(path);
+                try {
+                    statement.setBlob(3, new FileInputStream(file));
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                statement.setString(4, driver.getCountry());
+                statement.setDate(5, Date.valueOf(String.valueOf(driver.getBirthday())));
+                statement.setInt(6, driver.getRaceNumber());
                 return statement;
             }
         });
@@ -76,7 +88,7 @@ public class MySqlDriverDao implements  DriverDao{
     @Override
     public Driver getByName(String firstName, String surname) {
         String sql = "select * from driver where first_name_driver = ? and surname_driver = ?";
-        return jdbcTemplate.queryForObject(sql,driverRM(),firstName,surname);
+        return jdbcTemplate.queryForObject(sql, driverRM(), firstName, surname);
     }
 
     @Override
@@ -88,12 +100,12 @@ public class MySqlDriverDao implements  DriverDao{
 
     @Override
     public boolean contains(Driver driver) {
-        String sql = "SELECT COUNT(*) FROM driver WHERE first_name_driver = ? and "+
+        String sql = "SELECT COUNT(*) FROM driver WHERE first_name_driver = ? and " +
                 "surname_driver = ? and birthday = ?";
-        int count = jdbcTemplate.queryForObject(sql, Integer.class, driver.getFirstName(),driver.getSurname(),driver.getBirthday());
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, driver.getFirstName(), driver.getSurname(), driver.getBirthday());
         if (count == 0) {
             return false;
-        }else {
+        } else {
             return true;
         }
 
@@ -102,6 +114,6 @@ public class MySqlDriverDao implements  DriverDao{
     @Override
     public int getID(String firstName, String surname) {
         String sql = "select idDriver from driver where first_name_driver = ? and surname_driver = ?";
-        return jdbcTemplate.queryForObject(sql,Integer.class,firstName,surname);
+        return jdbcTemplate.queryForObject(sql, Integer.class, firstName, surname);
     }
 }

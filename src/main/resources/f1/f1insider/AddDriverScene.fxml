@@ -5,48 +5,52 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ListView fx:id="driversListView" layoutX="14.0" layoutY="10.0" prefHeight="352.0" prefWidth="230.0" />
-      <Label layoutX="260.0" layoutY="58.0" text="Firstname">
+      <Label layoutX="252.0" layoutY="27.0" text="Firstname">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="421.0" layoutY="57.0" text="Surname">
+      <Label layoutX="259.0" layoutY="126.0" text="Surname">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="257.0" layoutY="129.0" text="Racenumber">
+      <Label layoutX="254.0" layoutY="176.0" text="Racenumber">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="383.0" layoutY="129.0" text="Country">
+      <Label layoutX="382.0" layoutY="173.0" text="Country">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="255.0" layoutY="189.0" text="birthday">
+      <Label layoutX="250.0" layoutY="234.0" text="birthday">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="firstnameTextField" layoutX="258.0" layoutY="91.0" />
-      <TextField fx:id="surnameTextField" layoutX="421.0" layoutY="91.0" />
-      <TextField fx:id="raceNumberTextField" layoutX="255.0" layoutY="149.0" prefHeight="26.0" prefWidth="42.0" />
-      <TextField fx:id="countryTextField" layoutX="379.0" layoutY="149.0" prefHeight="26.0" prefWidth="50.0" />
-      <DatePicker fx:id="birthdayDatePicker" layoutX="255.0" layoutY="216.0" prefHeight="26.0" prefWidth="150.0" />
-      <Button fx:id="addDriverButton" layoutX="462.0" layoutY="294.0" mnemonicParsing="false" onAction="#onAddDriver" text="Add Driver" />
+      <TextField fx:id="firstnameTextField" layoutX="250.0" layoutY="60.0" prefHeight="26.0" prefWidth="121.0" />
+      <TextField fx:id="surnameTextField" layoutX="251.0" layoutY="129.0" prefHeight="26.0" prefWidth="122.0" />
+      <TextField fx:id="raceNumberTextField" layoutX="252.0" layoutY="196.0" prefHeight="26.0" prefWidth="42.0" />
+      <TextField fx:id="countryTextField" layoutX="381.0" layoutY="196.0" prefHeight="26.0" prefWidth="50.0" />
+      <DatePicker fx:id="birthdayDatePicker" layoutX="250.0" layoutY="261.0" prefHeight="26.0" prefWidth="150.0" />
+      <Button fx:id="addDriverButton" layoutX="449.0" layoutY="315.0" mnemonicParsing="false" onAction="#onAddDriver" text="Add Driver" />
       <Label fx:id="alertLabel" layoutX="255.0" layoutY="350.0" prefHeight="20.0" prefWidth="330.0" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <TextField fx:id="searchTextField" layoutX="14.0" layoutY="360.0" prefHeight="26.0" prefWidth="230.0" />
+      <Button fx:id="imagechooseButton" layoutX="429.0" layoutY="73.0" mnemonicParsing="false" onAction="#onChoose" text="Add image of race" />
+      <ImageView fx:id="imageViewer" fitHeight="150.0" fitWidth="200.0" layoutX="386.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <Button fx:id="closeButton" layoutX="562.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCloseImage" prefHeight="10.0" prefWidth="8.0" text="X" visible="false" />
    </children>
 </AnchorPane>

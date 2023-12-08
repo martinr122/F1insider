@@ -1,5 +1,8 @@
 package storage;
 
+import javafx.scene.image.Image;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,6 +15,7 @@ public class Driver {
     private LocalDate birthday;
     private int raceNumber;
     private int points;
+    private Image photo;
 
     public Driver() {
     }
@@ -34,8 +38,8 @@ public class Driver {
 
     @Override
     public String toString() {
-        return Character.toUpperCase(firstName.charAt(0))+firstName.substring(1) + " "
-                + Character.toUpperCase(surname.charAt(0))+surname.substring(1);
+        return Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1) + " "
+                + Character.toUpperCase(surname.charAt(0)) + surname.substring(1);
     }
 
     public String getSurname() {
@@ -68,6 +72,14 @@ public class Driver {
 
     public void setRaceNumber(int raceNumber) {
         this.raceNumber = raceNumber;
+    }
+
+    public Image getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Image photo) {
+        this.photo = photo;
     }
 
     public int getPoints() {

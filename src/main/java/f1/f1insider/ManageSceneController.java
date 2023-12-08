@@ -56,7 +56,7 @@ public class ManageSceneController {
             Parent ManageParent = loader.load();
             Stage SeasonStage = (Stage) editButton.getScene().getWindow();
             SeasonStage.setScene(new Scene(ManageParent));
-            SeasonStage.setTitle("Season");
+            SeasonStage.setTitle("F1insider - Season");
             SeasonStage.centerOnScreen();
             SeasonStage.show();
         }catch(IOException e){

@@ -62,10 +62,7 @@ public class MysqlUserDao implements UserDao {
 
                 GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
                 jdbcTemplate.update(preparedStatementCreator, keyHolder);
-
-                // Set the generated id on the User object
                 user.setId(keyHolder.getKey().intValue());
-
                 return true;
             } else {
                 System.out.println("Username is taken");

@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface DriverDao {
 
-    InputStream getImage(String firstName, String surname);
     List<Driver> getAllDrivers();
     List<Driver> getDriversbyTeam(int idTeam);
     void add(Driver driver);

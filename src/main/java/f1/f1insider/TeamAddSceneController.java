@@ -7,17 +7,19 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import storage.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,35 +29,26 @@ public class TeamAddSceneController {
     private Button backButton;
     @FXML
     private Button addDriverButton1;
-
     @FXML
     private Button addDriverButton2;
     @FXML
     private GridPane currentYearGridPane;
-
     @FXML
     private GridPane lastYearGridPane;
     @FXML
     private TextField EngineTextField;
-
     @FXML
     private TextField countryTextField;
     @FXML
     private Label firstNameLabel;
-
     @FXML
     private TextField founderTextField;
-
-
     @FXML
     private TextField monopostTextField;
-
     @FXML
     private Label secondNameLabel;
-
     @FXML
     private TextField teamNameTextField;
-
     @FXML
     private TextField teamPrincipalTextField;
     @FXML
@@ -203,8 +196,6 @@ public class TeamAddSceneController {
             alertLabel.setText("Add drivers!");
             return;
         }
-        System.out.println(firstDriver);
-        System.out.println(secondDriver.toString());
         team.setFirstDriver(firstDriver);
         team.setSecondDriver(secondDriver);
         teamDao.add(team);
@@ -247,18 +238,26 @@ public class TeamAddSceneController {
     private void handleCurrGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
-            teamDao.deleteByName(clickedLabel.getText(),year);
-
-            currentYearGridPane.getChildren().clear();
-            List<Team> teams = teamDao.getTeamsByYear(year);
-            for (int i = 0; i < teams.size(); i++) {
-                Team curTeam = teams.get(i);
-                Label label = new Label(curTeam.toString());
-                label.setFont(new Font(16));
-                label.setOnMouseEntered(mouse-> label.setCursor(Cursor.HAND));
-                label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
-                label.setOnMouseClicked(this::handleCurrGridClick);
-                currentYearGridPane.addRow(i, label);
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Delete confirmation");
+            confirmationAlert.setContentText("Are you sure you want to delete team: " + clickedLabel.getText() + " ?");
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            confirmationAlert.getButtonTypes().setAll(yesButton, noButton);
+            ButtonType result = confirmationAlert.showAndWait().orElse(noButton);
+            if (result == yesButton) {
+                teamDao.deleteByName(clickedLabel.getText(), year);
+                currentYearGridPane.getChildren().clear();
+                List<Team> teams = teamDao.getTeamsByYear(year);
+                for (int i = 0; i < teams.size(); i++) {
+                    Team curTeam = teams.get(i);
+                    Label label = new Label(curTeam.toString());
+                    label.setFont(new Font(16));
+                    label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
+                    label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
+                    label.setOnMouseClicked(this::handleCurrGridClick);
+                    currentYearGridPane.addRow(i, label);
+                }
             }
         }
     }
@@ -278,7 +277,4 @@ public class TeamAddSceneController {
             e.printStackTrace();
         }
     }
-
-
-
 }
