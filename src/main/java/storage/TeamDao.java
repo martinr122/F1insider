@@ -8,7 +8,6 @@ public interface TeamDao {
     List<Team> getTeamsbyDriver(int idDriver);
     Team getTeamByName(String name, int year);
     void deleteByName(String name, int year);
-
     int getID(String name, int year);
     void addDriversToTeam(int teamId, int driverId);
 }

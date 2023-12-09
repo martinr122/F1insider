@@ -12,6 +12,7 @@ public class Team {
     private String nameMonopost;
     private int year;
     private int points;
+    private String teamColor;
     private Driver firstDriver;
     private Driver secondDriver;
 
@@ -115,6 +116,14 @@ public class Team {
 
     public void setSecondDriver(Driver secondDriver) {
         this.secondDriver = secondDriver;
+    }
+
+    public String getTeamColor() {
+        return teamColor;
+    }
+
+    public void setTeamColor(String teamColor) {
+        this.teamColor = teamColor;
     }
 
     @Override

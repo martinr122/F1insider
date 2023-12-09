@@ -25,6 +25,7 @@ public class MySqlTeamDao implements TeamDao{
                 team.setCountry(rs.getString("country"));
                 team.setNameMonopost(rs.getString("name_monopost"));
                 team.setYear(rs.getInt("Season_year"));
+                team.setTeamColor(rs.getString("team_color"));
                 return team;
             }
         };
@@ -33,8 +34,8 @@ public class MySqlTeamDao implements TeamDao{
     @Override
     public void add(Team team) {
         String query = "INSERT INTO team (team_name, name_engine, name_principal, name_founder, country, name_monopost" +
-                ", Season_year) "
-                + "VALUES (?,?,?,?,?,?,?)";
+                ", Season_year, team_color) "
+                + "VALUES (?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
@@ -46,6 +47,7 @@ public class MySqlTeamDao implements TeamDao{
                 statement.setString(5, team.getCountry());
                 statement.setString(6, team.getNameMonopost());
                 statement.setInt(7, team.getYear());
+                statement.setString(8, team.getTeamColor());
                 return statement;
             }
         });

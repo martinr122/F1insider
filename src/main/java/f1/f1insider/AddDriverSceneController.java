@@ -176,6 +176,7 @@ public class AddDriverSceneController {
             imageViewer.setVisible(true);
             imageViewer.setImage(driver.getPhoto());
             imagechooseButton.setVisible(false);
+            driverImage = driver.getPhoto();
             firstnameTextField.setText(driver.getFirstName());
             raceNumberTextField.setText(String.valueOf(driver.getRaceNumber()));
             surnameTextField.setText(driver.getSurname());

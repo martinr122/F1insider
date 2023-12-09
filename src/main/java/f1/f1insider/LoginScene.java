@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 
 public class LoginScene extends Application {
     @Override
@@ -17,7 +15,7 @@ public class LoginScene extends Application {
         loader.setController(controller);
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
-        scene.getStylesheets().add("style/loginCss.css");
+        scene.getStylesheets().add("style/login.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Login - F1Insider");
         primaryStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));

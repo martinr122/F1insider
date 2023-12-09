@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
 import storage.DaoFactory;
-import storage.EntityNotFoundException;
 import storage.User;
 import storage.UserDao;
 
@@ -93,7 +92,7 @@ public class RegisterSceneController {
             loader.setController(controller);
             Parent loginScene = loader.load();
             Scene scene = new Scene(loginScene);
-            scene.getStylesheets().add("style/loginCss.css");
+            scene.getStylesheets().add("style/login.css");
             Stage loginStage = (Stage) loginButton.getScene().getWindow();;
             loginStage.setScene(scene);
             loginStage.setTitle("Login - F1Insider");

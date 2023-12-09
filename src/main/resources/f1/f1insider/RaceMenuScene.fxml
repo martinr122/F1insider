@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: f13353;">
@@ -126,15 +127,19 @@
       <ImageView fx:id="RaceTrackImage" fitHeight="240.0" fitWidth="320.0" layoutX="459.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
       <TextArea fx:id="commentTextArea" layoutX="43.0" layoutY="718.0" prefHeight="60.0" prefWidth="320.0" wrapText="true" />
       <Button layoutX="387.0" layoutY="736.0" mnemonicParsing="false" onAction="#onAddComment" text="Add comment" />
-      <GridPane fx:id="commentGridPane" layoutX="43.0" layoutY="439.0" prefHeight="266.0" prefWidth="320.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="300.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
+      <ScrollPane layoutX="43.0" layoutY="439.0" prefHeight="266.0" prefWidth="320.0" hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="commentGridPane" prefHeight="200.0" prefWidth="300.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="300.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
    <cursor>
       <Cursor fx:constant="HAND" />

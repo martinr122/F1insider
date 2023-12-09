@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -51,6 +53,10 @@ public class TeamAddSceneController {
     private TextField teamNameTextField;
     @FXML
     private TextField teamPrincipalTextField;
+    @FXML
+    private Pane teamColor;
+    @FXML
+    private ColorPicker teamColorPicker;
     @FXML
     private Label alertLabel;
     private Driver firstDriver;
@@ -102,15 +108,17 @@ public class TeamAddSceneController {
     private void handleLastGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
-
+            Team team = teamDao.getTeamByName(clickedLabel.getText(),year-1);
             for (Label label : getLabelsFromGridPane(lastYearGridPane)) {
                 if (label != clickedLabel) {
-                    label.setStyle("-fx-background-color: transparent;");
+                    label.setStyle("-fx-text-fill: black;");
                 }else {
-                    clickedLabel.setStyle("-fx-background-color: #fa899a;");
+                    clickedLabel.setStyle("-fx-background-color: white;");
                 }
             }
-            Team team = teamDao.getTeamByName(clickedLabel.getText(),year-1);
+            teamColor.setVisible(true);
+            teamColor.setStyle("-fx-background-color: #"+team.getTeamColor()+";");
+            teamColorPicker.setValue(Color.web(team.getTeamColor()));
             teamNameTextField.setText(team.getTeamName());
             EngineTextField.setText(team.getNameEngine());
             teamPrincipalTextField.setText(team.getNamePrincipal());
@@ -175,7 +183,21 @@ public class TeamAddSceneController {
         secondNameLabel.setText(driver.toString());
         secondDriver = driver;
     }
-
+    @FXML
+    void onClearTeam(ActionEvent event) {
+        firstDriver = new Driver();
+        secondDriver = new Driver();
+        teamNameTextField.setText("");
+        EngineTextField.setText("");
+        teamPrincipalTextField.setText("");
+        founderTextField.setText("");
+        countryTextField.setText("");
+        monopostTextField.setText("");
+        teamColorPicker.setValue(Color.WHITE);
+        teamColor.setVisible(false);
+        firstNameLabel.setText("Name of Driver");
+        secondNameLabel.setText("Name of Driver");
+    }
     @FXML
     void onSaveTeam(ActionEvent event) {
         Team team = new Team();
@@ -184,6 +206,8 @@ public class TeamAddSceneController {
         team.setNameEngine(EngineTextField.getText());
         team.setNamePrincipal(teamPrincipalTextField.getText());
         team.setNameFounder(founderTextField.getText());
+        team.setTeamColor(teamColorPicker.getValue().toString().substring(2,8));
+        System.out.println(team.getTeamColor());
         if (countryTextField.getText().length()>3){
             alertLabel.setVisible(true);
         }else {
@@ -231,8 +255,10 @@ public class TeamAddSceneController {
         founderTextField.setText("");
         countryTextField.setText("");
         monopostTextField.setText("");
+        teamColorPicker.setValue(Color.WHITE);
         firstNameLabel.setText("Name of Driver");
         secondNameLabel.setText("Name of Driver");
+        teamColor.setVisible(false);
     }
 
     private void handleCurrGridClick(MouseEvent mouseEvent) {

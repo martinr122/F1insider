@@ -6,8 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -141,7 +139,7 @@ public class LoginSceneController {
             loader.setController(controller);
             Parent registerScene = loader.load();
             Scene scene = new Scene(registerScene);
-            scene.getStylesheets().add("style/loginCss.css");
+            scene.getStylesheets().add("style/login.css");
             Stage registrationStage = (Stage) RegisterButton.getScene().getWindow();;
             registrationStage.setScene(scene);
             registrationStage.setTitle("Register - F1Insider");
