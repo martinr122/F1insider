@@ -1,12 +1,9 @@
 package f1.f1insider;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -19,7 +16,6 @@ import javafx.stage.Stage;
 import storage.DaoFactory;
 import storage.Driver;
 import storage.DriverDao;
-import storage.Team;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -73,7 +69,7 @@ public class AddDriverSceneController {
 
     public void initialize() {
         birthdayDatePicker.setValue(LocalDate.now().minusYears(18));
-        List<Driver> drivers = driverDao.getAllDrivers();
+        List<Driver> drivers = driverDao.getAllDriversWithoutPhoto();
         driversModel = FXCollections.observableList(drivers);
         driversListView.setItems(driversModel);
 

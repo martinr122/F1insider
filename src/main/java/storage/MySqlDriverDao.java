@@ -27,6 +27,22 @@ public class MySqlDriverDao implements DriverDao {
                 driver.setId(rs.getInt("idDriver"));
                 driver.setFirstName(rs.getString("first_name_driver"));
                 driver.setSurname(rs.getString("surname_driver"));
+                driver.setCountry(rs.getString("country"));
+                driver.setBirthday(rs.getDate("birthday").toLocalDate());
+                driver.setRaceNumber(rs.getInt("race_number"));
+                return driver;
+            }
+        };
+    }
+    private RowMapper<Driver> driverWithPhotoRM() {
+        return new RowMapper<Driver>() {
+
+            @Override
+            public Driver mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Driver driver = new Driver();
+                driver.setId(rs.getInt("idDriver"));
+                driver.setFirstName(rs.getString("first_name_driver"));
+                driver.setSurname(rs.getString("surname_driver"));
                 Blob imageBlob = rs.getBlob("photo");
                 InputStream file = imageBlob.getBinaryStream();
                 Image image = new Image(file);
@@ -41,7 +57,7 @@ public class MySqlDriverDao implements DriverDao {
 
 
     @Override
-    public List<Driver> getAllDrivers() {
+    public List<Driver> getAllDriversWithoutPhoto() {
         String sql = "SELECT d.* FROM driver d " +
                 "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
                 "JOIN team t ON dht.Team_idTeam = t.idTeam " +
@@ -88,7 +104,7 @@ public class MySqlDriverDao implements DriverDao {
     @Override
     public Driver getByName(String firstName, String surname) {
         String sql = "select * from driver where first_name_driver = ? and surname_driver = ?";
-        return jdbcTemplate.queryForObject(sql, driverRM(), firstName, surname);
+        return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), firstName, surname);
     }
 
     @Override

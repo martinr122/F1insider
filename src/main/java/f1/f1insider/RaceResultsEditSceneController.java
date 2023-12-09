@@ -1,7 +1,5 @@
 package f1.f1insider;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import storage.*;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -226,7 +222,7 @@ public class RaceResultsEditSceneController {
                 fourteenthDriverChoiceBox, fifteenthDriverChoiceBox, sixteenthDriverChoiceBox, seventeenthDriverChoiceBox,
                 eighteenthDriverChoiceBox,nineteenthDriverChoiceBox, twentiethDriverChoiceBox);
 
-        List<Driver> drivers = driverDao.getAllDrivers();
+        List<Driver> drivers = driverDao.getAllDriversWithoutPhoto();
         for (ChoiceBox choiceBox : choiceBoxList) {
             for (Driver driver : drivers) {
                 choiceBox.getItems().add(driver);

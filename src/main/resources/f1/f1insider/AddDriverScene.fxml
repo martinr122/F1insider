@@ -51,6 +51,6 @@
       <TextField fx:id="searchTextField" layoutX="14.0" layoutY="360.0" prefHeight="26.0" prefWidth="230.0" />
       <Button fx:id="imagechooseButton" layoutX="429.0" layoutY="73.0" mnemonicParsing="false" onAction="#onChoose" text="Add image of race" />
       <ImageView fx:id="imageViewer" fitHeight="150.0" fitWidth="200.0" layoutX="386.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <Button fx:id="closeButton" layoutX="562.0" layoutY="10.0" mnemonicParsing="false" onAction="#onCloseImage" prefHeight="10.0" prefWidth="8.0" text="X" visible="false" />
+      <Button fx:id="closeButton" layoutX="499.0" layoutY="163.0" mnemonicParsing="false" onAction="#onCloseImage" prefHeight="10.0" prefWidth="8.0" text="Close image" visible="false" />
    </children>
 </AnchorPane>

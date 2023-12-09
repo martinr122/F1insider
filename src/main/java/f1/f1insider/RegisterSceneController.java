@@ -92,8 +92,10 @@ public class RegisterSceneController {
             LoginSceneController controller = new LoginSceneController();
             loader.setController(controller);
             Parent loginScene = loader.load();
+            Scene scene = new Scene(loginScene);
+            scene.getStylesheets().add("style/loginCss.css");
             Stage loginStage = (Stage) loginButton.getScene().getWindow();;
-            loginStage.setScene(new Scene(loginScene));
+            loginStage.setScene(scene);
             loginStage.setTitle("Login - F1Insider");
             loginStage.show();
         } catch (IOException e) {
