@@ -1,6 +1,5 @@
 package storage;
 
-import java.util.Date;
 import java.util.List;
 
 public interface RaceDao {

@@ -209,7 +209,6 @@ public class TeamAddSceneController {
         team.setNamePrincipal(teamPrincipalTextField.getText());
         team.setNameFounder(founderTextField.getText());
         team.setTeamColor(teamColorPicker.getValue().toString().substring(2,8));
-        System.out.println(team.getTeamColor());
         if (countryTextField.getText().length()>3){
             alertLabel.setVisible(true);
         }else {

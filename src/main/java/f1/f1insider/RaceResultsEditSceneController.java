@@ -207,8 +207,8 @@ public class RaceResultsEditSceneController {
     private List<ChoiceBox<Driver>> choiceBoxList;
     private List<TextField> textFieldList;
     private List<CheckBox> checkBoxList;
-    DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
-
+    private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
+    private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
     public RaceResultsEditSceneController(User user, Race race){
         this.user = user;
         this.race = race;
@@ -229,7 +229,7 @@ public class RaceResultsEditSceneController {
                 fourteenthIntervalTextField, fifteenthIntervalTextField, sixteenthIntervalTextField, seventeenthIntervalTextField,
                 eighteenthIntervalTextField, nineteenthIntervalTextField, twentiethIntervalTextField);
 
-        checkBoxList = Arrays.asList(firstFinishedCheckBox, secondFinishedCheckBox, thirdFinishedCheckBox, fourthFinishedCheckBox,
+        checkBoxList = Arrays.asList(secondFinishedCheckBox, thirdFinishedCheckBox, fourthFinishedCheckBox,
                 fifthFinishedCheckBox, sixthFinishedCheckBox, seventhFinishedCheckBox, eighthFinishedCheckBox, ninethFinishedCheckBox,
                 tenthFinishedCheckBox, eleventhFinishedCheckBox, twelfthFinishedCheckBox, thirteenthFinishedCheckBox,
                 fourteenthFinishedCheckBox, fifteenthFinishedCheckBox, sixteenthFinishedCheckBox, seventeenthFinishedCheckBox,
@@ -263,41 +263,63 @@ public class RaceResultsEditSceneController {
     @FXML
     void onSaveRaceResults(ActionEvent event) {
         List<Driver> selectedDrivers = new ArrayList<>();
+//        for (TextField textField :
+//                textFieldList) {
+//            if (textField.getText().isEmpty()) {
+//                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t fill every Interval.");
+//                alert.show();
+//                return;
+//            }
+//        }
+//        int firstChecked = Integer.MAX_VALUE;
+//        for (CheckBox checkBox :
+//                checkBoxList) {
+//            if (checkBoxList.indexOf(checkBox) > firstChecked) {
+//                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t checked finished right.");
+//                alert.show();
+//                return;
+//            }else{
+//                if (checkBox.isSelected()) {
+//                    firstChecked = checkBoxList.indexOf(checkBox);
+//                }
+//            }
+//        }
+//        for (int i = 0; i < textFieldList.size(); i++) {
+//            System.out.println(!checkBoxList.get(i).isSelected()+", "+checkIfTime(textFieldList.get(i).getText()));
+//            if (checkBoxList.get(i).isSelected() && !checkIfTime(textFieldList.get(i).getText())){
+//                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t checked finished right.");
+//                alert.show();
+//                return;
+//            }
+//        }
         for (ChoiceBox choiceBox:
                 choiceBoxList){
-            if(choiceBox.getSelectionModel().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t fill every Driver.");
-                alert.show();
-                break;
-            }
             Driver selectedDriver = (Driver) choiceBox.getSelectionModel().getSelectedItem();
-            if (selectedDrivers.contains(selectedDriver)){
-                Alert alert = new Alert(Alert.AlertType.WARNING,"You selected "+ selectedDriver.toString() +" twice.");
-                alert.show();
-            }else{
-                selectedDrivers.add(selectedDriver);
+//            if(choiceBox.getSelectionModel().isEmpty()){
+//                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t fill every Driver.");
+//                alert.show();
+//                return;
+//            }
+//            if (selectedDrivers.contains(selectedDriver)){
+//                Alert alert = new Alert(Alert.AlertType.WARNING,"You selected "+ selectedDriver.toString() +" twice.");
+//                alert.show();
+//                return;
+//            }else{
+//                selectedDrivers.add(selectedDriver);
+//            }
+            if (choiceBoxList.indexOf(choiceBox) == 0){
+                RaceResults raceResults = new RaceResults();
+                raceResults.setId(race.getId());
+                raceResults.setPosition(choiceBoxList.indexOf(choiceBox) + 1);
+                raceResults.setFinished(!firstFinishedCheckBox.isSelected());
+                raceResults.setIntervalToWinner("WINNER");
+                raceResultsDao.saveRaceResults(raceResults);
+                raceResultsDao.addDriversToRaceResults(selectedDriver.getId(), race.getId());
             }
         }
-        for (TextField textField :
-                textFieldList) {
-            if (textField.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t fill every Interval.");
-                alert.show();
-                break;
-            }
-        }
-        int firstChecked = Integer.MAX_VALUE;
-        for (CheckBox checkBox :
-                checkBoxList) {
-            if (checkBoxList.indexOf(checkBox) > firstChecked) {
-                Alert alert = new Alert(Alert.AlertType.WARNING,"You didn`t checked finished right.");
-                alert.show();
-                break;
-            }else{
-                if (checkBox.isSelected()) {
-                    firstChecked = checkBoxList.indexOf(checkBox);
-                }
-            }
-        }
+    }
+
+    private boolean checkIfTime(String string){
+        return string.matches("[A-Za-z]+");
     }
 }

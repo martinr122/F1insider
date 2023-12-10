@@ -12,6 +12,7 @@ public enum DaoFactory {
     private TeamDao teamDao;
     private DriverDao driverDao;
     private CommentDao commentDao;
+    private RaceResultsDao raceResultsDao;
     private JdbcTemplate jdbcTemplate;
 
     private JdbcTemplate getJdbcTemplate() {
@@ -54,5 +55,9 @@ public enum DaoFactory {
             seasonDao = new MySqlSeasonDao(getJdbcTemplate());
         return seasonDao;
     }
-
+    public RaceResultsDao getRaceResultsDao(){
+        if (raceResultsDao == null)
+            raceResultsDao = new MysqlRaceResultsDao(getJdbcTemplate());
+        return raceResultsDao;
+    }
 }
