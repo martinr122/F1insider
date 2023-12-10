@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.skin.TableColumnHeader;
 import javafx.stage.Stage;
@@ -103,17 +104,19 @@ public class RacingMenuSceneController {
                 }
             }
         });
+
+        for (String season : raceDao.getAllSeason()) {
+            MenuItem menuItem = new MenuItem(season);
+            menuItem.setOnAction(this::onChooseHistory);
+            chooseHistory.getItems().add(menuItem);
+        }
     }
     private void openResultsWindow(Race selectedRace) throws IOException {
-        // V tomto mieste otvorte okno s výsledkami pre vybraný pretek
-        // Môžete napríklad použiť FXMLLoader na nahratie fxml súboru pre druhé okno
-
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("RaceMenuScene.fxml"));
         RaceMenuSceneController controller = new RaceMenuSceneController(user, selectedRace);
         loader.setController(controller);
         Parent raceScene = loader.load();
-        // Vytvorenie a zobrazenie druhého okna
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
         raceStage.setTitle("Race Results");
@@ -139,8 +142,25 @@ public class RacingMenuSceneController {
         }
     }
     @FXML
-    void onChooseHistory(ActionEvent event) {
+    void onChooseHistory(ActionEvent event){
 
+        MenuItem clickedMenuItem = (MenuItem) event.getSource();
+        String selectedOption = clickedMenuItem.getText();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, selectedOption);
+            loader.setController(controller);
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

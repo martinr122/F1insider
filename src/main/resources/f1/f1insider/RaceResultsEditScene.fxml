@@ -101,7 +101,7 @@
       </Label>
       <ChoiceBox fx:id="twelfthDriverChoiceBox" layoutX="339.0" layoutY="90.0" prefWidth="150.0" />
       <TextField fx:id="twelfthIntervalTextField" layoutX="494.0" layoutY="90.0" prefWidth="100.0" />
-      <CheckBox fx:id="twlefthFinishedCheckBox" layoutX="599.0" layoutY="94.0" mnemonicParsing="false" />
+      <CheckBox fx:id="twelfthFinishedCheckBox" layoutX="599.0" layoutY="94.0" mnemonicParsing="false" />
       <Label layoutX="312.0" layoutY="120.0" prefWidth="22.0" text="13:">
          <font>
             <Font size="16.0" />
@@ -125,7 +125,7 @@
       </Label>
       <ChoiceBox fx:id="fifteenthDriverChoiceBox" layoutX="339.0" layoutY="180.0" prefWidth="150.0" />
       <TextField fx:id="fifteenthIntervalTextField" layoutX="494.0" layoutY="180.0" prefWidth="100.0" />
-      <CheckBox fx:id="fifteetnFinishedCheckBox" layoutX="599.0" layoutY="184.0" mnemonicParsing="false" />
+      <CheckBox fx:id="fifteenthFinishedCheckBox" layoutX="599.0" layoutY="184.0" mnemonicParsing="false" />
       <Label layoutX="312.0" layoutY="210.0" prefWidth="22.0" text="16:">
          <font>
             <Font size="16.0" />

@@ -11,9 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import storage.Driver;
-import storage.User;
-import storage.WebPageReader;
+import storage.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,10 +19,7 @@ import java.util.List;
 public class StandingsMenuSceneController {
 
     @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Button showHistoryButton;
+    private Button showHomeButton;
 
     @FXML
     private Button showRacingButton;
@@ -33,7 +28,10 @@ public class StandingsMenuSceneController {
     private Button showStandingsButton;
 
     @FXML
-    private Button showHomeButton;
+    private MenuButton chooseHistory;
+
+    @FXML
+    private Button logoutButton;
 
     @FXML
     private Label UsernameLabel;
@@ -55,7 +53,6 @@ public class StandingsMenuSceneController {
 
     private User user;
     private String season;
-
     public StandingsMenuSceneController(User user, String season){
         this.user = user;
         this.season = season;
@@ -64,6 +61,7 @@ public class StandingsMenuSceneController {
     void initialize() {
         UsernameLabel.setText(user.toString());
 
+        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
 
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
@@ -79,29 +77,30 @@ public class StandingsMenuSceneController {
         }
 
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
+
+        for (String season : raceDao.getAllSeason()) {
+            MenuItem menuItem = new MenuItem(season);
+            menuItem.setOnAction(this::onChooseHistory);
+            chooseHistory.getItems().add(menuItem);
+        }
     }
     @FXML
-    void onLogout(ActionEvent event) {
-        try {
+    void onShowHome(ActionEvent event){
+        try{
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("LoginScene.fxml"));
-            LoginSceneController controller = new LoginSceneController();
+                    getClass().getResource("MainScene.fxml"));
+            MainSceneController controller = new MainSceneController(user);
             loader.setController(controller);
-            Parent loginScene = loader.load();
-            Stage loginStage = (Stage) logoutButton.getScene().getWindow();;
-            loginStage.setScene(new Scene(loginScene));
-            loginStage.setTitle("Login - F1Insider");
-            loginStage.show();
-        } catch (IOException e) {
+            Parent mainMenuScene = loader.load();
+            Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
+            mainMenuStage.setScene(new Scene(mainMenuScene));
+            mainMenuStage.setTitle("Standings");
+            mainMenuStage.centerOnScreen();
+            mainMenuStage.show();
+        }catch(IOException e){
             e.printStackTrace();
         }
     }
-
-    @FXML
-    void onShowHistory(ActionEvent event) {
-
-    }
-
     @FXML
     void onShowRacing(ActionEvent event) {
         try {
@@ -119,26 +118,44 @@ public class StandingsMenuSceneController {
             e.printStackTrace();
         }
     }
-
     @FXML
-    void onShowStandings(ActionEvent event) {
+    void onShowStandings(ActionEvent event){
 
     }
-
     @FXML
-    void onShowHome(ActionEvent event){
-        try{
+    void onChooseHistory(ActionEvent event){
+
+        MenuItem clickedMenuItem = (MenuItem) event.getSource();
+        String selectedOption = clickedMenuItem.getText();
+
+        try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("MainScene.fxml"));
-            MainSceneController controller = new MainSceneController(user);
+                    getClass().getResource("RacingMenuScene.fxml"));
+            RacingMenuSceneController controller = new RacingMenuSceneController(user, selectedOption);
             loader.setController(controller);
-            Parent mainMenuScene = loader.load();
-            Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
-            mainMenuStage.setScene(new Scene(mainMenuScene));
-            mainMenuStage.setTitle("Standings");
-            mainMenuStage.centerOnScreen();
-            mainMenuStage.show();
-        }catch(IOException e){
+            Parent racingMenuScene = loader.load();
+            Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
+            racingMenuStage.setScene(new Scene(racingMenuScene));
+            racingMenuStage.setTitle("Racing");
+            racingMenuStage.centerOnScreen();
+            racingMenuStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void onLogout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("LoginScene.fxml"));
+            LoginSceneController controller = new LoginSceneController();
+            loader.setController(controller);
+            Parent loginScene = loader.load();
+            Stage loginStage = (Stage) logoutButton.getScene().getWindow();;
+            loginStage.setScene(new Scene(loginScene));
+            loginStage.setTitle("Login - F1Insider");
+            loginStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -148,6 +148,7 @@ public class TeamAddSceneController {
             addDriverStage.setScene(new Scene(teamAddParent));
             addDriverStage.setTitle("F1Insider - Add Driver");
             addDriverStage.centerOnScreen();
+            addDriverStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.show();
         } catch (IOException e) {
@@ -169,6 +170,7 @@ public class TeamAddSceneController {
             addDriverStage.setScene(new Scene(teamAddParent));
             addDriverStage.setTitle("F1Insider - Add Driver");
             addDriverStage.centerOnScreen();
+            addDriverStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.showAndWait();
         } catch (IOException e) {
@@ -217,6 +219,7 @@ public class TeamAddSceneController {
         team.setNameMonopost(monopostTextField.getText());
 
         if (firstDriver == null || secondDriver == null){
+            alertLabel.setVisible(true);
             alertLabel.setText("Add drivers!");
             return;
         }
@@ -258,7 +261,8 @@ public class TeamAddSceneController {
         teamColorPicker.setValue(Color.WHITE);
         firstNameLabel.setText("Name of Driver");
         secondNameLabel.setText("Name of Driver");
-        teamColor.setVisible(false);
+        teamColor.setVisible(true);
+        alertLabel.setVisible(false);
     }
 
     private void handleCurrGridClick(MouseEvent mouseEvent) {

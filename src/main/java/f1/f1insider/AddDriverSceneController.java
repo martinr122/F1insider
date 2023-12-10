@@ -198,9 +198,9 @@ public class AddDriverSceneController {
         fileChooser.setTitle("Select race image");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
         File file = fileChooser.showOpenDialog(new Stage());
-        driverImage = new Image(file.toURI().toString());
 
         if (file != null) {
+            driverImage = new Image(file.toURI().toString());
             imagechooseButton.setVisible(false);
             imageViewer.setVisible(true);
             closeButton.setVisible(true);

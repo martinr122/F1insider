@@ -201,6 +201,7 @@ public class SeasonSceneController {
             teamAddStage.setScene(new Scene(seasonParent));
             teamAddStage.setTitle("F1Insider - Add Team");
             teamAddStage.centerOnScreen();
+            teamAddStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             teamAddStage.show();
         }catch(IOException e){
             e.printStackTrace();
