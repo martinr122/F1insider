@@ -12,16 +12,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.skin.TableColumnHeader;
 import javafx.stage.Stage;
-import storage.DaoFactory;
-import storage.EntityNotFoundException;
-import storage.Race;
-import storage.RaceDao;
-import storage.User;
+import f1.f1insider.storage.DaoFactory;
+import f1.f1insider.storage.EntityNotFoundException;
+import f1.f1insider.storage.Race;
+import f1.f1insider.storage.RaceDao;
+import f1.f1insider.storage.User;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -105,15 +102,10 @@ public class RacingMenuSceneController {
         });
     }
     private void openResultsWindow(Race selectedRace) throws IOException {
-        // V tomto mieste otvorte okno s výsledkami pre vybraný pretek
-        // Môžete napríklad použiť FXMLLoader na nahratie fxml súboru pre druhé okno
-
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("RaceMenuScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RaceMenuScene.fxml"));
         RaceMenuSceneController controller = new RaceMenuSceneController(user, selectedRace);
         loader.setController(controller);
         Parent raceScene = loader.load();
-        // Vytvorenie a zobrazenie druhého okna
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
         raceStage.setTitle("Race Results");
@@ -124,8 +116,7 @@ public class RacingMenuSceneController {
     @FXML
     void onLogout(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("LoginScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginScene.fxml"));
             LoginSceneController controller = new LoginSceneController();
             loader.setController(controller);
             Parent loginScene = loader.load();
@@ -146,8 +137,7 @@ public class RacingMenuSceneController {
     @FXML
     void onShowHome(ActionEvent event) {
         try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("MainScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
             MainSceneController controller = new MainSceneController(user);
             loader.setController(controller);
             Parent mainMenuScene = loader.load();
@@ -156,7 +146,7 @@ public class RacingMenuSceneController {
             mainMenuStage.setTitle("Standings");
             mainMenuStage.centerOnScreen();
             mainMenuStage.show();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -168,9 +158,8 @@ public class RacingMenuSceneController {
 
     @FXML
     void onShowStandings(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("StandingsMenuScene.fxml"));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StandingsMenuScene.fxml"));
             StandingsMenuSceneController controller = new StandingsMenuSceneController(user, season);
             loader.setController(controller);
             Parent standingsMenuScene = loader.load();
@@ -178,7 +167,7 @@ public class RacingMenuSceneController {
             standingsMenuStage.setScene(new Scene(standingsMenuScene));
             standingsMenuStage.setTitle("Standings");
             standingsMenuStage.show();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

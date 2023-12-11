@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import java.util.Objects;
 
@@ -17,11 +17,11 @@ public class Team {
     private Driver secondDriver;
 
 
-
     public Team(String teamName, int points) {
         this.teamName = teamName;
         this.points = points;
     }
+
     public Team() {
 
     }
@@ -102,6 +102,7 @@ public class Team {
     public String toString() {
         return teamName;
     }
+
     public Driver getFirstDriver() {
         return firstDriver;
     }

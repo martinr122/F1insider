@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -7,11 +7,14 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.*;
 import java.util.List;
 
-public class MySqlTeamDao implements TeamDao{
+public class MySqlTeamDao implements TeamDao {
     private JdbcTemplate jdbcTemplate;
-    public MySqlTeamDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
 
-    private RowMapper<Team> teamRM(){
+    public MySqlTeamDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private RowMapper<Team> teamRM() {
         return new RowMapper<Team>() {
 
             @Override
@@ -56,10 +59,10 @@ public class MySqlTeamDao implements TeamDao{
     @Override
     public List<Team> getTeamsByYear(int year) {
 
-            String sql = "SELECT * from team " +
-                    "WHERE Season_year = ?" +
-                    " ORDER BY team_name desc";
-            return jdbcTemplate.query(sql, teamRM(), year);
+        String sql = "SELECT * from team " +
+                "WHERE Season_year = ?" +
+                " ORDER BY team_name desc";
+        return jdbcTemplate.query(sql, teamRM(), year);
 
     }
 
@@ -74,7 +77,7 @@ public class MySqlTeamDao implements TeamDao{
     @Override
     public Team getTeamByName(String name, int year) {
         String sql = "SELECT * FROM team WHERE team_name = ? AND Season_year = ?";
-        return jdbcTemplate.queryForObject(sql,teamRM(),name,year);
+        return jdbcTemplate.queryForObject(sql, teamRM(), name, year);
     }
 
     @Override
@@ -91,7 +94,7 @@ public class MySqlTeamDao implements TeamDao{
     @Override
     public int getID(String name, int year) {
         String sql = "SELECT idTeam FROM team WHERE team_name = ? AND Season_year = ?";
-        return jdbcTemplate.queryForObject(sql,Integer.class,name,year);
+        return jdbcTemplate.queryForObject(sql, Integer.class, name, year);
     }
 
     @Override

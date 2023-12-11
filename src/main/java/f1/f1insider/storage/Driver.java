@@ -1,8 +1,7 @@
-package storage;
+package f1.f1insider.storage;
 
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.util.Objects;
 

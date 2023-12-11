@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import f1.f1insider.storage.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -8,8 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import storage.*;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -192,8 +191,7 @@ public class SeasonSceneController {
             seasonDao.addSeason(year,null,null);
         }
         try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("TeamAddScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TeamAddScene.fxml"));
             TeamAddSceneController controller = new TeamAddSceneController(user,year);
             loader.setController(controller);
             Parent seasonParent = loader.load();
@@ -209,8 +207,7 @@ public class SeasonSceneController {
     @FXML
     void onBack(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("ManageScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ManageScene.fxml"));
             ManageSceneController controller = new ManageSceneController(user);
             loader.setController(controller);
             Parent manageScene = loader.load();

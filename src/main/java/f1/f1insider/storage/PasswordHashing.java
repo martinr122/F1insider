@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,7 +12,7 @@ public class PasswordHashing {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashArray = md.digest((password + SALT).getBytes());
-            return new BigInteger(1,hashArray).toString(16);
+            return new BigInteger(1, hashArray).toString(16);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;

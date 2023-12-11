@@ -1,13 +1,18 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.sql.*;
 import java.util.List;
 
-public class MySqlSeasonDao implements SeasonDao{
+public class MySqlSeasonDao implements SeasonDao {
     private JdbcTemplate jdbcTemplate;
-    public MySqlSeasonDao(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
+
+    public MySqlSeasonDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public void addSeason(int year, String wdc, String wcc) throws EntityNotFoundException {
         String query = "SELECT COUNT(*) FROM season WHERE year = ?";
@@ -35,9 +40,9 @@ public class MySqlSeasonDao implements SeasonDao{
     public boolean isSeason(int year) {
         String sql = "SELECT COUNT(*) FROM season WHERE year = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, year);
-        if(count > 0){
+        if (count > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

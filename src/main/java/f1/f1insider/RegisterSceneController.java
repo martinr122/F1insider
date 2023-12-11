@@ -8,9 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
-import storage.DaoFactory;
-import storage.User;
-import storage.UserDao;
+import f1.f1insider.storage.DaoFactory;
+import f1.f1insider.storage.User;
+import f1.f1insider.storage.UserDao;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -86,8 +86,7 @@ public class RegisterSceneController {
     @FXML
     void onLoginUser(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("LoginScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginScene.fxml"));
             LoginSceneController controller = new LoginSceneController();
             loader.setController(controller);
             Parent loginScene = loader.load();

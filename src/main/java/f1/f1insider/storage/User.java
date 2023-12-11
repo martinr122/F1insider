@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 public class User {
     private int id;
@@ -40,9 +40,9 @@ public class User {
 
     @Override
     public String toString() {
-        if (admin){
+        if (admin) {
             return username + " (admin)";
-        }else {
+        } else {
             return username;
         }
     }

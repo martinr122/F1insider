@@ -1,14 +1,12 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Objects;
 
 public class MysqlUserDao implements UserDao {
@@ -18,9 +16,24 @@ public class MysqlUserDao implements UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private RowMapper<User> userRM() {
+        return new RowMapper<User>() {
+
+            @Override
+            public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                User user = new User();
+                user.setId(rs.getInt("idUser"));
+                user.setUsername(rs.getString("username"));
+                user.setAdmin(rs.getBoolean("admin"));
+                return user;
+            }
+        };
+    }
+
     @Override
     public User getById(long id) throws EntityNotFoundException {
-        return null;
+        String sql = "SELECT * FROM User WHERE idUser = ?";
+        return jdbcTemplate.queryForObject(sql, userRM(), id);
     }
 
     @Override
@@ -77,24 +90,8 @@ public class MysqlUserDao implements UserDao {
     public boolean isAdmin(String username) {
         Objects.requireNonNull(username, "username cannot be null");
         String query = "SELECT admin FROM User WHERE username = ?";
-        try {
-            int admin = jdbcTemplate.queryForObject(query, Integer.class, username);
-            if (admin == 1){
-                return true;
-            }else {
-                return false;
-            }
-        } catch (EmptyResultDataAccessException e) {
-            return false;
-        }
+        return jdbcTemplate.queryForObject(query, Integer.class, username) == 1;
     }
-
-    @Override
-    public void delete(long id) throws EntityNotFoundException {
-
-    }
-
-
 
 
 }

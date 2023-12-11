@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class MysqlRaceDao implements RaceDao {

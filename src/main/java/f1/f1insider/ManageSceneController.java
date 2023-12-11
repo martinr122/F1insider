@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import f1.f1insider.storage.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,11 +12,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
-import storage.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ManageSceneController {
@@ -33,9 +32,10 @@ public class ManageSceneController {
     @FXML
     private Button newButton;
 
-    public ManageSceneController(User user){
+    public ManageSceneController(User user) {
         this.user = user;
     }
+
     @FXML
     void initialize() throws EntityNotFoundException {
         SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
@@ -48,9 +48,8 @@ public class ManageSceneController {
 
     @FXML
     void onEditSeason(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("SeasonScene.fxml"));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SeasonScene.fxml"));
             SeasonSceneController controller = new SeasonSceneController(user, Integer.parseInt(seasonComboBox.getSelectionModel().getSelectedItem()));
             loader.setController(controller);
             Parent ManageParent = loader.load();
@@ -59,16 +58,15 @@ public class ManageSceneController {
             SeasonStage.setTitle("F1insider - Season");
             SeasonStage.centerOnScreen();
             SeasonStage.show();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
     void onNewSeason(ActionEvent event) {
-        try{
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("SeasonScene.fxml"));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SeasonScene.fxml"));
             SeasonSceneController controller = new SeasonSceneController(user, seasonYear.getValue());
             loader.setController(controller);
             Parent ManageParent = loader.load();
@@ -77,7 +75,7 @@ public class ManageSceneController {
             SeasonStage.setTitle("Season");
             SeasonStage.centerOnScreen();
             SeasonStage.show();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

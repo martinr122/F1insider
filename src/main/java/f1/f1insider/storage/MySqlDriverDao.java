@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import javafx.scene.image.Image;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.*;
-import java.net.URI;
 import java.sql.*;
 import java.util.List;
 
@@ -18,12 +17,12 @@ public class MySqlDriverDao implements DriverDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Driver> driverRM() {
-        return new RowMapper<Driver>() {
+    private RowMapper<f1.f1insider.storage.Driver> driverRM() {
+        return new RowMapper<f1.f1insider.storage.Driver>() {
 
             @Override
-            public Driver mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Driver driver = new Driver();
+            public f1.f1insider.storage.Driver mapRow(ResultSet rs, int rowNum) throws SQLException {
+                f1.f1insider.storage.Driver driver = new f1.f1insider.storage.Driver();
                 driver.setId(rs.getInt("idDriver"));
                 driver.setFirstName(rs.getString("first_name_driver"));
                 driver.setSurname(rs.getString("surname_driver"));
@@ -34,12 +33,13 @@ public class MySqlDriverDao implements DriverDao {
             }
         };
     }
-    private RowMapper<Driver> driverWithPhotoRM() {
-        return new RowMapper<Driver>() {
+
+    private RowMapper<f1.f1insider.storage.Driver> driverWithPhotoRM() {
+        return new RowMapper<f1.f1insider.storage.Driver>() {
 
             @Override
-            public Driver mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Driver driver = new Driver();
+            public f1.f1insider.storage.Driver mapRow(ResultSet rs, int rowNum) throws SQLException {
+                f1.f1insider.storage.Driver driver = new f1.f1insider.storage.Driver();
                 driver.setId(rs.getInt("idDriver"));
                 driver.setFirstName(rs.getString("first_name_driver"));
                 driver.setSurname(rs.getString("surname_driver"));
@@ -57,7 +57,7 @@ public class MySqlDriverDao implements DriverDao {
 
 
     @Override
-    public List<Driver> getAllDriversWithoutPhoto() {
+    public List<f1.f1insider.storage.Driver> getAllDriversWithoutPhoto() {
         String sql = "SELECT d.* FROM driver d " +
                 "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
                 "JOIN team t ON dht.Team_idTeam = t.idTeam " +
@@ -67,7 +67,7 @@ public class MySqlDriverDao implements DriverDao {
     }
 
     @Override
-    public List<Driver> getDriversbyTeam(int idTeam) {
+    public List<f1.f1insider.storage.Driver> getDriversbyTeam(int idTeam) {
         String sql = "SELECT d.* FROM driver d " +
                 "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
                 "WHERE dht.Team_idTeam = ?";
@@ -76,7 +76,7 @@ public class MySqlDriverDao implements DriverDao {
     }
 
     @Override
-    public void add(Driver driver) {
+    public void add(f1.f1insider.storage.Driver driver) {
         String query = "INSERT INTO driver (first_name_driver, surname_driver, photo," +
                 "country, birthday, race_number) "
                 + "VALUES (?,?,?,?,?,?)";
@@ -102,13 +102,13 @@ public class MySqlDriverDao implements DriverDao {
     }
 
     @Override
-    public Driver getByName(String firstName, String surname) {
+    public f1.f1insider.storage.Driver getByName(String firstName, String surname) {
         String sql = "select * from driver where first_name_driver = ? and surname_driver = ?";
         return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), firstName, surname);
     }
 
     @Override
-    public List<Driver> getByNameLike(String nameLike) {
+    public List<f1.f1insider.storage.Driver> getByNameLike(String nameLike) {
         String sql = "SELECT * FROM driver WHERE first_name_driver LIKE ? OR surname_driver LIKE ?";
         String editedNameLike = "%" + nameLike + "%";
         return jdbcTemplate.query(sql, driverRM(), editedNameLike, editedNameLike);
