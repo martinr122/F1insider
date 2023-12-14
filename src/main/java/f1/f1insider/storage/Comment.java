@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 public class Comment {
     int id;
@@ -8,11 +8,13 @@ public class Comment {
 
     public Comment() {
     }
-    public Comment( String comment, int userId, int raceId) {
+
+    public Comment(String comment, int userId, int raceId) {
         this.comment = comment;
         this.userId = userId;
         this.raceId = raceId;
     }
+
     public Comment(int id, String comment, int userId, int raceId) {
         this.id = id;
         this.comment = comment;
@@ -56,8 +58,8 @@ public class Comment {
     public String toString() {
         return
                 "id=" + id +
-                ", userId=" + userId +
-                ", raceId=" + raceId +
-                '}';
+                        ", userId=" + userId +
+                        ", raceId=" + raceId +
+                        '}';
     }
 }

@@ -8,20 +8,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import storage.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +61,13 @@ public class TeamAddSceneController {
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
 
-    public TeamAddSceneController(User user,int year) {
+    public TeamAddSceneController(User user, int year) {
         this.user = user;
         this.year = year;
     }
 
     public void initialize() {
-        List<Team> teams = teamDao.getTeamsByYear(year-1);
+        List<Team> teams = teamDao.getTeamsByYear(year - 1);
         for (int i = 0; i < teams.size(); i++) {
             Team team = teams.get(i);
             Label label = new Label(team.toString());
@@ -94,7 +89,7 @@ public class TeamAddSceneController {
         }
     }
 
-    private List<Label> getLabelsFromGridPane(GridPane gridPane){
+    private List<Label> getLabelsFromGridPane(GridPane gridPane) {
         List<Label> labels = new ArrayList<>();
 
         for (Node node : gridPane.getChildren()) {
@@ -108,16 +103,16 @@ public class TeamAddSceneController {
     private void handleLastGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
-            Team team = teamDao.getTeamByName(clickedLabel.getText(),year-1);
+            Team team = teamDao.getTeamByName(clickedLabel.getText(), year - 1);
             for (Label label : getLabelsFromGridPane(lastYearGridPane)) {
                 if (label != clickedLabel) {
                     label.setStyle("-fx-text-fill: black;");
-                }else {
+                } else {
                     clickedLabel.setStyle("-fx-background-color: white;");
                 }
             }
             teamColor.setVisible(true);
-            teamColor.setStyle("-fx-background-color: #"+team.getTeamColor()+";");
+            teamColor.setStyle("-fx-background-color: #" + team.getTeamColor() + ";");
             teamColorPicker.setValue(Color.web(team.getTeamColor()));
             teamNameTextField.setText(team.getTeamName());
             EngineTextField.setText(team.getNameEngine());
@@ -137,8 +132,7 @@ public class TeamAddSceneController {
     @FXML
     void onAddFirstDriver(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("AddDriverScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDriverScene.fxml"));
             AddDriverSceneController controller = new AddDriverSceneController(true);
             controller.setTeamAddSceneController(this);
             loader.setController(controller);
@@ -148,7 +142,6 @@ public class TeamAddSceneController {
             addDriverStage.setScene(new Scene(teamAddParent));
             addDriverStage.setTitle("F1Insider - Add Driver");
             addDriverStage.centerOnScreen();
-            addDriverStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.show();
         } catch (IOException e) {
@@ -159,8 +152,7 @@ public class TeamAddSceneController {
     @FXML
     void onAddSecondDriver(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("AddDriverScene.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDriverScene.fxml"));
             AddDriverSceneController controller = new AddDriverSceneController(false);
             controller.setTeamAddSceneController(this);
             loader.setController(controller);
@@ -170,21 +162,23 @@ public class TeamAddSceneController {
             addDriverStage.setScene(new Scene(teamAddParent));
             addDriverStage.setTitle("F1Insider - Add Driver");
             addDriverStage.centerOnScreen();
-            addDriverStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void firstDriverAdded(Driver driver) {
         firstNameLabel.setText(driver.toString());
         firstDriver = driver;
     }
+
     public void secondDriverAdded(Driver driver) {
         secondNameLabel.setText(driver.toString());
         secondDriver = driver;
     }
+
     @FXML
     void onClearTeam(ActionEvent event) {
         firstDriver = new Driver();
@@ -200,6 +194,7 @@ public class TeamAddSceneController {
         firstNameLabel.setText("Name of Driver");
         secondNameLabel.setText("Name of Driver");
     }
+
     @FXML
     void onSaveTeam(ActionEvent event) {
         Team team = new Team();
@@ -209,34 +204,36 @@ public class TeamAddSceneController {
         team.setNamePrincipal(teamPrincipalTextField.getText());
         team.setNameFounder(founderTextField.getText());
         team.setTeamColor(teamColorPicker.getValue().toString().substring(2,8));
+        System.out.println(team.getTeamColor());
+        if (countryTextField.getText().length() > 3) {
+        team.setTeamColor(teamColorPicker.getValue().toString().substring(2,8));
         if (countryTextField.getText().length()>3){
             alertLabel.setVisible(true);
-        }else {
+        } else {
             alertLabel.setVisible(false);
             team.setCountry(countryTextField.getText());
         }
         team.setNameMonopost(monopostTextField.getText());
 
         if (firstDriver == null || secondDriver == null){
-            alertLabel.setVisible(true);
             alertLabel.setText("Add drivers!");
             return;
         }
         team.setFirstDriver(firstDriver);
         team.setSecondDriver(secondDriver);
         teamDao.add(team);
-        team.setIdTeam(teamDao.getID(team.getTeamName(),year));
-        if (driverDao.contains(firstDriver)){
-            teamDao.addDriversToTeam(team.getIdTeam(),driverDao.getID(firstDriver.getFirstName(),firstDriver.getSurname()));
-        }else {
+        team.setIdTeam(teamDao.getID(team.getTeamName(), year));
+        if (driverDao.contains(firstDriver)) {
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
+        } else {
             driverDao.add(firstDriver);
-            teamDao.addDriversToTeam(team.getIdTeam(),driverDao.getID(firstDriver.getFirstName(),firstDriver.getSurname()));
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
         }
-        if (driverDao.contains(secondDriver)){
-            teamDao.addDriversToTeam(team.getIdTeam(),driverDao.getID(secondDriver.getFirstName(),secondDriver.getSurname()));
-        }else {
+        if (driverDao.contains(secondDriver)) {
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
+        } else {
             driverDao.add(secondDriver);
-            teamDao.addDriversToTeam(team.getIdTeam(),driverDao.getID(secondDriver.getFirstName(),secondDriver.getSurname()));
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
         }
         currentYearGridPane.getChildren().clear();
         List<Team> teams = teamDao.getTeamsByYear(year);
@@ -244,7 +241,7 @@ public class TeamAddSceneController {
             Team curTeam = teams.get(i);
             Label label = new Label(curTeam.toString());
             label.setFont(new Font(16));
-            label.setOnMouseEntered(mouse-> label.setCursor(Cursor.HAND));
+            label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
             label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
             label.setOnMouseClicked(this::handleCurrGridClick);
             currentYearGridPane.addRow(i, label);
@@ -290,12 +287,12 @@ public class TeamAddSceneController {
             }
         }
     }
+
     @FXML
     void onBack(ActionEvent event) {
         try {
-            FXMLLoader seasonLoader = new FXMLLoader(
-                    getClass().getResource("SeasonScene.fxml"));
-            SeasonSceneController seasonController = new SeasonSceneController(user,year);
+            FXMLLoader seasonLoader = new FXMLLoader(getClass().getResource("SeasonScene.fxml"));
+            SeasonSceneController seasonController = new SeasonSceneController(user, year);
             seasonLoader.setController(seasonController);
             Parent seasonScene = seasonLoader.load();
             Stage manageSceneStage = (Stage) backButton.getScene().getWindow();

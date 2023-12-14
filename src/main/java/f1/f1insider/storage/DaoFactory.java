@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -25,32 +25,38 @@ public enum DaoFactory {
         }
         return jdbcTemplate;
     }
+
     public UserDao getUserDao() {
         if (userDao == null)
             userDao = new MysqlUserDao(getJdbcTemplate());
         return userDao;
     }
+
     public CommentDao getCommentDao() {
         if (commentDao == null)
             commentDao = new MySqlCommentDao(getJdbcTemplate());
         return commentDao;
     }
+
     public TeamDao getTeamDao() {
         if (teamDao == null)
             teamDao = new MySqlTeamDao(getJdbcTemplate());
         return teamDao;
     }
-    public DriverDao getDriverDao(){
+
+    public DriverDao getDriverDao() {
         if (driverDao == null)
             driverDao = new MySqlDriverDao(getJdbcTemplate());
         return driverDao;
     }
-    public RaceDao getRaceDao(){
+
+    public RaceDao getRaceDao() {
         if (raceDao == null)
             raceDao = new MysqlRaceDao(getJdbcTemplate());
         return raceDao;
     }
-    public SeasonDao getSeasonDao(){
+
+    public SeasonDao getSeasonDao() {
         if (seasonDao == null)
             seasonDao = new MySqlSeasonDao(getJdbcTemplate());
         return seasonDao;

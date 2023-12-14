@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import f1.f1insider.storage.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.springframework.dao.EmptyResultDataAccessException;
-import storage.*;
+
 
 import javafx.scene.input.KeyEvent;
+
 import java.io.IOException;
 
 
@@ -36,7 +38,6 @@ public class LoginSceneController {
     private CheckBox VisibilityCheckBox;
     @FXML
     private TextField VisiblePasswordField;
-
 
 
     @FXML
@@ -88,27 +89,26 @@ public class LoginSceneController {
 
     @FXML
     void onLoginUser(ActionEvent event) throws EntityNotFoundException {
-        try{
+        try {
             UserDao userDao = DaoFactory.INSTANCE.getUserDao();
             String username = LoginTextField.getText();
             String userPassword = userDao.givePassword(username);
             String loginPassword;
-            if (PasswordTextField.isVisible()){
-                 loginPassword = PasswordTextField.getText();
-            }else {
-                 loginPassword = VisiblePasswordField.getText();
+            if (PasswordTextField.isVisible()) {
+                loginPassword = PasswordTextField.getText();
+            } else {
+                loginPassword = VisiblePasswordField.getText();
             }
             loginPassword = PasswordHashing.doHashing(loginPassword);
-            if(username == null || userPassword == null){
+            if (username == null || userPassword == null) {
                 LoginAlert.setText("Username is incorrect!");
-            }else {
-                if (userPassword.equals(loginPassword)){
-                    try{
+            } else {
+                if (userPassword.equals(loginPassword)) {
+                    try {
                         User user = new User();
                         user.setUsername(username);
                         user.setAdmin(userDao.isAdmin(username));
-                        FXMLLoader loader = new FXMLLoader(
-                                getClass().getResource("MainScene.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScene.fxml"));
                         MainSceneController controller = new MainSceneController(user);
                         loader.setController(controller);
                         Parent mainMenuScene = loader.load();
@@ -117,14 +117,14 @@ public class LoginSceneController {
                         mainMenuStage.setTitle("Standings");
                         mainMenuStage.centerOnScreen();
                         mainMenuStage.show();
-                    }catch(IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     LoginAlert.setText("Incorect password!");
                 }
             }
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             LoginAlert.setText("Login is incorrect!");
         }
 
@@ -140,7 +140,8 @@ public class LoginSceneController {
             Parent registerScene = loader.load();
             Scene scene = new Scene(registerScene);
             scene.getStylesheets().add("style/login.css");
-            Stage registrationStage = (Stage) RegisterButton.getScene().getWindow();;
+            Stage registrationStage = (Stage) RegisterButton.getScene().getWindow();
+            ;
             registrationStage.setScene(scene);
             registrationStage.setTitle("Register - F1Insider");
             registrationStage.show();

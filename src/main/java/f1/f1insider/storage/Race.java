@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

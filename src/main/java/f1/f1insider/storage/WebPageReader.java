@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.Jsoup;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WebPageReader {
-    public static String getLeader(String url){
+    public static String getLeader(String url) {
         try {
             Document document = Jsoup.connect(url).get();
             Element table = document.select("table.resultsarchive-table").first();
@@ -19,7 +19,7 @@ public class WebPageReader {
             Elements cells = rows.select("td");
             String name = cells.get(2).text();
 
-            if (url.contains("driver")){
+            if (url.contains("driver")) {
                 String[] nameSplited = name.split(" ");
                 String finalName = "";
 
@@ -29,7 +29,7 @@ public class WebPageReader {
                 }
 
                 return finalName;
-            }else{
+            } else {
                 return name;
             }
         } catch (IOException e) {
@@ -38,14 +38,14 @@ public class WebPageReader {
         return "";
     }
 
-    public static List<Driver> getDriversStandings(String url){
+    public static List<Driver> getDriversStandings(String url) {
         List<Driver> drivers = new ArrayList<>();
 
         try {
             Document document = Jsoup.connect(url).get();
             Element table = document.select("table.resultsarchive-table").first();
 
-            if (table == null){
+            if (table == null) {
                 return null;
             }
 
@@ -74,13 +74,13 @@ public class WebPageReader {
         return drivers;
     }
 
-    public static List<Team> getTeamsStandings(String url){
+    public static List<Team> getTeamsStandings(String url) {
         List<Team> teams = new ArrayList<>();
         try {
             Document document = Jsoup.connect(url).get();
             Element table = document.select("table.resultsarchive-table").first();
 
-            if (table == null){
+            if (table == null) {
                 return null;
             }
 
@@ -98,5 +98,6 @@ public class WebPageReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return teams;    }
+        return teams;
+    }
 }

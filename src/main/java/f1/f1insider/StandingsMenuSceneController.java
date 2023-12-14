@@ -12,6 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import storage.*;
+import f1.f1insider.storage.Driver;
+import f1.f1insider.storage.User;
+import f1.f1insider.storage.WebPageReader;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +43,7 @@ public class StandingsMenuSceneController {
     private TableView<Driver> standingsDriverTable;
 
     @FXML
-    private TableColumn<Driver,Integer> positionColumn;
+    private TableColumn<Driver, Integer> positionColumn;
 
     @FXML
     private TableColumn<Driver, String> nameColumn;
@@ -53,10 +56,11 @@ public class StandingsMenuSceneController {
 
     private User user;
     private String season;
-    public StandingsMenuSceneController(User user, String season){
+    public StandingsMenuSceneController(User user, String season) {
         this.user = user;
         this.season = season;
     }
+
     @FXML
     void initialize() {
         UsernameLabel.setText(user.toString());
@@ -67,7 +71,7 @@ public class StandingsMenuSceneController {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
         pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
-        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/"+season+"/drivers.html");
+        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
 
         if (driversStandings != null) {
             standingsDriverTable.setItems(FXCollections.observableList(driversStandings));
@@ -118,10 +122,12 @@ public class StandingsMenuSceneController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void onShowStandings(ActionEvent event){
 
     }
+
     @FXML
     void onChooseHistory(ActionEvent event){
 

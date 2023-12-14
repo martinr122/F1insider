@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import f1.f1insider.storage.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,8 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import storage.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
