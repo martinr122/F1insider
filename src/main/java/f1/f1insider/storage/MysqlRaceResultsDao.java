@@ -1,4 +1,4 @@
-package storage;
+package f1.f1insider.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;

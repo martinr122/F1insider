@@ -1,5 +1,6 @@
 package f1.f1insider;
 
+import f1.f1insider.storage.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -11,10 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import storage.*;
-import f1.f1insider.storage.Driver;
-import f1.f1insider.storage.User;
-import f1.f1insider.storage.WebPageReader;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,6 +53,8 @@ public class StandingsMenuSceneController {
 
     private User user;
     private String season;
+    private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+
     public StandingsMenuSceneController(User user, String season) {
         this.user = user;
         this.season = season;
@@ -64,8 +63,6 @@ public class StandingsMenuSceneController {
     @FXML
     void initialize() {
         UsernameLabel.setText(user.toString());
-
-        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
 
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
@@ -88,6 +85,7 @@ public class StandingsMenuSceneController {
             chooseHistory.getItems().add(menuItem);
         }
     }
+
     @FXML
     void onShowHome(ActionEvent event){
         try{
