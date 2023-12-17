@@ -1,11 +1,11 @@
-package storage;
+package f1.f1insider.storage;
 
 public class RaceResults {
 
     private int id;
     private int position;
     private boolean finished;
-    private String intervalToWinner;
+    private double intervalToWinner;
     private String reason;
 
     public RaceResults() {
@@ -35,11 +35,11 @@ public class RaceResults {
         this.finished = finished;
     }
 
-    public String getIntervalToWinner() {
+    public double getIntervalToWinner() {
         return intervalToWinner;
     }
 
-    public void setIntervalToWinner(String intervalToWinner) {
+    public void setIntervalToWinner(double intervalToWinner) {
         this.intervalToWinner = intervalToWinner;
     }
 

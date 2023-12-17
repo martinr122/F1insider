@@ -109,8 +109,6 @@ public class RacingMenuSceneController {
         }
     }
     private void openResultsWindow(Race selectedRace) throws IOException {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("RaceMenuScene.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RaceMenuScene.fxml"));
         RaceMenuSceneController controller = new RaceMenuSceneController(user, selectedRace);
         loader.setController(controller);

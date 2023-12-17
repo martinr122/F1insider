@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -22,8 +23,10 @@ public class RaceMenuSceneController {
     private User user;
     @FXML
     private TextArea commentTextArea;
+
     @FXML
     private GridPane commentGridPane;
+
     @FXML
     private Label FifthSessionLabel;
 
@@ -80,8 +83,27 @@ public class RaceMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+
+    @FXML
+    private TableColumn<Driver, String> driverColumn;
+
+    @FXML
+    private TableColumn<RaceResults, Double> intervalColumn;
+
+    @FXML
+    private TableColumn<RaceResults, Integer> positionColumn;
+
+    @FXML
+    private TableView<RaceResults> raceResultsTable;
+
+    @FXML
+    private TableColumn<Team, String> teamColumn;
+
     private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+    private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
+    private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
+
 
     public RaceMenuSceneController(User user, Race race) {
         this.user = user;
@@ -128,6 +150,13 @@ public class RaceMenuSceneController {
 //        File file = new File("images/Brazil.png");
 //        Image image = new Image(file.toURI().toString());
 //        RaceTrackImage.setImage(image);
+        List<RaceResults> raceResults = raceResultsDao.getRaceResults(race.getId());
+        List<Driver> drivers = driverDao.getAllFromRace(race.getId());
+        if (raceResults.isEmpty()){
+            raceResultsTable.setVisible(false);
+        }else{
+            positionColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Integer>("position"));
+        }
     }
 
     @FXML

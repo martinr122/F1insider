@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import storage.*;
+import f1.f1insider.storage.*;
 import f1.f1insider.storage.Driver;
 import f1.f1insider.storage.User;
 import f1.f1insider.storage.WebPageReader;
