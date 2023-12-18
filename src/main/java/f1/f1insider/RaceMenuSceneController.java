@@ -1,6 +1,7 @@
 package f1.f1insider;
 
 import f1.f1insider.storage.*;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,10 +86,10 @@ public class RaceMenuSceneController {
     private Button showStandingsButton;
 
     @FXML
-    private TableColumn<Driver, String> driverColumn;
+    private TableColumn<RaceResults, Driver> driverColumn;
 
     @FXML
-    private TableColumn<RaceResults, Double> intervalColumn;
+    private TableColumn<RaceResults, String> intervalColumn;
 
     @FXML
     private TableColumn<RaceResults, Integer> positionColumn;
@@ -151,12 +152,15 @@ public class RaceMenuSceneController {
 //        Image image = new Image(file.toURI().toString());
 //        RaceTrackImage.setImage(image);
         List<RaceResults> raceResults = raceResultsDao.getRaceResults(race.getId());
-        List<Driver> drivers = driverDao.getAllFromRace(race.getId());
         if (raceResults.isEmpty()){
             raceResultsTable.setVisible(false);
         }else{
             positionColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Integer>("position"));
+            driverColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Driver>("driver"));
+            intervalColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, String>("intervalToWinner"));
+
         }
+        raceResultsTable.setItems(FXCollections.observableList(raceResultsDao.getRaceResults(race.getId())));
     }
 
     @FXML

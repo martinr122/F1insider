@@ -3,6 +3,7 @@ package f1.f1insider.storage;
 public class RaceResults {
 
     private int id;
+    private Driver driver;
     private int position;
     private boolean finished;
     private double intervalToWinner;
@@ -17,6 +18,15 @@ public class RaceResults {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     public int getPosition() {

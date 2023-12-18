@@ -301,15 +301,16 @@ public class RaceResultsEditSceneController {
             Driver selectedDriver = (Driver) choiceBox.getSelectionModel().getSelectedItem();
             if (choiceBoxList.indexOf(choiceBox) == 0){
                 RaceResults raceResults = new RaceResults();
+                raceResults.setDriver(selectedDriver);
                 raceResults.setId(race.getId());
                 int position = choiceBoxList.indexOf(choiceBox) + 1;
                 raceResults.setPosition(position);
                 raceResults.setFinished(!firstFinishedCheckBox.isSelected());
                 raceResultsDao.saveRaceResults(raceResults);
-                raceResultsDao.addDriversToRaceResults(selectedDriver.getId(), race.getId(), position);
             }else{
                 RaceResults raceResults = new RaceResults();
                 raceResults.setId(race.getId());
+                raceResults.setDriver(selectedDriver);
                 int position = choiceBoxList.indexOf(choiceBox) + 1;
                 raceResults.setPosition(position);
                 raceResults.setFinished(!firstFinishedCheckBox.isSelected());
@@ -320,7 +321,6 @@ public class RaceResultsEditSceneController {
                     raceResults.setIntervalToWinner(Double.parseDouble(text));
                 }
                 raceResultsDao.saveRaceResults(raceResults);
-                raceResultsDao.addDriversToRaceResults(selectedDriver.getId(), race.getId(), position);
             }
         }
     }

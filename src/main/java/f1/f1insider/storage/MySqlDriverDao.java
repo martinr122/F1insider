@@ -143,12 +143,9 @@ public class MySqlDriverDao implements DriverDao {
     }
 
     @Override
-    public List<Driver> getAllFromRace(int idRace) {
-        String sql = "SELECT d.* FROM driver d " +
-                "JOIN driver_has_race_results dhrr " +
-                "ON d.idDriver = dhrr.driver_idDriver " +
-                "WHERE dhrr.race_results_Race_idRace = ? " +
-                "ORDER BY dhrr.race_results_position";
-        return jdbcTemplate.query(sql, driverRM(), idRace);
+    public Driver getById(int id) {
+        String sql = "SELECT * FROM driver " +
+                "WHERE idDriver = ?";
+        return jdbcTemplate.queryForObject(sql, driverRM(), id);
     }
 }

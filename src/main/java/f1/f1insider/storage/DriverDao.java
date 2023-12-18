@@ -12,6 +12,5 @@ public interface DriverDao {
     List<Driver> getByNameLike (String nameLike);
     boolean contains(Driver driver);
     int getID(String firstName, String surname);
-
-    List<Driver> getAllFromRace(int idRace);
+    Driver getById(int id);
 }
