@@ -151,9 +151,9 @@ public class RaceMenuSceneController {
 //        Image image = new Image(file.toURI().toString());
 //        RaceTrackImage.setImage(image);
         List<RaceResults> raceResults = raceResultsDao.getRaceResults(race.getId());
-        if (raceResults.isEmpty()){
+        if (raceResults.isEmpty()) {
             raceResultsTable.setVisible(false);
-        }else{
+        } else {
             positionColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Integer>("position"));
             driverColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Driver>("driver"));
             teamColumn.setCellValueFactory(param ->
@@ -294,16 +294,17 @@ public class RaceMenuSceneController {
 
     @FXML
     void onAddComment(ActionEvent event) {
-        UserDao userDao = DaoFactory.INSTANCE.getUserDao();
-        Comment comment = new Comment(commentTextArea.getText(), userDao.getIdbyUsername(user.getUsername()), race.getId());
-
-        Text newCommentText = new Text(commentTextArea.getText());
-        newCommentText.setWrappingWidth(280.0);
-        Text userName = new Text(user.getUsername() + ":");
-        userName.setWrappingWidth(70);
-        commentDao.add(comment);
-        commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
-        commentTextArea.clear();
+        if (!commentTextArea.getText().isEmpty()) {
+            UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+            Comment comment = new Comment(commentTextArea.getText(), userDao.getIdbyUsername(user.getUsername()), race.getId());
+            Text newCommentText = new Text(commentTextArea.getText());
+            newCommentText.setWrappingWidth(280.0);
+            Text userName = new Text(user.getUsername() + ":");
+            userName.setWrappingWidth(70);
+            commentDao.add(comment);
+            commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
+            commentTextArea.clear();
+        }
     }
 
     private void openDriverWindow(Driver selectedDriver) throws IOException {

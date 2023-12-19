@@ -55,6 +55,7 @@ public class AddDriverSceneController {
     private TextField searchTextField;
     private Image driverImage;
     private boolean firstDriver;
+    private Driver selectedDriver;
     DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamAddSceneController teamAddSceneController;
     private ObservableList<Driver> driversModel;
@@ -78,6 +79,35 @@ public class AddDriverSceneController {
             ObservableList<Driver> observableDriversFiltered = FXCollections.observableArrayList(driversFiltered);
             driversListView.setItems(observableDriversFiltered);
         });
+        firstnameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (selectedDriver != null) {
+                if (!selectedDriver.getFirstName().equals(newValue)) {
+                    selectedDriver = null;
+                }
+            }
+        });
+        surnameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (selectedDriver != null) {
+                if (!selectedDriver.getSurname().equals(newValue)) {
+                    selectedDriver = null;
+                }
+            }
+        });
+        birthdayDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (selectedDriver != null) {
+                if (!selectedDriver.getBirthday().equals(newValue)) {
+                    selectedDriver = null;
+                }
+            }
+        });
+        countryTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (selectedDriver != null) {
+                if (!selectedDriver.getCountry().equals(newValue)) {
+                    selectedDriver = null;
+                }
+            }
+        });
+
 
         driversListView.setCellFactory(param -> new ListCell<Driver>() {
             @Override
@@ -100,6 +130,32 @@ public class AddDriverSceneController {
 
     @FXML
     void onAddDriver(ActionEvent event) {
+        if (selectedDriver != null) {
+            if (driverImage == null) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Please select image");
+                return;
+            } else {
+                selectedDriver.setPhoto(driverImage);
+            }
+            if (raceNumberTextField.getText().matches("\\d{1,3}")) {
+                selectedDriver.setRaceNumber(Integer.parseInt(raceNumberTextField.getText()));
+            } else {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Wrong race number");
+                return;
+            }
+
+            driverDao.update(selectedDriver);
+            if (firstDriver && teamAddSceneController != null) {
+                teamAddSceneController.firstDriverAdded(selectedDriver);
+            }
+            if (!firstDriver && teamAddSceneController != null) {
+                teamAddSceneController.secondDriverAdded(selectedDriver);
+            }
+            addDriverButton.getScene().getWindow().hide();
+            return;
+        }
         Driver driver = new Driver();
         if (firstnameTextField.getText().isEmpty()) {
             alertLabel.setVisible(true);
@@ -157,7 +213,7 @@ public class AddDriverSceneController {
         addDriverButton.getScene().getWindow().hide();
     }
 
-    private List<Label> getLabelsFromGridPane(GridPane gridPane){
+    private List<Label> getLabelsFromGridPane(GridPane gridPane) {
         List<Label> labels = new ArrayList<>();
 
         for (Node node : gridPane.getChildren()) {
@@ -167,16 +223,25 @@ public class AddDriverSceneController {
         }
         return labels;
     }
-    private void handleDriverListClick(MouseEvent mouseEvent) {
-        Driver driverSelected = driversListView.getSelectionModel().getSelectedItem();
 
-        if (driverSelected != null) {
-            Driver driver = driverDao.getByName(driverSelected.getFirstName(),
-                    driverSelected.getSurname());
-            imageViewer.setVisible(true);
-            imageViewer.setImage(driver.getPhoto());
-            imagechooseButton.setVisible(false);
-            driverImage = driver.getPhoto();
+    private void handleDriverListClick(MouseEvent mouseEvent) {
+        Driver clickedDriver = driversListView.getSelectionModel().getSelectedItem();
+
+        if (clickedDriver != null) {
+            Driver driver = driverDao.getByName(clickedDriver.getFirstName(),
+                    clickedDriver.getSurname());
+            selectedDriver = driver;
+            if (driver.getPhoto() != null) {
+                imageViewer.setVisible(true);
+                imageViewer.setImage(driver.getPhoto());
+                driverImage = driver.getPhoto();
+                closeButton.setVisible(true);
+                imagechooseButton.setVisible(false);
+            } else {
+                imageViewer.setVisible(false);
+                imagechooseButton.setVisible(true);
+                closeButton.setVisible(false);
+            }
             firstnameTextField.setText(driver.getFirstName());
             raceNumberTextField.setText(String.valueOf(driver.getRaceNumber()));
             surnameTextField.setText(driver.getSurname());
@@ -185,13 +250,15 @@ public class AddDriverSceneController {
             closeButton.setVisible(true);
         }
     }
+
     @FXML
     void onCloseImage(ActionEvent event) {
-    driverImage = null;
-    imagechooseButton.setVisible(true);
-    imageViewer.setVisible(false);
-    closeButton.setVisible(false);
+        driverImage = null;
+        imagechooseButton.setVisible(true);
+        imageViewer.setVisible(false);
+        closeButton.setVisible(false);
     }
+
     @FXML
     void onChoose(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();

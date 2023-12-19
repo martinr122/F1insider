@@ -85,7 +85,7 @@ public class RacingMenuSceneController {
         });
         placeColumn.setCellValueFactory(new PropertyValueFactory<Race, String>("place"));
         nameOfGrandPrix.setCellValueFactory(new PropertyValueFactory<Race, String>("name"));
-
+        placeColumn.setStyle("-fx-font-weight: bold;");
         racingTable.setItems(FXCollections.observableList(raceDao.getAllRaces(season)));
 
         racingTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {

@@ -84,7 +84,6 @@ public class MySqlTeamDao implements TeamDao {
                 "JOIN team t ON dht.Team_idTeam = t.idTeam " +
                 "WHERE t.team_name = ? AND t.Season_year = ?";
         jdbcTemplate.update(sqlDht, name, year);
-
         String sqlTeam = "DELETE FROM team WHERE team_name = ? AND Season_year = ? limit 1";
         jdbcTemplate.update(sqlTeam, name, year);
     }

@@ -13,4 +13,5 @@ public interface DriverDao {
     boolean contains(Driver driver);
     int getID(String firstName, String surname);
     Driver getById(int id);
+    void update(Driver driver);
 }

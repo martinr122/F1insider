@@ -44,9 +44,11 @@ public class MySqlDriverDao implements DriverDao {
                 driver.setFirstName(rs.getString("first_name_driver"));
                 driver.setSurname(rs.getString("surname_driver"));
                 Blob imageBlob = rs.getBlob("photo");
-                InputStream file = imageBlob.getBinaryStream();
-                Image image = new Image(file);
-                driver.setPhoto(image);
+                if (imageBlob != null) {
+                    InputStream file = imageBlob.getBinaryStream();
+                    Image image = new Image(file);
+                    driver.setPhoto(image);
+                }
                 driver.setCountry(rs.getString("country"));
                 driver.setBirthday(rs.getDate("birthday").toLocalDate());
                 driver.setRaceNumber(rs.getInt("race_number"));
@@ -147,5 +149,11 @@ public class MySqlDriverDao implements DriverDao {
         String sql = "SELECT * FROM driver " +
                 "WHERE idDriver = ?";
         return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), id);
+    }
+    public void update(Driver driver) {
+        String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
+                " , photo = ?, country = ?, birthday = ?, race_number = ? " +
+                " WHERE first_name_driver = ? and surname_driver = ?";
+            jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(), driver.getPhoto().getUrl(), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
     }
 }

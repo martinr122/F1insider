@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: f13353;">
          <items>
@@ -119,9 +119,9 @@
          </font>
       </Label>
       <ImageView fx:id="RaceTrackImage" fitHeight="240.0" fitWidth="320.0" layoutX="459.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
-      <ScrollPane hbarPolicy="NEVER" layoutX="43.0" layoutY="439.0" prefHeight="266.0" prefWidth="320.0" vbarPolicy="ALWAYS">
+      <ScrollPane hbarPolicy="NEVER" layoutX="43.0" layoutY="439.0" prefHeight="266.0" prefWidth="320.0" style="-fx-background-color: white; -fx-border-color: white;" vbarPolicy="ALWAYS">
          <content>
-            <GridPane fx:id="commentGridPane" prefHeight="200.0" prefWidth="300.0">
+            <GridPane fx:id="commentGridPane" prefHeight="265.0" prefWidth="306.0" style="-fx-background-color: white;">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="300.0" />

@@ -1,4 +1,4 @@
-package f1.f1insider;
+package com.f1insider;
 
 import com.f1insider.storage.*;
 import com.f1insider.storage.DaoFactory;
@@ -13,11 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import com.f1insider.storage.*;
-import f1.f1insider.storage.Driver;
-import f1.f1insider.storage.User;
-import f1.f1insider.storage.WebPageReader;
-
 import java.io.IOException;
 import java.util.List;
 

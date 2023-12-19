@@ -222,7 +222,7 @@ public class RaceResultsEditSceneController {
                 fourthDriverChoiceBox, fifthDriverChoiceBox, sixthDriverChoiceBox, seventhDriverChoiceBox, eighthDriverChoiceBox,
                 ninethDriverChoiceBox, tenthDriverChoiceBox, eleventhDriverChoiceBox, twelfthDriverChoiceBox, thirteenthDriverChoiceBox,
                 fourteenthDriverChoiceBox, fifteenthDriverChoiceBox, sixteenthDriverChoiceBox, seventeenthDriverChoiceBox,
-                eighteenthDriverChoiceBox, nineteenthDriverChoiceBox, twentiethDriverChoiceBox);
+                eighteenthDriverChoiceBox,nineteenthDriverChoiceBox, twentiethDriverChoiceBox);
 
         textFieldList = Arrays.asList(firstIntervalTextField, secondIntervalTextField, thirdIntervalTextField, fourthIntervalTextField, fifthIntervalTextField,
                 sixthIntervalTextField, seventhIntervalTextField, eighthIntervalTextField, ninethIntervalTextField,
@@ -321,7 +321,6 @@ public class RaceResultsEditSceneController {
                     raceResults.setIntervalToWinner(Double.parseDouble(text));
                 }
                 raceResultsDao.saveRaceResults(raceResults);
-                raceResultsDao.addDriversToRaceResults(selectedDriver.getId(), race.getId());
             }
         }
     }

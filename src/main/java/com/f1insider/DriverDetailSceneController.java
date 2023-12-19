@@ -1,6 +1,6 @@
-package f1.f1insider;
+package com.f1insider;
 
-import f1.f1insider.storage.*;
+import com.f1insider.storage.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
