@@ -67,6 +67,15 @@ public class MySqlDriverDao implements DriverDao {
     }
 
     @Override
+    public List<Driver> getAllFromSeason(int season) {
+        String sql = "SELECT d.* FROM driver d " +
+                "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
+                "JOIN team t ON dht.Team_idTeam = t.idTeam " +
+                "WHERE t.Season_year = ?";
+        return jdbcTemplate.query(sql, driverRM(), season);
+    }
+
+    @Override
     public List<Driver> getDriversbyTeam(int idTeam) {
         String sql = "SELECT d.* FROM driver d " +
                 "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
@@ -133,4 +142,10 @@ public class MySqlDriverDao implements DriverDao {
         return jdbcTemplate.queryForObject(sql, Integer.class, firstName, surname);
     }
 
+    @Override
+    public Driver getById(int id) {
+        String sql = "SELECT * FROM driver " +
+                "WHERE idDriver = ?";
+        return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), id);
+    }
 }

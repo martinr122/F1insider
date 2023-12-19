@@ -1,0 +1,61 @@
+#standingsDriverTable {
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
+#standingsDriverTable .column-header,
+#standingsDriverTable .table-cell {
+    -fx-border-color: white;
+}
+
+#standingsDriverTable #positionColumn{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1 0;
+}
+#standingsDriverTable #nameColumn,
+#standingsDriverTable #teamColumn,
+#standingsDriverTable #pointscolumn {
+    -fx-background-color: white;
+    -fx-alignment: CENTER;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1 0;
+}
+
+#standingsDriverTable .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+#standingsTeamTable {
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
+#standingsTeamTable .column-header,
+#standingsTeamTable .table-cell {
+    -fx-border-color: white;
+}
+
+#standingsTeamTable #positionTeamColumn{
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1 0;
+}
+#standingsTeamTable #nameTeamColumn,
+#standingsTeamTable #pointsTeamColumn {
+    -fx-background-color: white;
+    -fx-alignment: CENTER;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1 0;
+}
+
+#standingsTeamTable .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+

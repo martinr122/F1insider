@@ -90,7 +90,7 @@ public class WebPageReader {
                 Elements cells = row.select("td");
 
                 String name = cells.get(2).text();
-                int points = Integer.parseInt(cells.get(5).text());
+                int points = Integer.parseInt(cells.get(3).text());
                 Team team = new Team(name, points);
                 teams.add(team);
             }

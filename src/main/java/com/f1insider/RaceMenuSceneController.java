@@ -1,12 +1,15 @@
 package com.f1insider;
 
 import com.f1insider.storage.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -80,8 +83,27 @@ public class RaceMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+
+    @FXML
+    private TableColumn<RaceResults, Driver> driverColumn;
+
+    @FXML
+    private TableColumn<RaceResults, String> intervalColumn;
+
+    @FXML
+    private TableColumn<RaceResults, Integer> positionColumn;
+
+    @FXML
+    private TableView<RaceResults> raceResultsTable;
+
+    @FXML
+    private TableColumn<RaceResults, String> teamColumn;
+
     private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+    private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
+    private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
+
 
     public RaceMenuSceneController(User user, Race race) {
         this.user = user;
@@ -128,6 +150,35 @@ public class RaceMenuSceneController {
 //        File file = new File("images/Brazil.png");
 //        Image image = new Image(file.toURI().toString());
 //        RaceTrackImage.setImage(image);
+        List<RaceResults> raceResults = raceResultsDao.getRaceResults(race.getId());
+        if (raceResults.isEmpty()){
+            raceResultsTable.setVisible(false);
+        }else{
+            positionColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Integer>("position"));
+            driverColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Driver>("driver"));
+            teamColumn.setCellValueFactory(param ->
+                    new SimpleStringProperty(teamDao.getTeamByDriver(param.getValue().getDriver().getId(), race.getYear()).toString()));
+            intervalColumn.setCellValueFactory(param -> {
+                RaceResults raceResult = param.getValue();
+                if (raceResult.isFinished()) {
+                    return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
+                } else {
+                    return new SimpleStringProperty(raceResult.getReason());
+                }
+            });
+        }
+
+        raceResultsTable.setItems(FXCollections.observableList(raceResultsDao.getRaceResults(race.getId())));
+
+        raceResultsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                try {
+                    openDriverWindow(newSelection.getDriver());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @FXML
@@ -253,5 +304,17 @@ public class RaceMenuSceneController {
         commentDao.add(comment);
         commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
         commentTextArea.clear();
+    }
+
+    private void openDriverWindow(Driver selectedDriver) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DriverDetailScene.fxml"));
+        DriverDetailSceneController controller = new DriverDetailSceneController(user, selectedDriver, race.getYear(), race);
+        loader.setController(controller);
+        Parent raceScene = loader.load();
+        Stage raceStage = (Stage) logoutButton.getScene().getWindow();
+        raceStage.setScene(new Scene(raceScene));
+        raceStage.setTitle("Race Results");
+        raceStage.centerOnScreen();
+        raceStage.show();
     }
 }

@@ -8,4 +8,5 @@ public interface SeasonDao {
     boolean isSeason(int year);
 
     List<String> getAllSeason();
+    int getChampionshipsOfDriver(int idDriver);
 }

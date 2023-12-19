@@ -16,4 +16,5 @@ public interface TeamDao {
     int getID(String name, int year);
 
     void addDriversToTeam(int teamId, int driverId);
+    Team getTeamByDriver(int idDriver, int year);
 }

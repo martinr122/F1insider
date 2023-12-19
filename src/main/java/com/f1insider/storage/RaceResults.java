@@ -3,9 +3,10 @@ package com.f1insider.storage;
 public class RaceResults {
 
     private int id;
+    private Driver driver;
     private int position;
     private boolean finished;
-    private String intervalToWinner;
+    private double intervalToWinner;
     private String reason;
 
     public RaceResults() {
@@ -17,6 +18,15 @@ public class RaceResults {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     public int getPosition() {
@@ -35,11 +45,11 @@ public class RaceResults {
         this.finished = finished;
     }
 
-    public String getIntervalToWinner() {
+    public double getIntervalToWinner() {
         return intervalToWinner;
     }
 
-    public void setIntervalToWinner(String intervalToWinner) {
+    public void setIntervalToWinner(double intervalToWinner) {
         this.intervalToWinner = intervalToWinner;
     }
 

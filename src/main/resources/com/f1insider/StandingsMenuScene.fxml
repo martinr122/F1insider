@@ -62,7 +62,7 @@
                      <children>
                         <TableView fx:id="standingsDriverTable" prefHeight="714.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Position" />
+                            <TableColumn fx:id="positionColumn" prefWidth="75.0" text="POS" />
                             <TableColumn fx:id="nameColumn" prefWidth="408.0" text="Name" />
                               <TableColumn fx:id="teamColumn" prefWidth="653.0" text="Team" />
                               <TableColumn fx:id="pointscolumn" minWidth="0.0" prefWidth="143.0" text="Points" />
@@ -73,7 +73,16 @@
           </Tab>
           <Tab text="Constructors Championship">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1363.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="724.0" prefWidth="1278.0">
+                     <children>
+                        <TableView fx:id="standingsTeamTable" prefHeight="715.0" prefWidth="1280.0">
+                          <columns>
+                            <TableColumn fx:id="positionTeamColumn" prefWidth="75.0" text="POS" />
+                            <TableColumn fx:id="nameTeamColumn" prefWidth="1007.0" text="Team " />
+                              <TableColumn fx:id="pointsTeamColumn" minWidth="0.0" prefWidth="197.0" text="Points" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

@@ -32,19 +32,14 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.Pagination?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: f13353;">
          <items>
@@ -125,8 +120,7 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <ListView fx:id="lastRaceTextField" layoutX="232.0" layoutY="309.0" prefHeight="102.0" prefWidth="299.0" />
-      <Button fx:id="showRaceButton" layoutX="232.0" layoutY="411.0" mnemonicParsing="false" onAction="#onShowRace" prefHeight="25.0" prefWidth="299.0" text="VIEW RESULTS" />
+      <Button fx:id="showRaceButton" layoutX="232.0" layoutY="419.0" mnemonicParsing="false" onAction="#onShowRace" prefHeight="25.0" prefWidth="323.0" text="VIEW RESULTS" />
       <Label layoutX="600.0" layoutY="256.0" text="LEADER OF WORLD CONSTRUCTORS CHAMPIONSHIP">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -145,6 +139,13 @@
       <Pagination fx:id="lastRaceCommentsField" layoutX="201.0" layoutY="446.0" prefHeight="340.0" prefWidth="360.0" style="-fx-background-color: silver;" />
       <ImageView fx:id="leaderDriverImage" fitHeight="150.0" fitWidth="200.0" layoutX="900.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="900.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" />
+      <TableView fx:id="lastRacePodiumTable" layoutX="232.0" layoutY="301.0" prefHeight="118.0" prefWidth="323.0">
+        <columns>
+          <TableColumn fx:id="positionColumn" prefWidth="36.0" text="POS" />
+          <TableColumn fx:id="driverColumn" prefWidth="205.0" text="Name" />
+            <TableColumn fx:id="intervalColumn" prefWidth="81.0" text="Interval" />
+        </columns>
+      </TableView>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />

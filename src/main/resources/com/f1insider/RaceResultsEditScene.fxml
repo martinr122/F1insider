@@ -12,7 +12,7 @@
          </font>
       </Label>
       <ChoiceBox fx:id="firstDriverChoiceBox" layoutX="30.0" layoutY="60.0" prefWidth="150.0" />
-      <TextField layoutX="185.0" layoutY="60.0" prefWidth="100.0" />
+      <TextField fx:id="firstIntervalTextField" layoutX="185.0" layoutY="60.0" prefWidth="100.0" />
       <CheckBox fx:id="firstFinishedCheckBox" layoutX="290.0" layoutY="64.0" mnemonicParsing="false" />
       <Label layoutX="3.0" layoutY="90.0" prefWidth="22.0" text="  2:">
          <font>
@@ -196,7 +196,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="racePlaceLabel" layoutX="433.0" text="Race place">
+      <Label fx:id="racePlaceLabel" layoutX="339.0" layoutY="1.0" text="Race place">
          <font>
             <Font size="24.0" />
          </font>
