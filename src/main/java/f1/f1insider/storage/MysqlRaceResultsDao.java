@@ -1,5 +1,6 @@
 package f1.f1insider.storage;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,10 +53,84 @@ public class MysqlRaceResultsDao implements RaceResultsDao{
 
     @Override
     public List<RaceResults> getRaceResults(int idRace) {
+            String sql ="SELECT rr.* FROM race_results rr " +
+                    "JOIN race r ON rr.Race_idRace = r.idRace " +
+                    "WHERE r.idRace = ? " +
+                    "ORDER BY rr.position";
+            return jdbcTemplate.query(sql, raceResultsRM(), idRace);
+    }
+
+    @Override
+    public List<RaceResults> getPodiumOfRace(int idRace) {
         String sql ="SELECT rr.* FROM race_results rr " +
                 "JOIN race r ON rr.Race_idRace = r.idRace " +
                 "WHERE r.idRace = ? " +
-                "ORDER BY rr.position";
+                "ORDER BY rr.position asc " +
+                "LIMIT 3";
         return jdbcTemplate.query(sql, raceResultsRM(), idRace);
     }
+
+    @Override
+    public int getWinsCount(int idDriver) {
+        String sql = "SELECT COUNT(*) FROM race_results " +
+                "WHERE driver_idDriver = ? AND position = ?";
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.queryForObject(sql, Integer.class,  idDriver, 1);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;    }
+
+    @Override
+    public int getSecondCount(int idDriver) {
+        String sql = "SELECT COUNT(*) FROM race_results " +
+                "WHERE driver_idDriver = ? AND position = ?";
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.queryForObject(sql, Integer.class,  idDriver, 2);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;    }
+
+    @Override
+    public int getThirdCount(int idDriver) {
+        String sql = "SELECT COUNT(*) FROM race_results " +
+                "WHERE driver_idDriver = ? AND position = ?";
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.queryForObject(sql, Integer.class, idDriver, 3);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;    }
+
+    @Override
+    public int getTotalRaces(int idDriver) {
+        String sql = "SELECT COUNT(*) FROM race_results " +
+                "WHERE driver_idDriver = ?";
+
+        int result = 0;
+
+        try {
+            result = jdbcTemplate.queryForObject(sql, Integer.class,  idDriver);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int getHighestFinish(int idDriver) {
+        String sql = "SELECT position FROM race_results " +
+                "WHERE driver_idDriver = ? " +
+                "ORDER BY position ASC";
+        return jdbcTemplate.queryForObject(sql, Integer.class, idDriver);
+    }
+
+
 }

@@ -70,7 +70,7 @@ public class MySqlTeamDao implements TeamDao {
     public List<Team> getTeamsbyDriver(int idDriver) {
         String sql = "SELECT DISTINCT  t.* FROM team t " +
                 "JOIN driver_has_team dht ON t.idTeam = dht.Team_idTeam " +
-                "WHERE dhst.Driver_idDriver = ?";
+                "WHERE dht.Driver_idDriver = ?";
         return jdbcTemplate.query(sql, teamRM(), idDriver);
     }
 
@@ -103,5 +103,14 @@ public class MySqlTeamDao implements TeamDao {
                 + "VALUES (?,?)";
         jdbcTemplate.update(sql, driverId, teamId);
 
+    }
+
+    @Override
+    public Team getTeamByDriver(int idDriver, int year) {
+        String sql = "SELECT DISTINCT t.* FROM team t " +
+                "JOIN driver_has_team dht ON t.idTeam = dht.Team_idTeam " +
+                "WHERE dht.Driver_idDriver = ? " +
+                "AND t.Season_year = ?";
+        return jdbcTemplate.queryForObject(sql, teamRM(), idDriver, year);
     }
 }

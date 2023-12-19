@@ -52,4 +52,11 @@ public class MySqlSeasonDao implements SeasonDao {
         String sql = "SELECT DISTINCT year FROM season ORDER BY year DESC";
         return jdbcTemplate.queryForList(sql, String.class);
     }
+
+    @Override
+    public int getChampionshipsOfDriver(int idDriver) {
+        String sql = "SELECT count(*) from season " +
+                "WHERE wdc = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, idDriver);
+    }
 }

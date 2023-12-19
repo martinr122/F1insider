@@ -146,6 +146,6 @@ public class MySqlDriverDao implements DriverDao {
     public Driver getById(int id) {
         String sql = "SELECT * FROM driver " +
                 "WHERE idDriver = ?";
-        return jdbcTemplate.queryForObject(sql, driverRM(), id);
+        return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), id);
     }
 }

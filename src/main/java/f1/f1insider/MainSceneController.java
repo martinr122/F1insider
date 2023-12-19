@@ -2,6 +2,9 @@ package f1.f1insider;
 
 
 import f1.f1insider.storage.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
@@ -11,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -57,8 +61,16 @@ public class MainSceneController {
     private Label lastGpLabel;
 
     @FXML
-    private ListView<?> lastRaceTextField;
+    private TableColumn<RaceResults, String> intervalColumn;
 
+    @FXML
+    private TableView<RaceResults> lastRacePodiumTable;
+
+    @FXML
+    private TableColumn<RaceResults, Driver> driverColumn;
+
+    @FXML
+    private TableColumn<RaceResults, Integer> positionColumn;
     @FXML
     private Button showRaceButton;
 
@@ -71,7 +83,8 @@ public class MainSceneController {
     private User user;
     private Race lastRace;
     private String season;
-
+    private ObservableList<String> podiumModel;
+    private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
     public MainSceneController(User user) {
         this.user = user;
         this.season = String.valueOf(LocalDate.now().getYear());
@@ -101,9 +114,24 @@ public class MainSceneController {
 
         if (raceDao.getLastRace() == null) {
             lastGpLabel.setText("");
+            showRaceButton.setVisible(false);
+            lastRacePodiumTable.setVisible(false);
         } else {
             lastRace = raceDao.getLastRace();
             lastGpLabel.setText(raceDao.getLastRace().getPlace());
+            positionColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Integer>("position"));
+            driverColumn.setCellValueFactory(new PropertyValueFactory<RaceResults, Driver>("driver"));
+            intervalColumn.setCellValueFactory(param -> {
+                RaceResults raceResult = param.getValue();
+                if (raceResult.isFinished()) {
+                    return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
+                } else {
+                    return new SimpleStringProperty(raceResult.getReason());
+                }
+            });
+
+            lastRacePodiumTable.setItems(FXCollections.observableList(raceResultsDao.getPodiumOfRace(lastRace.getId())));
+
         }
 
         for (String season : raceDao.getAllSeason()) {
