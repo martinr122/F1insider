@@ -244,14 +244,26 @@ public class DriverDetailSceneController {
     }
     @FXML
     void onBack(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RaceMenuScene.fxml"));
-        RaceMenuSceneController controller = new RaceMenuSceneController(user, race);
-        loader.setController(controller);
-        Parent raceScene = loader.load();
-        Stage raceStage = (Stage) logoutButton.getScene().getWindow();
-        raceStage.setScene(new Scene(raceScene));
-        raceStage.setTitle("Race Results");
-        raceStage.centerOnScreen();
-        raceStage.show();
+        if (race != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("RaceMenuScene.fxml"));
+            RaceMenuSceneController controller = new RaceMenuSceneController(user, race);
+            loader.setController(controller);
+            Parent raceScene = loader.load();
+            Stage raceStage = (Stage) logoutButton.getScene().getWindow();
+            raceStage.setScene(new Scene(raceScene));
+            raceStage.setTitle("Race Results");
+            raceStage.centerOnScreen();
+            raceStage.show();
+        }else{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StandingsMenuScene.fxml"));
+            StandingsMenuSceneController controller = new StandingsMenuSceneController(user, String.valueOf(season));
+            loader.setController(controller);
+            Parent raceScene = loader.load();
+            Stage raceStage = (Stage) logoutButton.getScene().getWindow();
+            raceStage.setScene(new Scene(raceScene));
+            raceStage.setTitle("Standings");
+            raceStage.centerOnScreen();
+            raceStage.show();
+        }
     }
 }

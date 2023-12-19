@@ -18,8 +18,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TeamAddSceneController {
@@ -59,9 +61,10 @@ public class TeamAddSceneController {
     private Driver secondDriver;
     private User user;
     private int year;
+    private List<Driver> preDrivers;
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
-
+    private TeamFxModel teamFxModel;
     public TeamAddSceneController(User user, int year) {
         this.user = user;
         this.year = year;
@@ -198,94 +201,96 @@ public class TeamAddSceneController {
 
     @FXML
     void onSaveTeam(ActionEvent event) {
-        Team team = new Team();
-        team.setYear(year);
-        team.setTeamName(teamNameTextField.getText());
-        team.setNameEngine(EngineTextField.getText());
-        team.setNamePrincipal(teamPrincipalTextField.getText());
-        team.setNameFounder(founderTextField.getText());
-        team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
-        System.out.println(team.getTeamColor());
-        if (countryTextField.getText().length() > 3) {
-            team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
-            if (countryTextField.getText().length() > 3) {
-                alertLabel.setVisible(true);
-            } else {
-                alertLabel.setVisible(false);
-                team.setCountry(countryTextField.getText());
-            }
-            team.setNameMonopost(monopostTextField.getText());
-
-            if (firstDriver == null || secondDriver == null) {
-                alertLabel.setText("Add drivers!");
-                return;
-            }
+        Team team = teamFxModel.getTeam();
+        if (firstDriver == null || secondDriver == null) {
+            alertLabel.setText("Add drivers!");
+            return;
+        }else {
             team.setFirstDriver(firstDriver);
             team.setSecondDriver(secondDriver);
             teamDao.add(team);
-            team.setIdTeam(teamDao.getID(team.getTeamName(), year));
-            if (driverDao.contains(firstDriver)) {
-                teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
-            } else {
-                driverDao.add(firstDriver);
-                teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
-            }
-            if (driverDao.contains(secondDriver)) {
-                teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
-            } else {
-                driverDao.add(secondDriver);
-                teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
-            }
-            currentYearGridPane.getChildren().clear();
-            List<Team> teams = teamDao.getTeamsByYear(year);
-            for (int i = 0; i < teams.size(); i++) {
-                Team curTeam = teams.get(i);
-                Label label = new Label(curTeam.toString());
-                label.setFont(new Font(16));
-                label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
-                label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
-                label.setOnMouseClicked(this::handleCurrGridClick);
-                currentYearGridPane.addRow(i, label);
-            }
-            firstDriver = new Driver();
-            secondDriver = new Driver();
-            teamNameTextField.setText("");
-            EngineTextField.setText("");
-            teamPrincipalTextField.setText("");
-            founderTextField.setText("");
-            countryTextField.setText("");
-            monopostTextField.setText("");
-            teamColorPicker.setValue(Color.WHITE);
-            firstNameLabel.setText("Name of Driver");
-            secondNameLabel.setText("Name of Driver");
-            teamColor.setVisible(true);
-            alertLabel.setVisible(false);
         }
+        if (driverDao.contains(firstDriver)) {
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
+        } else {
+            driverDao.add(firstDriver);
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
+        }
+        if (driverDao.contains(secondDriver)) {
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
+        } else {
+            driverDao.add(secondDriver);
+            teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
+        }
+        List<Driver> curDrivers = Arrays.asList(firstDriver, secondDriver);
+
+        for (Driver driver :
+                preDrivers) {
+            System.out.println(driver.toString());
+            if (!curDrivers.contains(driver)){
+                teamDao.changeContract(team.getIdTeam(), driver.getId());
+            }
+        }
+
+        currentYearGridPane.getChildren().clear();
+        List<Team> teams = teamDao.getTeamsByYear(year);
+        for (int i = 0; i < teams.size(); i++) {
+            Team curTeam = teams.get(i);
+            Label label = new Label(curTeam.toString());
+            label.setFont(new Font(16));
+            label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
+            label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
+            label.setOnMouseClicked(this::handleCurrGridClick);
+            currentYearGridPane.addRow(i, label);
+        }
+        firstDriver = new Driver();
+        secondDriver = new Driver();
+        teamNameTextField.setText("");
+        EngineTextField.setText("");
+        teamPrincipalTextField.setText("");
+        founderTextField.setText("");
+        countryTextField.setText("");
+        monopostTextField.setText("");
+        teamColorPicker.setValue(Color.WHITE);
+        firstNameLabel.setText("Name of Driver");
+        secondNameLabel.setText("Name of Driver");
+        teamColor.setVisible(true);
+        alertLabel.setVisible(false);
     }
 
     private void handleCurrGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Delete confirmation");
-            confirmationAlert.setContentText("Are you sure you want to delete team: " + clickedLabel.getText() + " ?");
-            ButtonType yesButton = new ButtonType("Yes");
-            ButtonType noButton = new ButtonType("No");
-            confirmationAlert.getButtonTypes().setAll(yesButton, noButton);
-            ButtonType result = confirmationAlert.showAndWait().orElse(noButton);
-            if (result == yesButton) {
-                teamDao.deleteByName(clickedLabel.getText(), year);
-                currentYearGridPane.getChildren().clear();
-                List<Team> teams = teamDao.getTeamsByYear(year);
-                for (int i = 0; i < teams.size(); i++) {
-                    Team curTeam = teams.get(i);
-                    Label label = new Label(curTeam.toString());
-                    label.setFont(new Font(16));
-                    label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
-                    label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
-                    label.setOnMouseClicked(this::handleCurrGridClick);
-                    currentYearGridPane.addRow(i, label);
+
+            Team team = teamDao.getTeamByName(clickedLabel.getText(), year);
+
+            teamFxModel = new TeamFxModel(team);
+
+            for (Label label : getLabelsFromGridPane(currentYearGridPane)) {
+                if (label != clickedLabel) {
+                    label.setStyle("-fx-text-fill: black;");
+                } else {
+                    clickedLabel.setStyle("-fx-background-color: white;");
                 }
+            }
+
+            teamNameTextField.textProperty().bindBidirectional(teamFxModel.teamNameProperty());
+            teamPrincipalTextField.textProperty().bindBidirectional(teamFxModel.namePrincipalProperty());
+            countryTextField.textProperty().bindBidirectional(teamFxModel.countryProperty());
+            EngineTextField.textProperty().bindBidirectional(teamFxModel.nameEngineProperty());
+            founderTextField.textProperty().bindBidirectional(teamFxModel.nameFounderProperty());
+            monopostTextField.textProperty().bindBidirectional(teamFxModel.nameMonopostProperty());
+            teamColor.setVisible(true);
+            teamColor.setStyle("-fx-background-color: #" + team.getTeamColor() + ";");
+            teamColorPicker.setValue(Color.web(teamFxModel.getTeamColor()));
+
+            preDrivers = driverDao.getDriversbyTeam(team.getIdTeam());
+
+            if (!preDrivers.isEmpty()) {
+                firstDriver = preDrivers.get(0);
+                secondDriver = preDrivers.get(1);
+                firstNameLabel.setText(firstDriver.toString());
+                secondNameLabel.setText(secondDriver.toString());
             }
         }
     }

@@ -1,6 +1,7 @@
 package f1.f1insider;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -46,7 +47,7 @@ public class StandingsMenuSceneController {
     private TableColumn<Driver, Integer> positionColumn;
 
     @FXML
-    private TableColumn<Driver, String> nameColumn;
+    private TableColumn<Driver, Driver> nameColumn;
 
     @FXML
     private TableColumn<Driver, String> teamColumn;
@@ -68,6 +69,8 @@ public class StandingsMenuSceneController {
 
     private User user;
     private String season;
+    private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
+    private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     public StandingsMenuSceneController(User user, String season) {
         this.user = user;
         this.season = season;
@@ -80,7 +83,16 @@ public class StandingsMenuSceneController {
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
 
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName() + " " + cellData.getValue().getSurname()));
+        nameColumn.setCellValueFactory(cellData -> {
+            Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
+            return new SimpleObjectProperty(driver);
+        });
+        teamColumn.setCellValueFactory(cellData -> {
+
+            Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
+
+            return new SimpleStringProperty(teamDao.getTeamByDriver(driver.getId(), Integer.parseInt(season)).toString());
+        });
         pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
         List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
@@ -95,7 +107,7 @@ public class StandingsMenuSceneController {
         standingsDriverTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 try {
-                    openDriverWindow(newSelection);
+                    openDriverWindow(driverDao.getByName(newSelection.getFirstName(), newSelection.getSurname()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
