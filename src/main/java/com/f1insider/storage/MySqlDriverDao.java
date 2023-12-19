@@ -150,10 +150,13 @@ public class MySqlDriverDao implements DriverDao {
                 "WHERE idDriver = ?";
         return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), id);
     }
-    public void update(Driver driver) {
+    public void update(Driver driver) throws FileNotFoundException {
         String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
                 " , photo = ?, country = ?, birthday = ?, race_number = ? " +
                 " WHERE first_name_driver = ? and surname_driver = ?";
-            jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(), driver.getPhoto().getUrl(), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
+        String path = driver.getPhoto().getUrl().substring("file:/".length());
+        File file = new File(path);
+            jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(),
+                    new FileInputStream(file), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
     }
 }

@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,7 +197,7 @@ public class TeamAddSceneController {
     }
 
     @FXML
-    void onSaveTeam(ActionEvent event) {
+    void onSaveTeam(ActionEvent event) throws FileNotFoundException {
         Team team = new Team();
         team.setYear(year);
         if (teamNameTextField.getText().isEmpty()) {
@@ -254,11 +255,13 @@ public class TeamAddSceneController {
         team.setIdTeam(teamDao.getID(team.getTeamName(), year));
         if (driverDao.contains(firstDriver)) {
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
+            driverDao.update(firstDriver);
         } else {
             driverDao.add(firstDriver);
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
         }
         if (driverDao.contains(secondDriver)) {
+            driverDao.update(secondDriver);
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
         } else {
             driverDao.add(secondDriver);

@@ -1,5 +1,6 @@
 package com.f1insider.storage;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface DriverDao {
@@ -13,5 +14,5 @@ public interface DriverDao {
     boolean contains(Driver driver);
     int getID(String firstName, String surname);
     Driver getById(int id);
-    void update(Driver driver);
+    void update(Driver driver) throws FileNotFoundException;
 }
