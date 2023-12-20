@@ -65,7 +65,6 @@ public class TeamAddSceneController {
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamFxModel teamFxModel;
-
     public TeamAddSceneController(User user, int year) {
         this.user = user;
         this.year = year;
@@ -138,7 +137,12 @@ public class TeamAddSceneController {
     void onAddFirstDriver(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDriverScene.fxml"));
-            AddDriverSceneController controller = new AddDriverSceneController(true);
+            AddDriverSceneController controller = null;
+            if (firstDriver == null) {
+                controller = new AddDriverSceneController(true);
+            }else{
+                controller = new AddDriverSceneController(true, firstDriver);
+            }
             controller.setTeamAddSceneController(this);
             loader.setController(controller);
             Parent teamAddParent = loader.load();
@@ -256,7 +260,7 @@ public class TeamAddSceneController {
         if (firstDriver == null || secondDriver == null) {
             alertLabel.setText("Add drivers!");
             return;
-        } else {
+        }else {
             team.setFirstDriver(firstDriver);
             team.setSecondDriver(secondDriver);
             teamDao.add(team);
@@ -285,6 +289,7 @@ public class TeamAddSceneController {
                 }
             }
         }
+
         currentYearGridPane.getChildren().clear();
         List<Team> teams = teamDao.getTeamsByYear(year);
         for (int i = 0; i < teams.size(); i++) {

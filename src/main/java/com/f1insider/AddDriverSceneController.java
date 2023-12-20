@@ -55,6 +55,8 @@ public class AddDriverSceneController {
     private TextField searchTextField;
     private Image driverImage;
     private boolean firstDriver;
+    private Driver curDriver;
+    private Driver selectedDriver;
     DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamAddSceneController teamAddSceneController;
     private ObservableList<Driver> driversModel;
@@ -63,12 +65,35 @@ public class AddDriverSceneController {
         this.firstDriver = firstDriver;
     }
 
+    public AddDriverSceneController(boolean firstDriver, Driver driver){
+        this.firstDriver = firstDriver;
+        this.curDriver = driver;
+    }
+
     public void setTeamAddSceneController(TeamAddSceneController teamAddSceneController) {
         this.teamAddSceneController = teamAddSceneController;
     }
 
     public void initialize() {
-        birthdayDatePicker.setValue(LocalDate.now().minusYears(18));
+        if (curDriver == null) {
+            birthdayDatePicker.setValue(LocalDate.now().minusYears(18));
+        } else {
+            firstnameTextField.textProperty().setValue(curDriver.getFirstName());
+            surnameTextField.textProperty().setValue(curDriver.getSurname());
+            countryTextField.textProperty().setValue(curDriver.getCountry());
+            birthdayDatePicker.setValue(curDriver.getBirthday());
+            raceNumberTextField.textProperty().setValue(String.valueOf(curDriver.getRaceNumber()));
+            if (curDriver.getPhoto() != null) {
+                imageViewer.setVisible(true);
+                imageViewer.setImage(curDriver.getPhoto());
+                closeButton.setVisible(true);
+                imagechooseButton.setVisible(false);
+            } else {
+                imageViewer.setVisible(false);
+                imagechooseButton.setVisible(true);
+                closeButton.setVisible(false);
+            }
+        }
         List<Driver> drivers = driverDao.getAllDriversWithoutPhoto();
         driversModel = FXCollections.observableList(drivers);
         driversListView.setItems(driversModel);
@@ -175,6 +200,7 @@ public class AddDriverSceneController {
         if (clickedDriver != null) {
             Driver driver = driverDao.getByName(clickedDriver.getFirstName(),
                     clickedDriver.getSurname());
+            selectedDriver = driver;
             if (driver.getPhoto() != null) {
                 imageViewer.setVisible(true);
                 imageViewer.setImage(driver.getPhoto());

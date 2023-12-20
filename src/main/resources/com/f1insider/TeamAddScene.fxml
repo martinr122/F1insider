@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBack" prefHeight="6.0" prefWidth="34.0" text="&lt;-" />
       <Label layoutX="14.0" layoutY="48.0" text="Teams from last year" />
-      <Label layoutX="598.0" layoutY="48.0" text="Teams in current year" />
+      <Label layoutX="600.0" layoutY="48.0" text="Teams in current year" />
       <Label layoutX="204.0" layoutY="48.0" text="Team name:" />
       <TextField fx:id="teamNameTextField" layoutX="204.0" layoutY="66.0" />
       <Label layoutX="204.0" layoutY="106.0" prefHeight="18.0" prefWidth="88.0" text="Team principal:" />
@@ -40,19 +47,27 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <GridPane fx:id="lastYearGridPane" alignment="TOP_CENTER" layoutX="14.0" layoutY="65.0" prefHeight="350.0" prefWidth="162.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-      </GridPane>
-      <GridPane fx:id="currentYearGridPane" alignment="TOP_CENTER" layoutX="598.0" layoutY="65.0" prefHeight="350.0" prefWidth="162.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-      </GridPane>
       <Pane fx:id="teamColor" layoutX="169.0" layoutY="6.0" prefHeight="42.0" prefWidth="421.0" />
       <ColorPicker fx:id="teamColorPicker" layoutX="207.0" layoutY="247.0" />
       <Button layoutX="381.0" layoutY="408.0" mnemonicParsing="false" onAction="#onClearTeam" prefHeight="36.0" prefWidth="88.0" text="Clear team" />
       <Button layoutX="485.0" layoutY="408.0" mnemonicParsing="false" onAction="#onSaveTeam" prefHeight="36.0" prefWidth="88.0" text="Save Team" />
+      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="65.0" prefHeight="350.0" prefWidth="180.0" style="-fx-background-color: white; -fx-border-color: white;" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="lastYearGridPane" alignment="TOP_CENTER" prefHeight="340.0" prefWidth="164.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <ScrollPane hbarPolicy="NEVER" layoutX="600.0" layoutY="65.0" prefHeight="350.0" prefWidth="180.0" style="-fx-background-color: white; -fx-border-color: white;" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="currentYearGridPane" alignment="TOP_CENTER" prefHeight="304.0" prefWidth="162.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
