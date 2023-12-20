@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="3.0" layoutY="60.0" prefWidth="22.0" text="  1:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="firstDriverChoiceBox" layoutX="30.0" layoutY="60.0" prefWidth="150.0" />
+      <TextField fx:id="firstIntervalTextField" layoutX="185.0" layoutY="60.0" prefWidth="100.0" />
+      <CheckBox fx:id="firstFinishedCheckBox" layoutX="290.0" layoutY="64.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="90.0" prefWidth="22.0" text="  2:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="secondDriverChoiceBox" layoutX="30.0" layoutY="90.0" prefWidth="150.0" />
+      <TextField fx:id="secondIntervalTextField" layoutX="185.0" layoutY="90.0" prefWidth="100.0" />
+      <CheckBox fx:id="secondFinishedCheckBox" layoutX="290.0" layoutY="94.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="120.0" prefWidth="22.0" text="  3:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="thirdDriverChoiceBox" layoutX="30.0" layoutY="120.0" prefWidth="150.0" />
+      <TextField fx:id="thirdIntervalTextField" layoutX="185.0" layoutY="120.0" prefWidth="100.0" />
+      <CheckBox fx:id="thirdFinishedCheckBox" layoutX="290.0" layoutY="124.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="150.0" prefWidth="22.0" text="  4:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="fourthDriverChoiceBox" layoutX="30.0" layoutY="150.0" prefWidth="150.0" />
+      <TextField fx:id="fourthIntervalTextField" layoutX="185.0" layoutY="150.0" prefWidth="100.0" />
+      <CheckBox fx:id="fourthFinishedCheckBox" layoutX="290.0" layoutY="154.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="180.0" prefWidth="22.0" text="  5:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="fifthDriverChoiceBox" layoutX="30.0" layoutY="180.0" prefWidth="150.0" />
+      <TextField fx:id="fifthIntervalTextField" layoutX="185.0" layoutY="180.0" prefWidth="100.0" />
+      <CheckBox fx:id="fifthFinishedCheckBox" layoutX="290.0" layoutY="184.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="210.0" prefWidth="22.0" text="  6:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="sixthDriverChoiceBox" layoutX="30.0" layoutY="210.0" prefWidth="150.0" />
+      <TextField fx:id="sixthIntervalTextField" layoutX="185.0" layoutY="210.0" prefWidth="100.0" />
+      <CheckBox fx:id="sixthFinishedCheckBox" layoutX="290.0" layoutY="214.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="240.0" prefWidth="22.0" text="  7:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="seventhDriverChoiceBox" layoutX="30.0" layoutY="240.0" prefWidth="150.0" />
+      <TextField fx:id="seventhIntervalTextField" layoutX="185.0" layoutY="240.0" prefWidth="100.0" />
+      <CheckBox fx:id="seventhFinishedCheckBox" layoutX="290.0" layoutY="244.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="270.0" prefWidth="22.0" text="  8:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="eighthDriverChoiceBox" layoutX="30.0" layoutY="270.0" prefWidth="150.0" />
+      <TextField fx:id="eighthIntervalTextField" layoutX="185.0" layoutY="270.0" prefWidth="100.0" />
+      <CheckBox fx:id="eighthFinishedCheckBox" layoutX="290.0" layoutY="274.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="300.0" prefWidth="22.0" text="  9:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="ninethDriverChoiceBox" layoutX="30.0" layoutY="300.0" prefWidth="150.0" />
+      <TextField fx:id="ninethIntervalTextField" layoutX="185.0" layoutY="300.0" prefWidth="100.0" />
+      <CheckBox fx:id="ninethFinishedCheckBox" layoutX="290.0" layoutY="304.0" mnemonicParsing="false" />
+      <Label layoutX="3.0" layoutY="330.0" prefWidth="22.0" text="10:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="tenthDriverChoiceBox" layoutX="30.0" layoutY="330.0" prefWidth="150.0" />
+      <TextField fx:id="tenthIntervalTextField" layoutX="185.0" layoutY="330.0" prefWidth="100.0" />
+      <CheckBox fx:id="tenthFinishedCheckBox" layoutX="290.0" layoutY="334.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="60.0" prefWidth="22.0" text="11:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="eleventhDriverChoiceBox" layoutX="339.0" layoutY="60.0" prefWidth="150.0" />
+      <TextField fx:id="eleventhIntervalTextField" layoutX="494.0" layoutY="60.0" prefWidth="100.0" />
+      <CheckBox fx:id="eleventhFinishedCheckBox" layoutX="599.0" layoutY="64.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="90.0" prefWidth="22.0" text="12:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="twelfthDriverChoiceBox" layoutX="339.0" layoutY="90.0" prefWidth="150.0" />
+      <TextField fx:id="twelfthIntervalTextField" layoutX="494.0" layoutY="90.0" prefWidth="100.0" />
+      <CheckBox fx:id="twelfthFinishedCheckBox" layoutX="599.0" layoutY="94.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="120.0" prefWidth="22.0" text="13:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="thirteenthDriverChoiceBox" layoutX="339.0" layoutY="120.0" prefWidth="150.0" />
+      <TextField fx:id="thirteenthIntervalTextField" layoutX="494.0" layoutY="120.0" prefWidth="100.0" />
+      <CheckBox fx:id="thirteenthFinishedCheckBox" layoutX="599.0" layoutY="124.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="150.0" prefWidth="22.0" text="14:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="fourteenthDriverChoiceBox" layoutX="339.0" layoutY="150.0" prefWidth="150.0" />
+      <TextField fx:id="fourteenthIntervalTextField" layoutX="494.0" layoutY="150.0" prefWidth="100.0" />
+      <CheckBox fx:id="fourteenthFinishedCheckBox" layoutX="599.0" layoutY="154.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="180.0" prefWidth="22.0" text="15:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="fifteenthDriverChoiceBox" layoutX="339.0" layoutY="180.0" prefWidth="150.0" />
+      <TextField fx:id="fifteenthIntervalTextField" layoutX="494.0" layoutY="180.0" prefWidth="100.0" />
+      <CheckBox fx:id="fifteenthFinishedCheckBox" layoutX="599.0" layoutY="184.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="210.0" prefWidth="22.0" text="16:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="sixteenthDriverChoiceBox" layoutX="339.0" layoutY="210.0" prefWidth="150.0" />
+      <TextField fx:id="sixteenthIntervalTextField" layoutX="494.0" layoutY="210.0" prefWidth="100.0" />
+      <CheckBox fx:id="sixteenthFinishedCheckBox" layoutX="599.0" layoutY="214.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="240.0" prefWidth="22.0" text="17:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="seventeenthDriverChoiceBox" layoutX="339.0" layoutY="240.0" prefWidth="150.0" />
+      <TextField fx:id="seventeenthIntervalTextField" layoutX="494.0" layoutY="240.0" prefWidth="100.0" />
+      <CheckBox fx:id="seventeenthFinishedCheckBox" layoutX="599.0" layoutY="244.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="270.0" prefWidth="22.0" text="18:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="eighteenthDriverChoiceBox" layoutX="339.0" layoutY="270.0" prefWidth="150.0" />
+      <TextField fx:id="eighteenthIntervalTextField" layoutX="494.0" layoutY="270.0" prefWidth="100.0" />
+      <CheckBox fx:id="eighteenthFinishedCheckBox" layoutX="599.0" layoutY="274.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="300.0" prefWidth="22.0" text="19:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="nineteenthDriverChoiceBox" layoutX="339.0" layoutY="300.0" prefWidth="150.0" />
+      <TextField fx:id="nineteenthIntervalTextField" layoutX="494.0" layoutY="300.0" prefWidth="100.0" />
+      <CheckBox fx:id="nineteenthFinishedCheckBox" layoutX="599.0" layoutY="304.0" mnemonicParsing="false" />
+      <Label layoutX="312.0" layoutY="330.0" prefWidth="22.0" text="20:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="twentiethDriverChoiceBox" layoutX="339.0" layoutY="330.0" prefWidth="150.0" />
+      <TextField fx:id="twentiethIntervalTextField" layoutX="494.0" layoutY="330.0" prefWidth="100.0" />
+      <CheckBox fx:id="twentiethFinishedCheckBox" layoutX="599.0" layoutY="334.0" mnemonicParsing="false" />
+      <Button fx:id="saveButton" layoutX="562.0" layoutY="362.0" mnemonicParsing="false" onAction="#onSaveRaceResults" text="SAVE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="84.0" layoutY="35.0" text="Driver">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="185.0" layoutY="35.0" text="Interval/Finished">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="393.0" layoutY="35.0" text="Driver">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="494.0" layoutY="35.0" text="Interval/Finished">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="114.0" text="Race Results">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="racePlaceLabel" layoutX="339.0" layoutY="1.0" text="Race place">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#onBack" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
+   </children>
+</AnchorPane>

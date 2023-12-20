@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../style/standings.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ToolBar cacheShape="false" depthTest="DISABLE" focusTraversable="false" prefHeight="60.0" prefWidth="1280.0" style="-fx-background-color: f13353;">
+         <items>
+            <Button fx:id="showHomeButton" mnemonicParsing="false" onAction="#onShowHome" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: black;" text="Home" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="showRacingButton" mnemonicParsing="false" onAction="#onShowRacing" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: black;" text="Racing" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="showStandingsButton" disable="true" mnemonicParsing="false" onAction="#onShowStandings" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: white;" text="Standings">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <MenuButton fx:id="chooseHistory" mnemonicParsing="false" onAction="#onChooseHistory" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: black;" text="History" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </MenuButton>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#onLogout" prefHeight="25.0" prefWidth="120.0" snapToPixel="false" style="-fx-background-color: black;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Label fx:id="UsernameLabel" text="Label" textAlignment="RIGHT">
+               <padding>
+                  <Insets left="600.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </items>
+         <padding>
+            <Insets bottom="3.0" left="3.0" />
+         </padding>
+      </ToolBar>
+      <TabPane layoutY="60.0" prefHeight="743.0" prefWidth="1280.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="driversTab" text="Drivers Championship">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="standingsDriverTable" prefHeight="714.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="positionColumn" prefWidth="75.0" text="POS" />
+                            <TableColumn fx:id="nameColumn" prefWidth="408.0" text="Name" />
+                              <TableColumn fx:id="teamColumn" prefWidth="653.0" text="Team" />
+                              <TableColumn fx:id="pointscolumn" minWidth="0.0" prefWidth="143.0" text="Points" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Constructors Championship">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="724.0" prefWidth="1278.0">
+                     <children>
+                        <TableView fx:id="standingsTeamTable" prefHeight="715.0" prefWidth="1280.0">
+                          <columns>
+                            <TableColumn fx:id="positionTeamColumn" prefWidth="75.0" text="POS" />
+                            <TableColumn fx:id="nameTeamColumn" prefWidth="1007.0" text="Team " />
+                              <TableColumn fx:id="pointsTeamColumn" minWidth="0.0" prefWidth="197.0" text="Points" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

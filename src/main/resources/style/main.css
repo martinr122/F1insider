@@ -1,0 +1,41 @@
+#showRaceButton {
+    -fx-background-color: #f13353;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-border-radius: 5px;
+}
+
+#showRaceButton:hover {
+    -fx-background-color: #d82d4a;
+}
+
+#lastRacePodiumTable {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-size: 9;
+}
+
+#lastRacePodiumTable .column-header,
+#lastRacePodiumTable .table-cell {
+    -fx-border-color: white;
+}
+#lastRacePodiumTable #driverColumn {
+    -fx-background-color: white;
+}
+#lastRacePodiumTable #positionColumn {
+    -fx-background-color: white;
+}
+#lastRacePodiumTable #intervalColumn {
+    -fx-background-color: white;
+}
+
+#lastRacePodiumTable .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
+
+
+
+
+
+
