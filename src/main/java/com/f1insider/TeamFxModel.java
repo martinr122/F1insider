@@ -71,75 +71,57 @@ public class TeamFxModel {
     public StringProperty nameFounderProperty() {
         return nameFounder;
     }
-
     public void setNameFounder(String nameFounder) {
         this.nameFounder.set(nameFounder);
     }
-
     public String getCountry() {
         return country.get();
     }
-
     public StringProperty countryProperty() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country.set(country);
     }
-
     public String getNameMonopost() {
         return nameMonopost.get();
     }
-
     public StringProperty nameMonopostProperty() {
         return nameMonopost;
     }
-
     public void setNameMonopost(String nameMonopost) {
         this.nameMonopost.set(nameMonopost);
     }
-
     public int getYear() {
         return year;
     }
-
     public void setYear(int year) {
         this.year = year;
     }
-
     public int getPoints() {
         return points;
     }
-
     public void setPoints(int points) {
         this.points = points;
     }
-
     public String getTeamColor() {
         return teamColor.get();
     }
-
     public StringProperty teamColorProperty() {
         return teamColor;
     }
-
     public void setTeamColor(String teamColor) {
         this.teamColor.set(teamColor);
     }
-
     public Driver getFirstDriver() {
         return firstDriver;
     }
-
     public void setFirstDriver(Driver firstDriver) {
         this.firstDriver = firstDriver;
     }
-
     public Driver getSecondDriver() {
         return secondDriver;
     }
-
     public void setSecondDriver(Driver secondDriver) {
         this.secondDriver = secondDriver;
     }

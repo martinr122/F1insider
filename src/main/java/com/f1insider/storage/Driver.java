@@ -23,6 +23,17 @@ public class Driver {
         return id;
     }
 
+    public Driver(int id, String firstName, String surname, String country, LocalDate birthday, int raceNumber, int points, Image photo) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.country = country;
+        this.birthday = birthday;
+        this.raceNumber = raceNumber;
+        this.points = points;
+        this.photo = photo;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

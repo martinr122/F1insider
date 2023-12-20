@@ -156,7 +156,7 @@
       </TableView>
       <ScrollPane hbarPolicy="NEVER" layoutX="232.0" layoutY="479.0" prefHeight="305.0" prefWidth="323.0" vbarPolicy="ALWAYS">
          <content>
-            <GridPane fx:id="commentGridPane" prefHeight="200.0" prefWidth="300.0">
+            <GridPane fx:id="commentGridPane" prefHeight="301.0" prefWidth="300.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="300.0" />

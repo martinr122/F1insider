@@ -136,7 +136,12 @@ public class TeamAddSceneController {
     void onAddFirstDriver(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDriverScene.fxml"));
-            AddDriverSceneController controller = new AddDriverSceneController(true);
+            AddDriverSceneController controller = null;
+            if (firstDriver == null) {
+                controller = new AddDriverSceneController(true);
+            }else{
+                controller = new AddDriverSceneController(true, firstDriver);
+            }
             controller.setTeamAddSceneController(this);
             loader.setController(controller);
             Parent teamAddParent = loader.load();
@@ -271,6 +276,7 @@ public class TeamAddSceneController {
         }
 
         List<Driver> curDrivers = Arrays.asList(firstDriver, secondDriver);
+        System.out.println(curDrivers);
 
         for (Driver driver :
                 preDrivers) {
@@ -339,6 +345,7 @@ public class TeamAddSceneController {
                 firstNameLabel.setText(firstDriver.toString());
                 secondNameLabel.setText(secondDriver.toString());
             }
+            System.out.println(firstDriver);
         }
     }
 

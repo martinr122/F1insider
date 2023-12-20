@@ -84,7 +84,7 @@ public class MySqlDriverDao implements DriverDao {
                 "WHERE dht.Team_idTeam = ? " +
                 "AND dht.active_contract = 1";
 
-        return jdbcTemplate.query(sql, driverRM(), idTeam);
+        return jdbcTemplate.query(sql, driverWithPhotoRM(), idTeam);
     }
 
     @Override
