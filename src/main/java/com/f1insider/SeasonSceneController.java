@@ -173,8 +173,9 @@ public class SeasonSceneController {
                 Parent seasonParent = loader.load();
                 Stage teamAddStage = (Stage) addTeamButton.getScene().getWindow();
                 teamAddStage.setScene(new Scene(seasonParent));
-                teamAddStage.setTitle("F1Insider - Add Team");
+                teamAddStage.setTitle("Add Team");
                 teamAddStage.centerOnScreen();
+                teamAddStage.setResizable(false);
                 teamAddStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -197,8 +198,9 @@ public class SeasonSceneController {
             Parent seasonParent = loader.load();
             Stage teamAddStage = (Stage) addTeamButton.getScene().getWindow();
             teamAddStage.setScene(new Scene(seasonParent));
-            teamAddStage.setTitle("F1Insider - Add Team");
+            teamAddStage.setTitle("Add Team");
             teamAddStage.centerOnScreen();
+            teamAddStage.setResizable(false);
             teamAddStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
             teamAddStage.show();
         }catch(IOException e){
@@ -214,7 +216,9 @@ public class SeasonSceneController {
             Parent manageScene = loader.load();
             Stage manageSceneStage = (Stage) backButton.getScene().getWindow();
             manageSceneStage.setScene(new Scene(manageScene));
-            manageSceneStage.setTitle("F1Insider - Manager");
+            manageSceneStage.setTitle("Manager");
+            manageSceneStage.setResizable(false);
+            manageSceneStage.centerOnScreen();
             manageSceneStage.show();
         } catch (IOException e) {
             e.printStackTrace();

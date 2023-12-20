@@ -145,6 +145,8 @@ public class LoginSceneController {
             Stage registrationStage = (Stage) RegisterButton.getScene().getWindow();
             registrationStage.setScene(new Scene(registerScene));
             registrationStage.setTitle("Register - F1Insider");
+            registrationStage.setResizable(false);
+            registrationStage.centerOnScreen();
             registrationStage.show();
         } catch (IOException e) {
             e.printStackTrace();

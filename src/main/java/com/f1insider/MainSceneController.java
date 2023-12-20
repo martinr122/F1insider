@@ -88,6 +88,7 @@ public class MainSceneController {
     private ObservableList<String> podiumModel;
     private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
     private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
+
     public MainSceneController(User user) {
         this.user = user;
         this.season = String.valueOf(LocalDate.now().getYear());
@@ -109,10 +110,11 @@ public class MainSceneController {
             surname += driverName[i];
             surname += " ";
         }
-
         Driver driver = driverDao.getByName(driverName[0], surname);
-        leaderDriverImage.setImage(driver.getPhoto());
-        leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/" + season + "/team.html"));
+        if (driver != null) {
+            leaderDriverImage.setImage(driver.getPhoto());
+            leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/" + season + "/team.html"));
+        }
 
         if (!user.isAdmin()) {
             manageButton.setVisible(false);
@@ -155,17 +157,18 @@ public class MainSceneController {
             menuItem.setOnAction(this::onChooseHistory);
             chooseHistory.getItems().add(menuItem);
         }
+        if (lastRace != null) {
+            List<Comment> comments = commentDao.allCommentByRace(raceDao.getRaceId(lastRace));
+            for (int i = 0; i < comments.size(); i++) {
 
-        List<Comment> comments = commentDao.allCommentByRace(raceDao.getRaceId(lastRace));
-        for (int i = 0; i < comments.size(); i++) {
+                Comment comment = comments.get(i);
 
-            Comment comment = comments.get(i);
-
-            Text newCommentText = new Text(comment.getComment());
-            newCommentText.setWrappingWidth(280.0);
-            Text userName = new Text(user.getUsername() + ":");
-            userName.setWrappingWidth(70);
-            commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
+                Text newCommentText = new Text(comment.getComment());
+                newCommentText.setWrappingWidth(280.0);
+                Text userName = new Text(user.getUsername() + ":");
+                userName.setWrappingWidth(70);
+                commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
+            }
         }
     }
 
@@ -180,6 +183,7 @@ public class MainSceneController {
             Stage loginStage = (Stage) logoutButton.getScene().getWindow();
             loginStage.setScene(new Scene(loginScene));
             loginStage.setTitle("Login - F1Insider");
+            loginStage.setResizable(false);
             loginStage.centerOnScreen();
             loginStage.show();
         } catch (IOException e) {
@@ -198,6 +202,7 @@ public class MainSceneController {
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -215,6 +220,8 @@ public class MainSceneController {
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();
             standingsMenuStage.setScene(new Scene(standingsMenuScene));
             standingsMenuStage.setTitle("Standings");
+            standingsMenuStage.setResizable(false);
+            standingsMenuStage.centerOnScreen();
             standingsMenuStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -238,6 +245,7 @@ public class MainSceneController {
                 Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();
                 racingMenuStage.setScene(new Scene(racingMenuScene));
                 racingMenuStage.setTitle("Racing");
+                racingMenuStage.setResizable(false);
                 racingMenuStage.centerOnScreen();
                 racingMenuStage.show();
             } catch (IOException e) {
@@ -257,7 +265,8 @@ public class MainSceneController {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("F1Insider - Manager");
+        stage.setTitle("Manager");
+        stage.setResizable(false);
         stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
         stage.show();
     }
@@ -277,6 +286,7 @@ public class MainSceneController {
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {

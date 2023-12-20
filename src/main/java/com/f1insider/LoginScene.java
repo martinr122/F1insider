@@ -17,7 +17,8 @@ public class LoginScene extends Application {
         Scene scene = new Scene(parent);
         scene.getStylesheets().add("style/login.css");
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Login - F1Insider");
+        primaryStage.setTitle("F1Insider");
+        primaryStage.setResizable(false);
         primaryStage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
         primaryStage.show();
     }

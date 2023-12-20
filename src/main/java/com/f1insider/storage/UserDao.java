@@ -11,6 +11,8 @@ public interface UserDao {
     Boolean add(User user);
 
     boolean isAdmin(String username) throws EntityNotFoundException;
+
+    void delete(String username) throws EntityNotFoundException;
 }
 
 

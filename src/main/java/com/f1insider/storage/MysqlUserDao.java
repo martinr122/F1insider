@@ -92,6 +92,11 @@ public class MysqlUserDao implements UserDao {
         String query = "SELECT admin FROM User WHERE username = ?";
         return jdbcTemplate.queryForObject(query, Integer.class, username) == 1;
     }
+    @Override
+    public void delete(String username) {
+        String query = "DELETE FROM User WHERE username = ?";
+        jdbcTemplate.update(query, username);
+    }
 
 
 }

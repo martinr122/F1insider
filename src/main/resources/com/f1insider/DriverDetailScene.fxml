@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -53,7 +54,6 @@
             <Insets bottom="3.0" left="3.0" />
          </padding>
       </ToolBar>
-      <ImageView fx:id="driverPhoto" fitHeight="398.0" fitWidth="321.0" layoutX="18.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="driversNameLabel" layoutX="368.0" layoutY="71.0" text="DriverNameLabel">
          <font>
             <Font name="System Bold" size="36.0" />
@@ -177,5 +177,7 @@
         </columns>
       </TableView>
       <Button fx:id="backButton" layoutX="10.0" layoutY="71.0" mnemonicParsing="false" onAction="#onBack" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
+      <Pane fx:id="teamColorPane" layoutY="59.0" prefHeight="60.0" prefWidth="366.0" />
+      <ImageView fx:id="driverPhoto" fitHeight="398.0" fitWidth="321.0" layoutX="21.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

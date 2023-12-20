@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -97,6 +98,8 @@ public class DriverDetailSceneController {
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
     private SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+    @FXML
+    private Pane teamColorPane;
     public DriverDetailSceneController(User user, Driver driver, int season, Race race) {
         this.user = user;
         this.driver = driver;
@@ -127,7 +130,7 @@ public class DriverDetailSceneController {
         racesLabel.setText(String.valueOf(raceResultsDao.getTotalRaces(driver.getId())));
         championshipsLabel.setText(String.valueOf(seasonDao.getChampionshipsOfDriver(driver.getId())));
         highestFinishLabel.setText(String.valueOf(raceResultsDao.getHighestFinish(driver.getId())));
-
+        teamColorPane.setStyle(" -fx-background-color: #" + teamDao.getTeamByDriver(driver.getId(), season).getTeamColor() + ";");
         driverPhoto.setImage(driver.getPhoto());
         driverImage = driver.getPhoto();
     }
@@ -142,7 +145,8 @@ public class DriverDetailSceneController {
             Stage loginStage = (Stage) logoutButton.getScene().getWindow();
 
             loginStage.setScene(new Scene(loginScene));
-            loginStage.setTitle("Login - F1Insider");
+            loginStage.setTitle("Login");
+            loginStage.setResizable(false);
             loginStage.centerOnScreen();
             loginStage.show();
         } catch (IOException e) {
@@ -164,6 +168,7 @@ public class DriverDetailSceneController {
 
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -181,6 +186,7 @@ public class DriverDetailSceneController {
             Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
             mainMenuStage.setScene(new Scene(mainMenuScene));
             mainMenuStage.setTitle("Standings");
+            mainMenuStage.setResizable(false);
             mainMenuStage.centerOnScreen();
             mainMenuStage.show();
         } catch (IOException e) {
@@ -199,6 +205,7 @@ public class DriverDetailSceneController {
 
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -216,6 +223,7 @@ public class DriverDetailSceneController {
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();
             standingsMenuStage.setScene(new Scene(standingsMenuScene));
             standingsMenuStage.setTitle("Standings");
+            standingsMenuStage.setResizable(false);
             standingsMenuStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -236,6 +244,7 @@ public class DriverDetailSceneController {
 
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -252,6 +261,7 @@ public class DriverDetailSceneController {
             Stage raceStage = (Stage) logoutButton.getScene().getWindow();
             raceStage.setScene(new Scene(raceScene));
             raceStage.setTitle("Race Results");
+            raceStage.setResizable(false);
             raceStage.centerOnScreen();
             raceStage.show();
         }else{
@@ -262,6 +272,7 @@ public class DriverDetailSceneController {
             Stage raceStage = (Stage) logoutButton.getScene().getWindow();
             raceStage.setScene(new Scene(raceScene));
             raceStage.setTitle("Standings");
+            raceStage.setResizable(false);
             raceStage.centerOnScreen();
             raceStage.show();
         }

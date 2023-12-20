@@ -1,6 +1,7 @@
 package com.f1insider.storage;
 
 import javafx.scene.image.Image;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -116,7 +117,12 @@ public class MySqlDriverDao implements DriverDao {
     @Override
     public Driver getByName(String firstName, String surname) {
         String sql = "select * from driver where first_name_driver = ? and surname_driver = ?";
-        return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), firstName, surname);
+        try {
+            return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), firstName, surname);
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
     }
 
     @Override
@@ -152,12 +158,21 @@ public class MySqlDriverDao implements DriverDao {
         return jdbcTemplate.queryForObject(sql, driverWithPhotoRM(), id);
     }
     public void update(Driver driver) throws FileNotFoundException {
-        String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
-                " , photo = ?, country = ?, birthday = ?, race_number = ? " +
-                " WHERE first_name_driver = ? and surname_driver = ?";
-        String path = driver.getPhoto().getUrl().substring("file:/".length());
-        File file = new File(path);
+
+        if (driver.getPhoto() == null) {
+            String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
+                    " , country = ?, birthday = ?, race_number = ? " +
+                    " WHERE first_name_driver = ? and surname_driver = ?";
+            jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
+        }else {
+            String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
+                    " , photo = ?, country = ?, birthday = ?, race_number = ? " +
+                    " WHERE first_name_driver = ? and surname_driver = ?";
+            String path = driver.getPhoto().getUrl().substring("file:/".length());
+            File file = new File(path);
             jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(),
                     new FileInputStream(file), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
+        }
+
     }
 }

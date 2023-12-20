@@ -112,6 +112,7 @@ public class RacingMenuSceneController {
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
         raceStage.setTitle("Race Results");
+        raceStage.setResizable(false);
         raceStage.centerOnScreen();
         raceStage.show();
     }
@@ -125,7 +126,8 @@ public class RacingMenuSceneController {
             Parent loginScene = loader.load();
             Stage loginStage = (Stage) logoutButton.getScene().getWindow();
             loginStage.setScene(new Scene(loginScene));
-            loginStage.setTitle("Login - F1Insider");
+            loginStage.setTitle("F1Insider");
+            loginStage.setResizable(false);
             loginStage.centerOnScreen();
             loginStage.show();
         } catch (IOException e) {
@@ -147,6 +149,7 @@ public class RacingMenuSceneController {
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -164,6 +167,7 @@ public class RacingMenuSceneController {
             Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
             mainMenuStage.setScene(new Scene(mainMenuScene));
             mainMenuStage.setTitle("Standings");
+            mainMenuStage.setResizable(false);
             mainMenuStage.centerOnScreen();
             mainMenuStage.show();
         } catch (IOException e) {
@@ -186,6 +190,8 @@ public class RacingMenuSceneController {
             Stage standingsMenuStage = (Stage) showStandingsButton.getScene().getWindow();
             standingsMenuStage.setScene(new Scene(standingsMenuScene));
             standingsMenuStage.setTitle("Standings");
+            standingsMenuStage.setResizable(false);
+            standingsMenuStage.centerOnScreen();
             standingsMenuStage.show();
         } catch (IOException e) {
             e.printStackTrace();

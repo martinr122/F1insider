@@ -254,7 +254,9 @@ public class RaceResultsEditSceneController {
             Parent manageScene = loader.load();
             Stage manageSceneStage = (Stage) backButton.getScene().getWindow();
             manageSceneStage.setScene(new Scene(manageScene));
-            manageSceneStage.setTitle("F1Insider - Manager");
+            manageSceneStage.setTitle("Manager");
+            manageSceneStage.setResizable(false);
+            manageSceneStage.centerOnScreen();
             manageSceneStage.show();
         } catch (IOException e) {
             e.printStackTrace();

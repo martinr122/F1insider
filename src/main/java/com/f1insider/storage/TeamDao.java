@@ -17,6 +17,7 @@ public interface TeamDao {
 
     int getID(String name, int year);
     void addDriversToTeam(int teamId, int driverId);
+    void deleteDriverFromTeam(int teamId, int driverId);
     void changeContract(int teamId, int driverId);
     int getContract(int teamId, int driverId);
     Team getTeamByDriver(int idDriver, int year);

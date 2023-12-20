@@ -9,4 +9,8 @@ public interface SeasonDao {
 
     List<String> getAllSeason();
     int getChampionshipsOfDriver(int idDriver);
+    String getWcc(int year);
+    String getWdc(int year);
+    void setWcc(int year, String wcc);
+    void setWdc(int year, String wdc);
 }

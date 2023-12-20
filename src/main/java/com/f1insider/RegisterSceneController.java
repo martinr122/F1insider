@@ -146,7 +146,9 @@ public class RegisterSceneController {
             scene.getStylesheets().add("style/login.css");
             Stage loginStage = (Stage) loginButton.getScene().getWindow();;
             loginStage.setScene(scene);
-            loginStage.setTitle("Login - F1Insider");
+            loginStage.setTitle("Login");
+            loginStage.setResizable(false);
+            loginStage.centerOnScreen();
             loginStage.show();
         } catch (IOException e) {
             e.printStackTrace();

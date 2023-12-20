@@ -32,12 +32,24 @@ class MysqlUserDaoTest {
     }
 
     @Test
-    public void addTakenTest() {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassUser("hashPassword");
-        Boolean result = userDao.add(user);
-        assertFalse(result);
+    public void addTest() throws EntityNotFoundException {
+        User userFirst = new User();
+        userFirst.setUsername("admin");
+        userFirst.setPassUser("hashPassword");
+        assertFalse(userDao.add(userFirst));
+
+        User userSecond = new User();
+        userSecond.setUsername("test");
+        userSecond.setPassUser("hashPassword");
+        assertTrue(userDao.add(userSecond));
+        userDao.delete("test");
+        assertThrows(EmptyResultDataAccessException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                userDao.getIdbyUsername("test");
+            }
+        });
+
     }
 
     @Test
@@ -50,6 +62,21 @@ class MysqlUserDaoTest {
         });
         assertTrue(userDao.isAdmin("admin"));
         assertFalse(userDao.isAdmin("jankohrasko"));
+    }
+    @Test
+    public void deleteTest() throws EntityNotFoundException {
+        User user = new User();
+        user.setUsername("deletedUser");
+        user.setPassUser("Password");
+        userDao.add(user);
+
+        userDao.delete("deletedUser");
+        assertThrows(EmptyResultDataAccessException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                userDao.getIdbyUsername("deletedUser");
+            }
+        });
     }
 
 

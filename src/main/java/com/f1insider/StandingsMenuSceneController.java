@@ -167,6 +167,7 @@ public class StandingsMenuSceneController {
             Stage mainMenuStage = (Stage) showHomeButton.getScene().getWindow();
             mainMenuStage.setScene(new Scene(mainMenuScene));
             mainMenuStage.setTitle("Standings");
+            mainMenuStage.setResizable(false);
             mainMenuStage.centerOnScreen();
             mainMenuStage.show();
         }catch(IOException e){
@@ -184,6 +185,7 @@ public class StandingsMenuSceneController {
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -211,6 +213,7 @@ public class StandingsMenuSceneController {
             Stage racingMenuStage = (Stage) logoutButton.getScene().getWindow();;
             racingMenuStage.setScene(new Scene(racingMenuScene));
             racingMenuStage.setTitle("Racing");
+            racingMenuStage.setResizable(false);
             racingMenuStage.centerOnScreen();
             racingMenuStage.show();
         } catch (IOException e) {
@@ -227,7 +230,9 @@ public class StandingsMenuSceneController {
             Parent loginScene = loader.load();
             Stage loginStage = (Stage) logoutButton.getScene().getWindow();;
             loginStage.setScene(new Scene(loginScene));
-            loginStage.setTitle("Login - F1Insider");
+            loginStage.setTitle("Login");
+            loginStage.setResizable(false);
+            loginStage.centerOnScreen();
             loginStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -242,6 +247,7 @@ public class StandingsMenuSceneController {
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
         raceStage.setTitle("Driver Detail");
+        raceStage.setResizable(false);
         raceStage.centerOnScreen();
         raceStage.show();
     }
@@ -254,6 +260,7 @@ public class StandingsMenuSceneController {
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
         raceStage.setTitle("Team Detail");
+        raceStage.setResizable(false);
         raceStage.centerOnScreen();
         raceStage.show();
     }

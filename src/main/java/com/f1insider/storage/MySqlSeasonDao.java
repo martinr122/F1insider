@@ -1,5 +1,6 @@
 package com.f1insider.storage;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -55,8 +56,40 @@ public class MySqlSeasonDao implements SeasonDao {
 
     @Override
     public int getChampionshipsOfDriver(int idDriver) {
-        String sql = "SELECT count(*) from season " +
+        String sql = "SELECT count(*) FROM season " +
                 "WHERE wdc = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, idDriver);
     }
+
+    @Override
+    public String getWcc(int year) {
+        String sql = "SELECT wcc FROM season WHERE year = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, String.class, year);
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    @Override
+    public String getWdc(int year) {
+        String sql = "SELECT wdc FROM season WHERE year = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, String.class, year);
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+
+    }
+
+    public void setWcc(int year, String wcc) {
+        String sql = "UPDATE season SET wcc = ? WHERE year = ?";
+        jdbcTemplate.update(sql, wcc, year);
+    }
+
+    public void setWdc(int year, String wdc) {
+        String sql = "UPDATE season SET wdc = ? WHERE year = ?";
+        jdbcTemplate.update(sql, wdc, year);
+    }
+
 }

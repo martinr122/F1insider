@@ -18,4 +18,20 @@ class MySqlSeasonDaoTest {
     void getAllSeason() {
         assertEquals(6,seasonDao.getAllSeason().size());
     }
+    @Test
+    void getWcc(int year){
+//TODO
+    }
+    @Test
+    void getWdc(int year) {
+//TODO
+    }
+    @Test
+    void setWcc(int year, String wcc){
+//TODO
+    }
+    @Test
+    void setWdc(int year, String wdc){
+//TODO
+    }
 }

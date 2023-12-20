@@ -6,12 +6,17 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="29.0" layoutY="49.0" prefHeight="18.0" prefWidth="43.0" text="Season:" />
       <ComboBox fx:id="seasonComboBox" layoutX="80.0" layoutY="45.0" prefWidth="150.0" />
       <Button fx:id="editButton" layoutX="257.0" layoutY="45.0" mnemonicParsing="false" onAction="#onEditSeason" text="Edit Season" />
       <Button fx:id="newButton" layoutX="255.0" layoutY="96.0" mnemonicParsing="false" onAction="#onNewSeason" text="New Season" />
       <Spinner fx:id="seasonYear" layoutX="80.0" layoutY="96.0" />
+      <Label layoutX="14.0" layoutY="179.0" text="World Constructors' Champion :" />
+      <Label layoutX="14.0" layoutY="249.0" text="World Drivers' Champion : " />
+      <Button fx:id="saveChampionsButton" layoutX="311.0" layoutY="328.0" mnemonicParsing="false" onAction="#onSaveChampions" text="Save Champions" />
+      <ComboBox fx:id="wccComboBox" layoutX="217.0" layoutY="175.0" prefWidth="150.0" />
+      <ComboBox fx:id="wdcComboBox" layoutX="217.0" layoutY="245.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

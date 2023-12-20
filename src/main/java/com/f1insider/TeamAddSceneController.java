@@ -65,6 +65,7 @@ public class TeamAddSceneController {
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamFxModel teamFxModel;
+
     public TeamAddSceneController(User user, int year) {
         this.user = user;
         this.year = year;
@@ -197,6 +198,8 @@ public class TeamAddSceneController {
         teamColor.setVisible(false);
         firstNameLabel.setText("Name of Driver");
         secondNameLabel.setText("Name of Driver");
+        teamFxModel = null;
+
     }
 
     @FXML
@@ -204,7 +207,7 @@ public class TeamAddSceneController {
         Team team = new Team();
         if (teamFxModel != null) {
             team = teamFxModel.getTeam();
-        }else {
+        } else {
             team.setYear(year);
             if (teamNameTextField.getText().isEmpty()) {
                 alertLabel.setVisible(true);
@@ -233,18 +236,19 @@ public class TeamAddSceneController {
                 return;
             } else {
                 team.setNameFounder(founderTextField.getText());
-            }if(countryTextField.getText().length() != 3) {
+            }
+            if (countryTextField.getText().length() != 3) {
                 alertLabel.setVisible(true);
                 alertLabel.setText("Country must be lenght 3!");
                 return;
-            }else {
+            } else {
                 team.setCountry(countryTextField.getText());
             }
-            if (monopostTextField.getText().isEmpty()){
+            if (monopostTextField.getText().isEmpty()) {
                 alertLabel.setVisible(true);
                 alertLabel.setText("Monopost cannot be empty!");
                 return;
-            }else {
+            } else {
                 team.setNameMonopost(monopostTextField.getText());
             }
             team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
@@ -252,7 +256,7 @@ public class TeamAddSceneController {
         if (firstDriver == null || secondDriver == null) {
             alertLabel.setText("Add drivers!");
             return;
-        }else {
+        } else {
             team.setFirstDriver(firstDriver);
             team.setSecondDriver(secondDriver);
             teamDao.add(team);
@@ -274,14 +278,13 @@ public class TeamAddSceneController {
         }
 
         List<Driver> curDrivers = Arrays.asList(firstDriver, secondDriver);
-
-        for (Driver driver :
-                preDrivers) {
-            if (!curDrivers.contains(driver)){
-                teamDao.changeContract(team.getIdTeam(), driver.getId());
+        if (preDrivers != null) {
+            for (Driver driver : preDrivers) {
+                if (!curDrivers.contains(driver)) {
+                    teamDao.changeContract(team.getIdTeam(), driver.getId());
+                }
             }
         }
-
         currentYearGridPane.getChildren().clear();
         List<Team> teams = teamDao.getTeamsByYear(year);
         for (int i = 0; i < teams.size(); i++) {
@@ -336,7 +339,7 @@ public class TeamAddSceneController {
 
             preDrivers = driverDao.getDriversbyTeam(team.getIdTeam());
 
-            if (!preDrivers.isEmpty()) {
+            if (preDrivers != null) {
                 firstDriver = preDrivers.get(0);
                 secondDriver = preDrivers.get(1);
                 firstNameLabel.setText(firstDriver.toString());
@@ -354,7 +357,9 @@ public class TeamAddSceneController {
             Parent seasonScene = seasonLoader.load();
             Stage manageSceneStage = (Stage) backButton.getScene().getWindow();
             manageSceneStage.setScene(new Scene(seasonScene));
-            manageSceneStage.setTitle("F1Insider - Season");
+            manageSceneStage.setTitle("Season");
+            manageSceneStage.setResizable(false);
+            manageSceneStage.centerOnScreen();
             manageSceneStage.show();
         } catch (IOException e) {
             e.printStackTrace();

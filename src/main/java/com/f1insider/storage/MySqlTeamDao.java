@@ -124,6 +124,12 @@ public class MySqlTeamDao implements TeamDao {
     }
 
     @Override
+    public void deleteDriverFromTeam(int teamId, int driverId) {
+        String sql = "DELETE FROM driver_has_team WHERE Team_idTeam = ? AND Driver_idDriver = ?";
+        jdbcTemplate.update(sql, teamId, driverId);
+    }
+
+    @Override
     public void changeContract(int teamId, int driverId) {
         String sql = "UPDATE driver_has_team SET active_contract = 0 " +
                 "WHERE Team_idTeam = ? AND Driver_idDriver = ?";
@@ -145,4 +151,5 @@ public class MySqlTeamDao implements TeamDao {
                 "AND t.Season_year = ?";
         return jdbcTemplate.queryForObject(sql, teamRM(), idDriver, year);
     }
+
 }

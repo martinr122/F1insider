@@ -10,8 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MySqlTeamDaoTest {
     TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
+
     @Test
-    public void testAddAndDelete() {
+    public void AddAndDeleteTest() {
         Team team = new Team();
         team.setTeamName("test");
         team.setNameEngine("test");
@@ -22,7 +23,7 @@ class MySqlTeamDaoTest {
         team.setYear(2023);
         team.setTeamColor("FFFFFF");
         teamDao.add(team);
-        assertEquals(team,teamDao.getTeamByName("test", 2023));
+        assertEquals(team, teamDao.getTeamByName("test", 2023));
         teamDao.deleteByName("test", 2023);
         assertThrows(EmptyResultDataAccessException.class, new Executable() {
             @Override
@@ -31,13 +32,15 @@ class MySqlTeamDaoTest {
             }
         });
     }
+
     @Test
-    public void testGetTeamsByYear() {
-        List<Team> result = teamDao.getTeamsByYear(2021);
-        assertEquals(5, result.size());
+    public void GetTeamsByYearTest() {
+        List<Team> result = teamDao.getTeamsByYear(2024);
+        assertEquals(3, result.size());
     }
+
     @Test
-    public void testGetTeamsByDriver() {
+    public void GetTeamsByDriverTest() {
         int driverId = 8;
         List<Team> teams = teamDao.getTeamsbyDriver(driverId);
         assertTrue(teams.size() > 0);
@@ -45,12 +48,30 @@ class MySqlTeamDaoTest {
         List<Team> notTeam = teamDao.getTeamsbyDriver(driverId);
         assertTrue(notTeam.isEmpty());
     }
+
     @Test
-    public void testGetID() {
-        //TODO zmena mena pri hotovej databaze
-        String name = "fer";
+    public void GetIDTest() {
+        String name = "Oracle Red Bull Racing";
         int year = 2023;
         int id = teamDao.getID(name, year);
-        assertEquals(57, id);
+        assertEquals(66, id);
+    }
+
+    @Test
+    public void GetByIdTest() {
+        Team team = teamDao.getById(66);
+        assertEquals("Oracle Red Bull Racing", team.getTeamName());
+    }
+
+    @Test
+    public void GetTeamByNameTest() {
+        Team team = teamDao.getTeamByName("Oracle Red Bull Racing", 2023);
+        assertEquals("Oracle Red Bull Racing", team.getTeamName());
+    }
+
+
+    @Test
+    public void GetTeamByDriverTest() {
+        assertEquals("Oracle Red Bull Racing", teamDao.getTeamByDriver(5, 2023).getTeamName());
     }
 }
