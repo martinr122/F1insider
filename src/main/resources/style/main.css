@@ -33,6 +33,16 @@
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
+.scroll-pane .scroll-bar:vertical{
+    -fx-background-color:white;
+    -fx-color: #f13353;
+}
+.scroll-pane .scroll-bar:hover{
+    -fx-background-color:white;
+    -fx-color: #d82d4a;
+}
+
+
 
 
 

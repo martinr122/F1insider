@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
@@ -63,6 +64,8 @@ public class StandingsMenuSceneController {
 
     @FXML
     private TableView<Team> standingsTeamTable;
+    @FXML
+    private Button manageButton;
 
     private User user;
     private String season;
@@ -78,6 +81,9 @@ public class StandingsMenuSceneController {
     void initialize() {
         UsernameLabel.setText(user.toString());
         SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+        if (!user.isAdmin()) {
+            manageButton.setVisible(false);
+        }
 
         List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
@@ -263,5 +269,21 @@ public class StandingsMenuSceneController {
         raceStage.setResizable(false);
         raceStage.centerOnScreen();
         raceStage.show();
+    }
+    @FXML
+    void onManage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("ManageScene.fxml"));
+        ManageSceneController controller = new ManageSceneController(user);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Manager");
+        stage.setResizable(false);
+        stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
+        stage.show();
     }
 }

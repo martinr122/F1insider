@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="670.0" stylesheets="@../../style/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="52.0" layoutY="14.0" mnemonicParsing="false" onAction="#onAddRaceResultsButton" text="Add race results" />
+      <Button layoutX="61.0" layoutY="14.0" mnemonicParsing="false" onAction="#onAddRaceResultsButton" text="Add race results" />
       <Button layoutX="366.0" layoutY="380.0" mnemonicParsing="false" onAction="#OnAddRace" text="Add race" />
       <TextField fx:id="nameOfGP" layoutX="70.0" layoutY="98.0" />
       <ListView fx:id="listOfRaces" layoutX="460.0" layoutY="43.0" prefHeight="363.0" prefWidth="186.0" />
@@ -47,6 +47,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="backButton" layoutX="8.0" layoutY="13.0" mnemonicParsing="false" onAction="#onBack" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
+      <Button fx:id="backButton" layoutX="8.0" layoutY="13.0" mnemonicParsing="false" onAction="#onBack" prefHeight="31.0" prefWidth="38.0" text="&lt;-" />
    </children>
 </AnchorPane>

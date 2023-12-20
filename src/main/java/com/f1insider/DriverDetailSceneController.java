@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -89,6 +90,8 @@ public class DriverDetailSceneController {
 
     @FXML
     private Label winsLabel;
+    @FXML
+    private Button manageButton;
 
     private Image driverImage;
     private User user;
@@ -109,7 +112,9 @@ public class DriverDetailSceneController {
 
     @FXML
     void initialize() throws EntityNotFoundException {
-
+        if (!user.isAdmin()) {
+            manageButton.setVisible(false);
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         UsernameLabel.setText(user.toString());
@@ -133,6 +138,7 @@ public class DriverDetailSceneController {
         teamColorPane.setStyle(" -fx-background-color: #" + teamDao.getTeamByDriver(driver.getId(), season).getTeamColor() + ";");
         driverPhoto.setImage(driver.getPhoto());
         driverImage = driver.getPhoto();
+
     }
 
     @FXML
@@ -276,5 +282,21 @@ public class DriverDetailSceneController {
             raceStage.centerOnScreen();
             raceStage.show();
         }
+    }
+    @FXML
+    void onManage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("ManageScene.fxml"));
+        ManageSceneController controller = new ManageSceneController(user);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Manager");
+        stage.setResizable(false);
+        stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
+        stage.show();
     }
 }

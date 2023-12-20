@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -98,6 +99,8 @@ public class RaceMenuSceneController {
 
     @FXML
     private TableColumn<RaceResults, String> teamColumn;
+    @FXML
+    private Button manageButton;
 
     private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
@@ -112,6 +115,9 @@ public class RaceMenuSceneController {
 
     @FXML
     void initialize() throws EntityNotFoundException {
+        if (!user.isAdmin()) {
+            manageButton.setVisible(false);
+        }
         List<Comment> comments = commentDao.allCommentByRace(raceDao.getRaceId(race));
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
@@ -320,5 +326,21 @@ public class RaceMenuSceneController {
         raceStage.setResizable(false);
         raceStage.centerOnScreen();
         raceStage.show();
+    }
+    @FXML
+    void onManage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("ManageScene.fxml"));
+        ManageSceneController controller = new ManageSceneController(user);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Manager");
+        stage.setResizable(false);
+        stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
+        stage.show();
     }
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -56,6 +57,24 @@ public class RacingMenuSceneController {
 
     @FXML
     private Button showStandingsButton;
+    @FXML
+    private Button manageButton;
+    @FXML
+    void onManage(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("ManageScene.fxml"));
+        ManageSceneController controller = new ManageSceneController(user);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Manager");
+        stage.setResizable(false);
+        stage.getIcons().add(new javafx.scene.image.Image("images/logo.png"));
+        stage.show();
+    }
 
     public RacingMenuSceneController(User user, String season) {
         this.user = user;
@@ -67,7 +86,9 @@ public class RacingMenuSceneController {
 
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         UsernameLabel.setText(user.toString());
-
+        if (!user.isAdmin()) {
+            manageButton.setVisible(false);
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
         roundNumberColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().

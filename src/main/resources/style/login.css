@@ -7,3 +7,17 @@
 .button:hover {
     -fx-background-color: #d82d4a;
 }
+.root{
+    -fx-background-color: white;
+}
+.text-field  {
+    -fx-background-color: white;
+    -fx-border-width: 0.5px;
+    -fx-border-color: black;
+    -fx-background-radius: 2px;
+}
+
+.text-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: f13353;
+}
