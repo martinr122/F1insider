@@ -2,7 +2,7 @@ package com.f1insider.storage;
 
 import java.util.Objects;
 
-public class Team {
+public class Team implements Comparable<Team>{
     private int idTeam;
     private String teamName;
     private String nameEngine;
@@ -16,10 +16,24 @@ public class Team {
     private Driver firstDriver;
     private Driver secondDriver;
 
-
     public Team(String teamName, int points) {
         this.teamName = teamName;
         this.points = points;
+    }
+
+    public Team(int idTeam, String teamName, String nameEngine, String namePrincipal, String nameFounder, String country, String nameMonopost, int year, int points, String teamColor, Driver firstDriver, Driver secondDriver) {
+        this.idTeam = idTeam;
+        this.teamName = teamName;
+        this.nameEngine = nameEngine;
+        this.namePrincipal = namePrincipal;
+        this.nameFounder = nameFounder;
+        this.country = country;
+        this.nameMonopost = nameMonopost;
+        this.year = year;
+        this.points = points;
+        this.teamColor = teamColor;
+        this.firstDriver = firstDriver;
+        this.secondDriver = secondDriver;
     }
 
     public Team() {
@@ -138,5 +152,10 @@ public class Team {
     @Override
     public int hashCode() {
         return Objects.hash(idTeam);
+    }
+
+    @Override
+    public int compareTo(Team o) {
+        return Integer.compare(o.getPoints(), this.getPoints());
     }
 }

@@ -6,18 +6,25 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 public class MainSceneController {
@@ -73,13 +80,14 @@ public class MainSceneController {
     private Label leaderOfTeamsLabel;
 
     @FXML
-    private Pagination lastRaceCommentsField;
+    private GridPane commentGridPane;
 
     private User user;
     private Race lastRace;
     private String season;
     private ObservableList<String> podiumModel;
     private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
+    private CommentDao commentDao = DaoFactory.INSTANCE.getCommentDao();
     public MainSceneController(User user) {
         this.user = user;
         this.season = String.valueOf(LocalDate.now().getYear());
@@ -88,10 +96,22 @@ public class MainSceneController {
     @FXML
     void initialize() throws EntityNotFoundException {
         RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
+        DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
         SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
         UsernameLabel.setText(user.toString());
         String leaderName = WebPageReader.getLeader("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
         leaderOfDriversLabel.setText(leaderName);
+        String[] driverName = leaderName.split(" ");
+
+        String surname = "";
+
+        for (int i = 1; i <= driverName.length - 1; i++) {
+            surname += driverName[i];
+            surname += " ";
+        }
+
+        Driver driver = driverDao.getByName(driverName[0], surname);
+        leaderDriverImage.setImage(driver.getPhoto());
         leaderOfTeamsLabel.setText(WebPageReader.getLeader("https://www.formula1.com/en/results.html/" + season + "/team.html"));
 
         if (!user.isAdmin()) {
@@ -134,6 +154,18 @@ public class MainSceneController {
             MenuItem menuItem = new MenuItem(season);
             menuItem.setOnAction(this::onChooseHistory);
             chooseHistory.getItems().add(menuItem);
+        }
+
+        List<Comment> comments = commentDao.allCommentByRace(raceDao.getRaceId(lastRace));
+        for (int i = 0; i < comments.size(); i++) {
+
+            Comment comment = comments.get(i);
+
+            Text newCommentText = new Text(comment.getComment());
+            newCommentText.setWrappingWidth(280.0);
+            Text userName = new Text(user.getUsername() + ":");
+            userName.setWrappingWidth(70);
+            commentGridPane.addRow(commentGridPane.getRowCount(), userName, newCommentText);
         }
     }
 

@@ -81,7 +81,8 @@ public class MySqlDriverDao implements DriverDao {
     public List<Driver> getDriversbyTeam(int idTeam) {
         String sql = "SELECT d.* FROM driver d " +
                 "JOIN driver_has_team dht ON d.idDriver = dht.Driver_idDriver " +
-                "WHERE dht.Team_idTeam = ?";
+                "WHERE dht.Team_idTeam = ? " +
+                "AND dht.active_contract = 1";
 
         return jdbcTemplate.query(sql, driverRM(), idTeam);
     }

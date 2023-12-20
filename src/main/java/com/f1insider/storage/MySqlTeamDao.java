@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.*;
+import java.time.Year;
 import java.util.List;
 
 public class MySqlTeamDao implements TeamDao {
@@ -36,24 +37,32 @@ public class MySqlTeamDao implements TeamDao {
 
     @Override
     public void add(Team team) {
-        String query = "INSERT INTO team (team_name, name_engine, name_principal, name_founder, country, name_monopost" +
-                ", Season_year, team_color) "
-                + "VALUES (?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                statement.setString(1, team.getTeamName());
-                statement.setString(2, team.getNameEngine());
-                statement.setString(3, team.getNamePrincipal());
-                statement.setString(4, team.getNameFounder());
-                statement.setString(5, team.getCountry());
-                statement.setString(6, team.getNameMonopost());
-                statement.setInt(7, team.getYear());
-                statement.setString(8, team.getTeamColor());
-                return statement;
-            }
-        });
+        if (team.getIdTeam() == 0) {
+            String query = "INSERT INTO team (team_name, name_engine, name_principal, name_founder, country, name_monopost" +
+                    ", Season_year, team_color) "
+                    + "VALUES (?,?,?,?,?,?,?,?)";
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    PreparedStatement statement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    statement.setString(1, team.getTeamName());
+                    statement.setString(2, team.getNameEngine());
+                    statement.setString(3, team.getNamePrincipal());
+                    statement.setString(4, team.getNameFounder());
+                    statement.setString(5, team.getCountry());
+                    statement.setString(6, team.getNameMonopost());
+                    statement.setInt(7, team.getYear());
+                    statement.setString(8, team.getTeamColor());
+                    return statement;
+                }
+            });
+        } else {
+            String query = "UPDATE team SET team_name = ?, name_engine = ?, name_principal = ?, name_founder = ?, " +
+                    "country = ?, name_monopost = ?, Season_year = ?, team_color = ? "
+                    + "WHERE idTeam = ?";
+            jdbcTemplate.update(query, team.getTeamName(), team.getNameEngine(), team.getNamePrincipal(), team.getNameFounder(),
+                    team.getCountry(), team.getNameMonopost(), team.getYear(), team.getTeamColor(), team.getIdTeam());
+        }
     }
 
     @Override
@@ -62,6 +71,13 @@ public class MySqlTeamDao implements TeamDao {
                 "WHERE Season_year = ?" +
                 " ORDER BY team_name desc";
         return jdbcTemplate.query(sql, teamRM(), year);
+    }
+
+    @Override
+    public Team getById(int id) {
+        String sql = "SELECT * FROM team " +
+                "WHERE idTeam = ?";
+        return jdbcTemplate.queryForObject(sql, teamRM(), id);
     }
 
     @Override
@@ -96,10 +112,29 @@ public class MySqlTeamDao implements TeamDao {
 
     @Override
     public void addDriversToTeam(int teamId, int driverId) {
-        String sql = "INSERT INTO driver_has_team (Driver_idDriver, Team_idTeam) "
-                + "VALUES (?,?)";
-        jdbcTemplate.update(sql, driverId, teamId);
+        if (getContract(teamId, driverId) == 0) {
+            String sql = "INSERT INTO driver_has_team (Driver_idDriver, Team_idTeam, active_contract) "
+                    + "VALUES (?,?,?)";
+            jdbcTemplate.update(sql, driverId, teamId, 1);
+        } else {
+            String sql = "UPDATE driver_has_team SET active_contract = 1 " +
+                    "WHERE Team_idTeam = ? AND Driver_idDriver = ?";
+            jdbcTemplate.update(sql, teamId, driverId);
+        }
+    }
 
+    @Override
+    public void changeContract(int teamId, int driverId) {
+        String sql = "UPDATE driver_has_team SET active_contract = 0 " +
+                "WHERE Team_idTeam = ? AND Driver_idDriver = ?";
+        jdbcTemplate.update(sql, teamId, driverId);
+    }
+
+    @Override
+    public int getContract(int teamId, int driverId) {
+        String sql = "SELECT COUNT(*) FROM driver_has_team " +
+                "WHERE Team_idTeam = ? AND Driver_idDriver = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, teamId, driverId);
     }
 
     @Override

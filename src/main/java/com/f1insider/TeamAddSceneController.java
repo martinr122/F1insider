@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TeamAddSceneController {
@@ -59,9 +61,10 @@ public class TeamAddSceneController {
     private Driver secondDriver;
     private User user;
     private int year;
+    private List<Driver> preDrivers;
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
-
+    private TeamFxModel teamFxModel;
     public TeamAddSceneController(User user, int year) {
         this.user = user;
         this.year = year;
@@ -199,59 +202,61 @@ public class TeamAddSceneController {
     @FXML
     void onSaveTeam(ActionEvent event) throws FileNotFoundException {
         Team team = new Team();
-        team.setYear(year);
-        if (teamNameTextField.getText().isEmpty()) {
-            alertLabel.setVisible(true);
-            alertLabel.setText("Team name cannot be empty!");
-            return;
+        if (teamFxModel != null) {
+            team = teamFxModel.getTeam();
         }else {
-            team.setTeamName(teamNameTextField.getText());
+            team.setYear(year);
+            if (teamNameTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Team name cannot be empty!");
+                return;
+            } else {
+                team.setTeamName(teamNameTextField.getText());
+            }
+            if (EngineTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Engine cannot be empty!");
+                return;
+            } else {
+                team.setNameEngine(EngineTextField.getText());
+            }
+            if (teamPrincipalTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Team principal cannot be empty!");
+                return;
+            } else {
+                team.setNamePrincipal(teamPrincipalTextField.getText());
+            }
+            if (founderTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Founder cannot be empty!");
+                return;
+            } else {
+                team.setNameFounder(founderTextField.getText());
+            }if(countryTextField.getText().length() != 3) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Country must be lenght 3!");
+                return;
+            }else {
+                team.setCountry(countryTextField.getText());
+            }
+            if (monopostTextField.getText().isEmpty()){
+                alertLabel.setVisible(true);
+                alertLabel.setText("Monopost cannot be empty!");
+                return;
+            }else {
+                team.setNameMonopost(monopostTextField.getText());
+            }
+            team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
         }
-        if (EngineTextField.getText().isEmpty()) {
-            alertLabel.setVisible(true);
-            alertLabel.setText("Engine cannot be empty!");
-            return;
-        }else {
-            team.setNameEngine(EngineTextField.getText());
-        }
-        if (teamPrincipalTextField.getText().isEmpty()) {
-            alertLabel.setVisible(true);
-            alertLabel.setText("Team principal cannot be empty!");
-            return;
-        }else {
-            team.setNamePrincipal(teamPrincipalTextField.getText());
-        }
-        if (founderTextField.getText().isEmpty()) {
-            alertLabel.setVisible(true);
-            alertLabel.setText("Founder cannot be empty!");
-            return;
-        }else {
-            team.setNameFounder(founderTextField.getText());
-        }
-        team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
-        if (countryTextField.getText().length() > 3) {
-            alertLabel.setVisible(true);
-            alertLabel.setText("Country must be lenght 3!");
-            return;
-        } else {
-            team.setCountry(countryTextField.getText());
-        }
-        if (monopostTextField.getText().isEmpty()){
-            alertLabel.setVisible(true);
-            alertLabel.setText("Monopost cannot be empty!");
-            return;
-        }
-        team.setNameMonopost(monopostTextField.getText());
-
-        if (firstDriver == null || secondDriver == null || firstDriver.equals(secondDriver)) {
-            alertLabel.setVisible(true);
+        if (firstDriver == null || secondDriver == null) {
             alertLabel.setText("Add drivers!");
             return;
+        }else {
+            team.setFirstDriver(firstDriver);
+            team.setSecondDriver(secondDriver);
+            teamDao.add(team);
         }
-        team.setFirstDriver(firstDriver);
-        team.setSecondDriver(secondDriver);
-        teamDao.add(team);
-        alertLabel.setVisible(false);
         team.setIdTeam(teamDao.getID(team.getTeamName(), year));
         if (driverDao.contains(firstDriver)) {
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
@@ -267,6 +272,16 @@ public class TeamAddSceneController {
             driverDao.add(secondDriver);
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
         }
+
+        List<Driver> curDrivers = Arrays.asList(firstDriver, secondDriver);
+
+        for (Driver driver :
+                preDrivers) {
+            if (!curDrivers.contains(driver)){
+                teamDao.changeContract(team.getIdTeam(), driver.getId());
+            }
+        }
+
         currentYearGridPane.getChildren().clear();
         List<Team> teams = teamDao.getTeamsByYear(year);
         for (int i = 0; i < teams.size(); i++) {
@@ -291,32 +306,41 @@ public class TeamAddSceneController {
         secondNameLabel.setText("Name of Driver");
         teamColor.setVisible(true);
         alertLabel.setVisible(false);
-
     }
 
     private void handleCurrGridClick(MouseEvent mouseEvent) {
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
-            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmationAlert.setTitle("Delete confirmation");
-            confirmationAlert.setContentText("Are you sure you want to delete team: " + clickedLabel.getText() + " ?");
-            ButtonType yesButton = new ButtonType("Yes");
-            ButtonType noButton = new ButtonType("No");
-            confirmationAlert.getButtonTypes().setAll(yesButton, noButton);
-            ButtonType result = confirmationAlert.showAndWait().orElse(noButton);
-            if (result == yesButton) {
-                teamDao.deleteByName(clickedLabel.getText(), year);
-                currentYearGridPane.getChildren().clear();
-                List<Team> teams = teamDao.getTeamsByYear(year);
-                for (int i = 0; i < teams.size(); i++) {
-                    Team curTeam = teams.get(i);
-                    Label label = new Label(curTeam.toString());
-                    label.setFont(new Font(16));
-                    label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
-                    label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
-                    label.setOnMouseClicked(this::handleCurrGridClick);
-                    currentYearGridPane.addRow(i, label);
+
+            Team team = teamDao.getTeamByName(clickedLabel.getText(), year);
+
+            teamFxModel = new TeamFxModel(team);
+
+            for (Label label : getLabelsFromGridPane(currentYearGridPane)) {
+                if (label != clickedLabel) {
+                    label.setStyle("-fx-text-fill: black;");
+                } else {
+                    clickedLabel.setStyle("-fx-background-color: white;");
                 }
+            }
+
+            teamNameTextField.textProperty().bindBidirectional(teamFxModel.teamNameProperty());
+            teamPrincipalTextField.textProperty().bindBidirectional(teamFxModel.namePrincipalProperty());
+            countryTextField.textProperty().bindBidirectional(teamFxModel.countryProperty());
+            EngineTextField.textProperty().bindBidirectional(teamFxModel.nameEngineProperty());
+            founderTextField.textProperty().bindBidirectional(teamFxModel.nameFounderProperty());
+            monopostTextField.textProperty().bindBidirectional(teamFxModel.nameMonopostProperty());
+            teamColor.setVisible(true);
+            teamColor.setStyle("-fx-background-color: #" + team.getTeamColor() + ";");
+            teamColorPicker.setValue(Color.web(teamFxModel.getTeamColor()));
+
+            preDrivers = driverDao.getDriversbyTeam(team.getIdTeam());
+
+            if (!preDrivers.isEmpty()) {
+                firstDriver = preDrivers.get(0);
+                secondDriver = preDrivers.get(1);
+                firstNameLabel.setText(firstDriver.toString());
+                secondNameLabel.setText(secondDriver.toString());
             }
         }
     }
@@ -336,5 +360,4 @@ public class TeamAddSceneController {
             e.printStackTrace();
         }
     }
-
 }

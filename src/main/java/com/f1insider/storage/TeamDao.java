@@ -7,6 +7,8 @@ public interface TeamDao {
 
     List<Team> getTeamsByYear(int year);
 
+    Team getById(int id);
+
     List<Team> getTeamsbyDriver(int idDriver);
 
     Team getTeamByName(String name, int year);
@@ -14,7 +16,8 @@ public interface TeamDao {
     void deleteByName(String name, int year);
 
     int getID(String name, int year);
-
     void addDriversToTeam(int teamId, int driverId);
+    void changeContract(int teamId, int driverId);
+    int getContract(int teamId, int driverId);
     Team getTeamByDriver(int idDriver, int year);
 }
