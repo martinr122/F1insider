@@ -63,6 +63,8 @@ public class SeasonSceneController {
     private Label seasonYearDisplay;
     @FXML
     private Label wrongFormat;
+    @FXML
+    private Label alertLabel;
     private int year;
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
     private SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
@@ -133,6 +135,7 @@ public class SeasonSceneController {
         dateOfpractice1.getValue().getYear() == year){
             Race race = new Race();
             race.setYear(dateOfRace.getValue().getYear());
+
             LocalDate date = dateOfRace.getValue();
             race.setWhenRace(date.atTime(timeOfRace.getValue()));
 
@@ -149,8 +152,21 @@ public class SeasonSceneController {
             race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
 
             race.setSprintWeekend(isSprintRace.isSelected());
-            race.setName(nameOfGP.getText());
-            race.setPlace(placeOfGP.getText());
+            if (nameOfGP.getText().isEmpty() ){
+                alertLabel.setVisible(true);
+                alertLabel.setText("Name of GP is required!");
+                return;
+            }else {
+                race.setName(nameOfGP.getText());
+            }
+            if (placeOfGP.getText().isEmpty()){
+                alertLabel.setVisible(true);
+                alertLabel.setText("Place of GP is required!");
+                return;
+            }else {
+                race.setPlace(placeOfGP.getText());
+            }
+            alertLabel.setVisible(false);
             SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
             seasonDao.addSeason(year,null,null);
             raceDao.saveRace(race);
