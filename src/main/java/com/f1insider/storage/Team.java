@@ -2,7 +2,7 @@ package com.f1insider.storage;
 
 import java.util.Objects;
 
-public class Team {
+public class Team implements Comparable<Team>{
     private int idTeam;
     private String teamName;
     private String nameEngine;
@@ -152,5 +152,10 @@ public class Team {
     @Override
     public int hashCode() {
         return Objects.hash(idTeam);
+    }
+
+    @Override
+    public int compareTo(Team o) {
+        return Integer.compare(o.getPoints(), this.getPoints());
     }
 }

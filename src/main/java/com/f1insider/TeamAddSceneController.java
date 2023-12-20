@@ -200,7 +200,54 @@ public class TeamAddSceneController {
 
     @FXML
     void onSaveTeam(ActionEvent event) {
-        Team team = teamFxModel.getTeam();
+        Team team = new Team();
+        if (teamFxModel != null) {
+            team = teamFxModel.getTeam();
+        }else {
+            team.setYear(year);
+            if (teamNameTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Team name cannot be empty!");
+                return;
+            } else {
+                team.setTeamName(teamNameTextField.getText());
+            }
+            if (EngineTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Engine cannot be empty!");
+                return;
+            } else {
+                team.setNameEngine(EngineTextField.getText());
+            }
+            if (teamPrincipalTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Team principal cannot be empty!");
+                return;
+            } else {
+                team.setNamePrincipal(teamPrincipalTextField.getText());
+            }
+            if (founderTextField.getText().isEmpty()) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Founder cannot be empty!");
+                return;
+            } else {
+                team.setNameFounder(founderTextField.getText());
+            }if(countryTextField.getText().length() != 3) {
+                alertLabel.setVisible(true);
+                alertLabel.setText("Country must be lenght 3!");
+                return;
+            }else {
+                team.setCountry(countryTextField.getText());
+            }
+            if (monopostTextField.getText().isEmpty()){
+                alertLabel.setVisible(true);
+                alertLabel.setText("Monopost cannot be empty!");
+                return;
+            }else {
+                team.setNameMonopost(monopostTextField.getText());
+            }
+            team.setTeamColor(teamColorPicker.getValue().toString().substring(2, 8));
+        }
         if (firstDriver == null || secondDriver == null) {
             alertLabel.setText("Add drivers!");
             return;
@@ -209,6 +256,7 @@ public class TeamAddSceneController {
             team.setSecondDriver(secondDriver);
             teamDao.add(team);
         }
+        team.setIdTeam(teamDao.getID(team.getTeamName(), year));
         if (driverDao.contains(firstDriver)) {
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(firstDriver.getFirstName(), firstDriver.getSurname()));
         } else {
@@ -221,11 +269,11 @@ public class TeamAddSceneController {
             driverDao.add(secondDriver);
             teamDao.addDriversToTeam(team.getIdTeam(), driverDao.getID(secondDriver.getFirstName(), secondDriver.getSurname()));
         }
+
         List<Driver> curDrivers = Arrays.asList(firstDriver, secondDriver);
 
         for (Driver driver :
                 preDrivers) {
-            System.out.println(driver.toString());
             if (!curDrivers.contains(driver)){
                 teamDao.changeContract(team.getIdTeam(), driver.getId());
             }

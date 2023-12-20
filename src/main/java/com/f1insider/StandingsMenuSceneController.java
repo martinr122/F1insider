@@ -15,7 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class StandingsMenuSceneController {
 
@@ -68,6 +68,7 @@ public class StandingsMenuSceneController {
     private String season;
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     private TeamDao teamDao = DaoFactory.INSTANCE.getTeamDao();
+    private List<Team> teamList = new ArrayList<>();
     public StandingsMenuSceneController(User user, String season) {
         this.user = user;
         this.season = season;
@@ -76,22 +77,38 @@ public class StandingsMenuSceneController {
     @FXML
     void initialize() {
         UsernameLabel.setText(user.toString());
-        RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
         SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+
+        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
         positionColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
         nameColumn.setCellValueFactory(cellData -> {
             Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
             return new SimpleObjectProperty(driver);
         });
+        pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
+        List<Driver> addedDrivers = new ArrayList<>();
         teamColumn.setCellValueFactory(cellData -> {
 
             Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
+            Team team = teamDao.getTeamByDriver(driver.getId(), Integer.parseInt(season));
+            int points = cellData.getValue().getPoints();
 
-            return new SimpleStringProperty(teamDao.getTeamByDriver(driver.getId(), Integer.parseInt(season)).toString());
+
+            if(!teamList.contains(team)){
+                team.setPoints(points);
+                teamList.add(team);
+                addedDrivers.add(driver);
+            }else{
+                Team existingTeam = teamList.get(teamList.indexOf(team));
+                if (!addedDrivers.contains(driver)) {
+                    existingTeam.setPoints(existingTeam.getPoints() + points);
+                    addedDrivers.add(driver);
+                }
+            }
+            return new SimpleStringProperty(team.toString());
         });
-        pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
-        List<Driver> driversStandings = WebPageReader.getDriversStandings("https://www.formula1.com/en/results.html/" + season + "/drivers.html");
+        System.out.println(teamList);
 
         if (driversStandings != null) {
             standingsDriverTable.setItems(FXCollections.observableList(driversStandings));
@@ -110,20 +127,14 @@ public class StandingsMenuSceneController {
             }
         });
 
-        for (String season : seasonDao.getAllSeason()) {
-            MenuItem menuItem = new MenuItem(season);
-            menuItem.setOnAction(this::onChooseHistory);
-            chooseHistory.getItems().add(menuItem);
-        }
-
         positionTeamColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getTableView().getItems().indexOf(cellData.getValue()) + 1).asObject());
         nameTeamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         pointsTeamColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
         List<Team> teamsStandings = WebPageReader.getTeamsStandings("https://www.formula1.com/en/results.html/" + season + "/team.html");
 
-        if (driversStandings != null) {
-            standingsTeamTable.setItems(FXCollections.observableList(teamsStandings));
+        if (teamsStandings != null) {
+            standingsTeamTable.setItems(FXCollections.observableList(teamList));
         } else {
             standingsTeamTable.setPlaceholder(new Label("The new season hasn't started yet! But you can check the standings from previous seasons!"));
             standingsTeamTable.setItems(FXCollections.emptyObservableList());
@@ -138,6 +149,12 @@ public class StandingsMenuSceneController {
                 }
             }
         });
+
+        for (String season : seasonDao.getAllSeason()) {
+            MenuItem menuItem = new MenuItem(season);
+            menuItem.setOnAction(this::onChooseHistory);
+            chooseHistory.getItems().add(menuItem);
+        }
     }
     @FXML
     void onShowHome(ActionEvent event){
@@ -224,7 +241,7 @@ public class StandingsMenuSceneController {
         Parent raceScene = loader.load();
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
-        raceStage.setTitle("Race Results");
+        raceStage.setTitle("Driver Detail");
         raceStage.centerOnScreen();
         raceStage.show();
     }
@@ -236,7 +253,7 @@ public class StandingsMenuSceneController {
         Parent raceScene = loader.load();
         Stage raceStage = (Stage) logoutButton.getScene().getWindow();
         raceStage.setScene(new Scene(raceScene));
-        raceStage.setTitle("Race Results");
+        raceStage.setTitle("Team Detail");
         raceStage.centerOnScreen();
         raceStage.show();
     }

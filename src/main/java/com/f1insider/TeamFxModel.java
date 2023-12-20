@@ -1,7 +1,7 @@
-package f1.f1insider;
+package com.f1insider;
 
-import f1.f1insider.storage.Driver;
-import f1.f1insider.storage.Team;
+import com.f1insider.storage.Driver;
+import com.f1insider.storage.Team;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
