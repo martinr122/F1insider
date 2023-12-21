@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../style/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../style/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ListView fx:id="driversListView" layoutX="14.0" layoutY="10.0" prefHeight="352.0" prefWidth="230.0" />
       <Label layoutX="250.0" layoutY="25.0" text="Firstname">
@@ -42,7 +38,7 @@
       <TextField fx:id="raceNumberTextField" layoutX="250.0" layoutY="175.0" prefHeight="26.0" prefWidth="50.0" />
       <TextField fx:id="countryTextField" layoutX="250.0" layoutY="235.0" prefHeight="26.0" prefWidth="50.0" />
       <DatePicker fx:id="birthdayDatePicker" layoutX="250.0" layoutY="295.0" prefHeight="26.0" prefWidth="125.0" />
-      <Button fx:id="addDriverButton" layoutX="479.0" layoutY="295.0" mnemonicParsing="false" onAction="#onAddDriver" text="Add Driver" />
+      <Button fx:id="addDriverButton" layoutX="479.0" layoutY="295.0" mnemonicParsing="false" onAction="#onAddDriver" prefHeight="31.0" prefWidth="102.0" text="Add Driver" />
       <Label fx:id="alertLabel" layoutX="255.0" layoutY="350.0" prefHeight="20.0" prefWidth="330.0" textFill="RED">
          <font>
             <Font size="14.0" />
@@ -52,5 +48,6 @@
       <Button fx:id="imagechooseButton" layoutX="430.0" layoutY="73.0" mnemonicParsing="false" onAction="#onChoose" text="Add image of driver" />
       <ImageView fx:id="imageViewer" fitHeight="150.0" fitWidth="200.0" layoutX="386.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false" />
       <Button fx:id="closeButton" layoutX="499.0" layoutY="163.0" mnemonicParsing="false" onAction="#onCloseImage" prefHeight="26.0" prefWidth="82.0" text="Close image" visible="false" />
+      <Button fx:id="cleraDriverButton" layoutX="480.0" layoutY="338.0" mnemonicParsing="false" onAction="#onClearDriver" prefHeight="31.0" prefWidth="102.0" text="Clear Driver" />
    </children>
 </AnchorPane>

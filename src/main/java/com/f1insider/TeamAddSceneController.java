@@ -186,11 +186,17 @@ public class TeamAddSceneController {
     public void firstDriverAdded(Driver driver) {
         firstNameLabel.setText(driver.toString());
         firstDriver = driver;
+        if(teamFxModel != null){
+            teamFxModel.setFirstDriver(firstDriver);
+        }
     }
 
     public void secondDriverAdded(Driver driver) {
         secondNameLabel.setText(driver.toString());
         secondDriver = driver;
+        if(teamFxModel != null){
+            teamFxModel.setSecondDriver(secondDriver);
+        }
     }
 
     @FXML
@@ -349,7 +355,6 @@ public class TeamAddSceneController {
             teamColorPicker.setValue(Color.web(teamFxModel.getTeamColor()));
 
             preDrivers = driverDao.getDriversbyTeam(team.getIdTeam());
-
             if (preDrivers != null) {
                 teamFxModel.setFirstDriver(preDrivers.get(0));
                 teamFxModel.setSecondDriver(preDrivers.get(1));

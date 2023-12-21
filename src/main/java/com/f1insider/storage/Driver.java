@@ -13,7 +13,7 @@ public class Driver {
     private String country;
     private LocalDate birthday;
     private int raceNumber;
-    private int points;
+    private double points;
     private Image photo;
 
     public Driver() {
@@ -23,7 +23,7 @@ public class Driver {
         return id;
     }
 
-    public Driver(int id, String firstName, String surname, String country, LocalDate birthday, int raceNumber, int points, Image photo) {
+    public Driver(int id, String firstName, String surname, String country, LocalDate birthday, int raceNumber, double points, Image photo) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -92,7 +92,7 @@ public class Driver {
         this.photo = photo;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
@@ -100,7 +100,7 @@ public class Driver {
         this.points = points;
     }
 
-    public Driver(String firstName, String surname, int points) {
+    public Driver(String firstName, String surname, double points) {
         this.firstName = firstName;
         this.surname = surname;
         this.points = points;

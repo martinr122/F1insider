@@ -11,17 +11,17 @@ public class Team implements Comparable<Team>{
     private String country;
     private String nameMonopost;
     private int year;
-    private int points;
+    private double points;
     private String teamColor;
     private Driver firstDriver;
     private Driver secondDriver;
 
-    public Team(String teamName, int points) {
+    public Team(String teamName, double points) {
         this.teamName = teamName;
         this.points = points;
     }
 
-    public Team(int idTeam, String teamName, String nameEngine, String namePrincipal, String nameFounder, String country, String nameMonopost, int year, int points, String teamColor, Driver firstDriver, Driver secondDriver) {
+    public Team(int idTeam, String teamName, String nameEngine, String namePrincipal, String nameFounder, String country, String nameMonopost, int year, double points, String teamColor, Driver firstDriver, Driver secondDriver) {
         this.idTeam = idTeam;
         this.teamName = teamName;
         this.nameEngine = nameEngine;
@@ -104,11 +104,11 @@ public class Team implements Comparable<Team>{
         this.year = year;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(double points) {
         this.points = points;
     }
 
@@ -156,6 +156,6 @@ public class Team implements Comparable<Team>{
 
     @Override
     public int compareTo(Team o) {
-        return Integer.compare(o.getPoints(), this.getPoints());
+        return Double.compare(o.getPoints(), this.getPoints());
     }
 }

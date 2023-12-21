@@ -51,13 +51,13 @@ public class StandingsMenuSceneController {
     private TableColumn<Driver, String> teamColumn;
 
     @FXML
-    private TableColumn<Driver, Integer> pointscolumn;
+    private TableColumn<Driver, Double> pointscolumn;
 
     @FXML
     private TableColumn<Team, String> nameTeamColumn;
 
     @FXML
-    private TableColumn<Team, Integer> pointsTeamColumn;
+    private TableColumn<Team, Double> pointsTeamColumn;
 
     @FXML
     private TableColumn<Team, Integer> positionTeamColumn;
@@ -97,7 +97,7 @@ public class StandingsMenuSceneController {
 
             Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
             Team team = teamDao.getTeamByDriver(driver.getId(), Integer.parseInt(season));
-            int points = cellData.getValue().getPoints();
+            double points = cellData.getValue().getPoints();
 
 
             if(!teamList.contains(team)){
@@ -108,6 +108,7 @@ public class StandingsMenuSceneController {
                 Team existingTeam = teamList.get(teamList.indexOf(team));
                 if (!addedDrivers.contains(driver)) {
                     existingTeam.setPoints(existingTeam.getPoints() + points);
+                    System.out.println(existingTeam.getPoints());
                     addedDrivers.add(driver);
                 }
             }
@@ -135,9 +136,9 @@ public class StandingsMenuSceneController {
         nameTeamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         pointsTeamColumn.setCellValueFactory(new PropertyValueFactory<>("points"));
 
-        List<Team> teamsStandings = WebPageReader.getTeamsStandings("https://www.formula1.com/en/results.html/" + season + "/team.html");
+        //List<Team> teamsStandings = WebPageReader.getTeamsStandings("https://www.formula1.com/en/results.html/" + season + "/team.html");
 
-        if (teamsStandings != null) {
+        if (teamList != null) {
             standingsTeamTable.setItems(FXCollections.observableList(teamList));
         } else {
             standingsTeamTable.setPlaceholder(new Label("The new season hasn't started yet! But you can check the standings from previous seasons!"));

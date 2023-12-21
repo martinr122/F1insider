@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,6 +26,8 @@ import java.util.List;
 public class AddDriverSceneController {
     @FXML
     private Button closeButton;
+    @FXML
+    private Button clearDriverButton;
     @FXML
     private ImageView imageViewer;
     @FXML
@@ -248,5 +251,13 @@ public class AddDriverSceneController {
             alert.setHeaderText("Error in image! Please choose again.");
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    void onClearDriver(ActionEvent event){
+        firstnameTextField.setText("");
+        surnameTextField.setText("");
+        raceNumberTextField.setText("");
+        countryTextField.setText("");
     }
 }

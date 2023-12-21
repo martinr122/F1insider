@@ -15,7 +15,7 @@ public class TeamFxModel {
     private StringProperty country = new SimpleStringProperty();
     private StringProperty nameMonopost = new SimpleStringProperty();
     private int year;
-    private int points;
+    private double points;
     private StringProperty teamColor = new SimpleStringProperty();
     private Driver firstDriver;
     private Driver secondDriver;
@@ -98,10 +98,10 @@ public class TeamFxModel {
     public void setYear(int year) {
         this.year = year;
     }
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
-    public void setPoints(int points) {
+    public void setPoints(double points) {
         this.points = points;
     }
     public String getTeamColor() {

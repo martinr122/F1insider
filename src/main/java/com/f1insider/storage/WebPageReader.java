@@ -56,7 +56,7 @@ public class WebPageReader {
                 Elements cells = row.select("td");
 
                 String[] driverName = cells.get(2).text().split(" ");
-                int points = Integer.parseInt(cells.get(5).text());
+                double points = Double.parseDouble(cells.get(5).text());
 
                 String surname = "";
 
@@ -91,7 +91,7 @@ public class WebPageReader {
                 Elements cells = row.select("td");
 
                 String name = cells.get(2).text();
-                int points = Integer.parseInt(cells.get(3).text());
+                double points = Double.parseDouble(cells.get(3).text());
                 Team team = new Team(name, points);
                 teams.add(team);
             }
