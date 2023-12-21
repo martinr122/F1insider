@@ -166,7 +166,7 @@ public class RaceMenuSceneController {
             intervalColumn.setCellValueFactory(param -> {
                 RaceResults raceResult = param.getValue();
                 if (raceResult.isFinished()) {
-                    if(String.valueOf(raceResult.getIntervalToWinner()).contains(".")){
+                    if(raceResult.getIntervalToWinner() != 1.0 || raceResult.getIntervalToWinner() == 0){
                         return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
                     }else{
                         return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner())+" lap");
