@@ -76,13 +76,13 @@ public class ManageSceneController {
                     wccComboBox.setItems(FXCollections.observableList(teamDao.getTeamsByYear(Integer.parseInt(newValue))));
                     wdcComboBox.setItems(FXCollections.observableList(driverDao.getAllFromSeason(Integer.parseInt(newValue))));
                     if (seasonDao.getWcc(Integer.parseInt(newValue)) != null) {
-                        wccComboBox.getSelectionModel().select(teamDao.getTeamByName(seasonDao.getWcc(Integer.parseInt(newValue)), Integer.parseInt(newValue)));
+                        wccComboBox.getSelectionModel().select(teamDao.getById(Integer.parseInt(seasonDao.getWcc(Integer.parseInt(newValue)))));
                     } else {
                         wccComboBox.getSelectionModel().clearSelection();
                     }
                     if (seasonDao.getWdc(Integer.parseInt(newValue)) != null) {
-                        String[] name = seasonDao.getWdc(Integer.parseInt(newValue)).split(" ");
-                        wdcComboBox.getSelectionModel().select(driverDao.getByName(name[0], name[1]));
+                        int id = Integer.parseInt(seasonDao.getWdc(Integer.parseInt(newValue)));
+                        wdcComboBox.getSelectionModel().select(driverDao.getById(id));
                     } else {
                         wdcComboBox.getSelectionModel().clearSelection();
                     }

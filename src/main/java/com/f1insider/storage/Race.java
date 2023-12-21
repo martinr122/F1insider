@@ -15,6 +15,23 @@ public class Race {
     private String place;
     private String name;
 
+    public Race() {}
+
+    public Race(int id, int year, LocalDateTime whenRace, LocalDateTime whenQuali, LocalDateTime whenFirstSession,
+                LocalDateTime whenSecondSession, LocalDateTime whenThirdSession, boolean isSprintWeekend, String place,
+                String name) {
+        this.id = id;
+        this.year = year;
+        this.whenRace = whenRace;
+        this.whenQuali = whenQuali;
+        this.whenFirstSession = whenFirstSession;
+        this.whenSecondSession = whenSecondSession;
+        this.whenThirdSession = whenThirdSession;
+        this.isSprintWeekend = isSprintWeekend;
+        this.place = place;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

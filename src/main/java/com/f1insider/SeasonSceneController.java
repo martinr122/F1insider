@@ -1,6 +1,8 @@
 package com.f1insider;
 
 import com.f1insider.storage.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class SeasonSceneController {
     @FXML
@@ -68,7 +71,7 @@ public class SeasonSceneController {
     private int year;
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
     private SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
-
+    private RaceFxModel raceFxModel;
     private User user;
     public SeasonSceneController(User user, int year){
         this.user = user;
@@ -92,6 +95,30 @@ public class SeasonSceneController {
         dateOfpractice2.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
         dateOfpractice1.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
 
+        listOfRaces.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Race>() {
+            @Override
+            public void changed(ObservableValue<? extends Race> observableValue, Race race, Race selectedRace) {
+                if (selectedRace != null) {
+                    raceFxModel = new RaceFxModel(selectedRace);
+
+                    placeOfGP.textProperty().bindBidirectional(raceFxModel.placeProperty());
+                    nameOfGP.textProperty().bindBidirectional(raceFxModel.nameProperty());
+
+                    timeOfRace.getValueFactory().setValue(raceFxModel.getWhenRace().toLocalTime());
+                    timeOfQualifying.getValueFactory().setValue(raceFxModel.getWhenQuali().toLocalTime());
+                    timeOfPractice3.getValueFactory().setValue(raceFxModel.getWhenThirdSession().toLocalTime());
+                    timeOfPractice2.getValueFactory().setValue(raceFxModel.getWhenSecondSession().toLocalTime());
+                    timeOfPractice1.getValueFactory().setValue(raceFxModel.getWhenFirstSession().toLocalTime());
+
+                    dateOfRace.setValue(raceFxModel.getWhenRace().toLocalDate());
+                    dateOfQualifying.setValue(raceFxModel.getWhenQuali().toLocalDate());
+                    dateOfpractice3.setValue(raceFxModel.getWhenThirdSession().toLocalDate());
+                    dateOfpractice2.setValue(raceFxModel.getWhenSecondSession().toLocalDate());
+                    dateOfpractice1.setValue(raceFxModel.getWhenFirstSession().toLocalDate());
+                }
+
+            }
+        });
     }
 
     private Spinner<LocalTime> createNewSpinnerFactory() {
@@ -130,51 +157,57 @@ public class SeasonSceneController {
 
     @FXML
     void OnAddRace(ActionEvent event) throws EntityNotFoundException {
-        if (dateOfRace.getValue().getYear() == year && dateOfQualifying.getValue().getYear() == year &&
-        dateOfpractice3.getValue().getYear() == year && dateOfpractice2.getValue().getYear() == year &&
-        dateOfpractice1.getValue().getYear() == year){
-            Race race = new Race();
-            race.setYear(dateOfRace.getValue().getYear());
+        Race race = new Race();
+        if (raceFxModel == null) {
+            if (dateOfRace.getValue().getYear() == year && dateOfQualifying.getValue().getYear() == year &&
+            dateOfpractice3.getValue().getYear() == year && dateOfpractice2.getValue().getYear() == year &&
+            dateOfpractice1.getValue().getYear() == year){
+                race.setYear(dateOfRace.getValue().getYear());
 
-            LocalDate date = dateOfRace.getValue();
-            race.setWhenRace(date.atTime(timeOfRace.getValue()));
+                LocalDate date = dateOfRace.getValue();
+                race.setWhenRace(date.atTime(timeOfRace.getValue()));
 
-            date = dateOfQualifying.getValue();
-            race.setWhenQuali(date.atTime(timeOfQualifying.getValue()));
+                date = dateOfQualifying.getValue();
+                race.setWhenQuali(date.atTime(timeOfQualifying.getValue()));
 
-            date = dateOfpractice1.getValue();
-            race.setWhenFirstSession(date.atTime(timeOfPractice1.getValue()));
+                date = dateOfpractice1.getValue();
+                race.setWhenFirstSession(date.atTime(timeOfPractice1.getValue()));
 
-            date = dateOfpractice2.getValue();
-            race.setWhenSecondSession(date.atTime(timeOfPractice2.getValue()));
+                date = dateOfpractice2.getValue();
+                race.setWhenSecondSession(date.atTime(timeOfPractice2.getValue()));
 
-            date = dateOfpractice3.getValue();
-            race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
+                date = dateOfpractice3.getValue();
+                race.setWhenThirdSession(date.atTime(timeOfPractice3.getValue()));
 
-            race.setSprintWeekend(isSprintRace.isSelected());
-            if (nameOfGP.getText().isEmpty() ){
-                alertLabel.setVisible(true);
-                alertLabel.setText("Name of GP is required!");
-                return;
+                race.setSprintWeekend(isSprintRace.isSelected());
+                if (nameOfGP.getText().isEmpty() ){
+                    alertLabel.setVisible(true);
+                    alertLabel.setText("Name of GP is required!");
+                    return;
+                }else {
+                    race.setName(nameOfGP.getText());
+                }
+                if (placeOfGP.getText().isEmpty()){
+                    alertLabel.setVisible(true);
+                    alertLabel.setText("Place of GP is required!");
+                    return;
+                }else {
+                    race.setPlace(placeOfGP.getText());
+                }
+                alertLabel.setVisible(false);
+                SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+                seasonDao.addSeason(year,null,null);
+                listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
+                wrongFormat.setVisible(false);
             }else {
-                race.setName(nameOfGP.getText());
+                wrongFormat.setVisible(true);
             }
-            if (placeOfGP.getText().isEmpty()){
-                alertLabel.setVisible(true);
-                alertLabel.setText("Place of GP is required!");
-                return;
-            }else {
-                race.setPlace(placeOfGP.getText());
-            }
-            alertLabel.setVisible(false);
-            SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
-            seasonDao.addSeason(year,null,null);
-            raceDao.saveRace(race);
-            listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
-            wrongFormat.setVisible(false);
-        }else {
-            wrongFormat.setVisible(true);
+        } else {
+            race = raceFxModel.getRace();
         }
+
+        raceDao.saveRace(race);
+        listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
 
     }
 

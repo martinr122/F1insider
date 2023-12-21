@@ -30,7 +30,6 @@ public class RaceMenuSceneController {
     private GridPane commentGridPane;
     @FXML
     private Label FifthSessionLabel;
-
     @FXML
     private Label FirstSessionLabel;
 
@@ -167,7 +166,11 @@ public class RaceMenuSceneController {
             intervalColumn.setCellValueFactory(param -> {
                 RaceResults raceResult = param.getValue();
                 if (raceResult.isFinished()) {
-                    return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
+                    if(String.valueOf(raceResult.getIntervalToWinner()).contains(".")){
+                        return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
+                    }else{
+                        return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner())+" lap");
+                    }
                 } else {
                     return new SimpleStringProperty(raceResult.getReason());
                 }

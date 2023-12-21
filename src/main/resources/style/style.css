@@ -32,7 +32,7 @@
 }
 
 .combo-box:hover {
-    -fx-background-color: ##f13353;
+    -fx-background-color: #f13353;
 }
 
 .combo-box:focused {

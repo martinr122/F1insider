@@ -114,8 +114,6 @@ public class StandingsMenuSceneController {
             return new SimpleStringProperty(team.toString());
         });
 
-        System.out.println(teamList);
-
         if (driversStandings != null) {
             standingsDriverTable.setItems(FXCollections.observableList(driversStandings));
         } else {

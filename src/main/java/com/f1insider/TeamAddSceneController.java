@@ -162,7 +162,12 @@ public class TeamAddSceneController {
     void onAddSecondDriver(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDriverScene.fxml"));
-            AddDriverSceneController controller = new AddDriverSceneController(false);
+            AddDriverSceneController controller = null;
+            if (secondDriver == null) {
+                controller = new AddDriverSceneController(false);
+            }else{
+                controller = new AddDriverSceneController(false, secondDriver);
+            }
             controller.setTeamAddSceneController(this);
             loader.setController(controller);
             Parent teamAddParent = loader.load();
