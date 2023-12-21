@@ -82,12 +82,12 @@ public class MySqlSeasonDao implements SeasonDao {
 
     }
 
-    public void setWcc(int year, String wcc) {
+    public void setWcc(int year, int wcc) {
         String sql = "UPDATE season SET wcc = ? WHERE year = ?";
         jdbcTemplate.update(sql, wcc, year);
     }
 
-    public void setWdc(int year, String wdc) {
+    public void setWdc(int year, int wdc) {
         String sql = "UPDATE season SET wdc = ? WHERE year = ?";
         jdbcTemplate.update(sql, wdc, year);
     }

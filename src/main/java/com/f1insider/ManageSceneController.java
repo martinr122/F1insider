@@ -130,9 +130,9 @@ public class ManageSceneController {
 
     @FXML
     void onSaveChampions(ActionEvent event) {
-        String wdc = wdcComboBox.getSelectionModel().getSelectedItem().getFirstName() + " " + wdcComboBox.getSelectionModel().getSelectedItem().getSurname();
+        int wdc = driverDao.getID(wdcComboBox.getSelectionModel().getSelectedItem().getFirstName(), wdcComboBox.getSelectionModel().getSelectedItem().getSurname());
         seasonDao.setWdc(Integer.parseInt(seasonComboBox.getSelectionModel().getSelectedItem()), wdc);
-        seasonDao.setWcc(Integer.parseInt(seasonComboBox.getSelectionModel().getSelectedItem()), wccComboBox.getSelectionModel().getSelectedItem().getTeamName());
+        seasonDao.setWcc(Integer.parseInt(seasonComboBox.getSelectionModel().getSelectedItem()), wccComboBox.getSelectionModel().getSelectedItem().getIdTeam());
     }
 
 }

@@ -94,8 +94,9 @@ public class StandingsMenuSceneController {
         pointscolumn.setCellValueFactory(new PropertyValueFactory<>("points"));
         List<Driver> addedDrivers = new ArrayList<>();
         teamColumn.setCellValueFactory(cellData -> {
-
             Driver driver = driverDao.getByName(cellData.getValue().getFirstName(), cellData.getValue().getSurname());
+            System.out.println(driver);
+
             Team team = teamDao.getTeamByDriver(driver.getId(), Integer.parseInt(season));
             double points = cellData.getValue().getPoints();
 
@@ -108,7 +109,6 @@ public class StandingsMenuSceneController {
                 Team existingTeam = teamList.get(teamList.indexOf(team));
                 if (!addedDrivers.contains(driver)) {
                     existingTeam.setPoints(existingTeam.getPoints() + points);
-                    System.out.println(existingTeam.getPoints());
                     addedDrivers.add(driver);
                 }
             }

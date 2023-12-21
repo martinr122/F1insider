@@ -315,7 +315,7 @@ public class RaceResultsEditSceneController {
                 raceResults.setDriver(selectedDriver);
                 int position = choiceBoxList.indexOf(choiceBox) + 1;
                 raceResults.setPosition(position);
-                raceResults.setFinished(!firstFinishedCheckBox.isSelected());
+                raceResults.setFinished(!checkBoxList.get(position - 1).isSelected());
                 String text = textFieldList.get(choiceBoxList.indexOf(choiceBox)).getText();
                 if (checkIfText(text)){
                     raceResults.setReason(text);

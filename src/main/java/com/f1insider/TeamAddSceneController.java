@@ -105,6 +105,7 @@ public class TeamAddSceneController {
     }
 
     private void handleLastGridClick(MouseEvent mouseEvent) {
+        teamFxModel = null;
         if (mouseEvent.getSource() instanceof Label) {
             Label clickedLabel = (Label) mouseEvent.getSource();
             Team team = teamDao.getTeamByName(clickedLabel.getText(), year - 1);

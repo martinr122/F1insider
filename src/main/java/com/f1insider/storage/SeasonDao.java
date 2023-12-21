@@ -11,6 +11,6 @@ public interface SeasonDao {
     int getChampionshipsOfDriver(int idDriver);
     String getWcc(int year);
     String getWdc(int year);
-    void setWcc(int year, String wcc);
-    void setWdc(int year, String wdc);
+    void setWcc(int year, int wcc);
+    void setWdc(int year, int wdc);
 }

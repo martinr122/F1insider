@@ -209,6 +209,20 @@ public class SeasonSceneController {
         raceDao.saveRace(race);
         listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
 
+        timeOfRace.setValueFactory(createNewSpinnerFactory().getValueFactory());
+        timeOfQualifying.setValueFactory(createNewSpinnerFactory().getValueFactory());
+        timeOfPractice3.setValueFactory(createNewSpinnerFactory().getValueFactory());
+        timeOfPractice2.setValueFactory(createNewSpinnerFactory().getValueFactory());
+        timeOfPractice1.setValueFactory(createNewSpinnerFactory().getValueFactory());
+
+        LocalDate defaultDate = LocalDate.now();
+        dateOfRace.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year));
+        dateOfQualifying.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
+        dateOfpractice3.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
+        dateOfpractice2.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
+        dateOfpractice1.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
+        nameOfGP.setText("");
+        placeOfGP.setText("");
     }
 
     @FXML
