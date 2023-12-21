@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.List;
 
 public class MysqlRaceResultsDao implements RaceResultsDao {
+
     private JdbcTemplate jdbcTemplate;
     private DriverDao driverDao = DaoFactory.INSTANCE.getDriverDao();
     public MysqlRaceResultsDao(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate; }

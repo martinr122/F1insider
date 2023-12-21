@@ -25,7 +25,13 @@
 
 }
 
-.combo-box {
+.choice-box{
+    -fx-background-color: white;
+    -fx-border-width: 0.5px;
+    -fx-border-color: black;
+}
+
+.combo-box{
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-width: 1px;
