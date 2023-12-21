@@ -57,6 +57,8 @@ public class TeamAddSceneController {
     private ColorPicker teamColorPicker;
     @FXML
     private Label alertLabel;
+    @FXML
+    private Button deleteButton;
     private Driver firstDriver;
     private Driver secondDriver;
     private User user;
@@ -150,7 +152,7 @@ public class TeamAddSceneController {
             Stage addDriverStage = new Stage();
             addDriverStage.initOwner(addDriverButton1.getScene().getWindow());
             addDriverStage.setScene(new Scene(teamAddParent));
-            addDriverStage.setTitle("F1Insider - Add Driver");
+            addDriverStage.setTitle("Add Driver");
             addDriverStage.centerOnScreen();
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.show();
@@ -175,7 +177,7 @@ public class TeamAddSceneController {
             Stage addDriverStage = new Stage();
             addDriverStage.initOwner(addDriverButton2.getScene().getWindow());
             addDriverStage.setScene(new Scene(teamAddParent));
-            addDriverStage.setTitle("F1Insider - Add Driver");
+            addDriverStage.setTitle("Add Driver");
             addDriverStage.centerOnScreen();
             addDriverStage.initModality(Modality.WINDOW_MODAL);
             addDriverStage.showAndWait();
@@ -381,5 +383,34 @@ public class TeamAddSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    void onDeleteTeam(ActionEvent event) {
+        teamDao.deleteByName(teamFxModel.getTeam().getTeamName(), year);
+        teamFxModel = null;
+        currentYearGridPane.getChildren().clear();
+        List<Team> teams = teamDao.getTeamsByYear(year);
+        for (int i = 0; i < teams.size(); i++) {
+            Team curTeam = teams.get(i);
+            Label label = new Label(curTeam.toString());
+            label.setFont(new Font(16));
+            label.setOnMouseEntered(mouse -> label.setCursor(Cursor.HAND));
+            label.setOnMouseExited(mouse -> label.setCursor(Cursor.DEFAULT));
+            label.setOnMouseClicked(this::handleCurrGridClick);
+            currentYearGridPane.addRow(i, label);
+        }
+        firstDriver = new Driver();
+        secondDriver = new Driver();
+        teamNameTextField.setText("");
+        EngineTextField.setText("");
+        teamPrincipalTextField.setText("");
+        founderTextField.setText("");
+        countryTextField.setText("");
+        monopostTextField.setText("");
+        teamColorPicker.setValue(Color.WHITE);
+        firstNameLabel.setText("Name of Driver");
+        secondNameLabel.setText("Name of Driver");
+        teamColor.setVisible(true);
+        alertLabel.setVisible(false);
     }
 }

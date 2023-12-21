@@ -152,9 +152,7 @@ public class RaceMenuSceneController {
             WhenFourthSessionLabel.setText(formatter.format(race.getWhenQuali()));
             FourthSessionLabel.setText("Qualifying:");
         }
-//        File file = new File("images/Brazil.png");
-//        Image image = new Image(file.toURI().toString());
-//        RaceTrackImage.setImage(image);
+
         List<RaceResults> raceResults = raceResultsDao.getRaceResults(race.getId());
         if (raceResults.isEmpty()) {
             raceResultsTable.setVisible(false);
@@ -166,11 +164,14 @@ public class RaceMenuSceneController {
             intervalColumn.setCellValueFactory(param -> {
                 RaceResults raceResult = param.getValue();
                 if (raceResult.isFinished()) {
-                    if(raceResult.getIntervalToWinner() != 1.0 || raceResult.getIntervalToWinner() == 0){
+                    if(raceResult.getIntervalToWinner() % 1 != 0){
                         return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner()));
-                    }else{
-                        return new SimpleStringProperty(String.valueOf(raceResult.getIntervalToWinner())+" lap");
+                    } else if (raceResult.getIntervalToWinner() == 0) {
+                        return new SimpleStringProperty("Winner");
+                    } else{
+                        return new SimpleStringProperty((int) (raceResult.getIntervalToWinner())+ " LAP");
                     }
+
                 } else {
                     return new SimpleStringProperty(raceResult.getReason());
                 }
