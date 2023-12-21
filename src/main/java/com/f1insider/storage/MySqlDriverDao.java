@@ -159,7 +159,7 @@ public class MySqlDriverDao implements DriverDao {
     }
     public void update(Driver driver) throws FileNotFoundException {
 
-        if (driver.getPhoto() == null) {
+        if (driver.getPhoto() == null || driver.getPhoto().getUrl() == null) {
             String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
                     " , country = ?, birthday = ?, race_number = ? " +
                     " WHERE first_name_driver = ? and surname_driver = ?";
@@ -167,12 +167,18 @@ public class MySqlDriverDao implements DriverDao {
         }else {
             String sql = "UPDATE driver SET first_name_driver = ? , surname_driver = ?" +
                     " , photo = ?, country = ?, birthday = ?, race_number = ? " +
-                    " WHERE first_name_driver = ? and surname_driver = ?";
-            String path = driver.getPhoto().getUrl().substring("file:/".length());
-            File file = new File(path);
+                    " WHERE idDriver = ?";
+            File file = null;
+            try {
+                if (driver.getPhoto().getUrl() != null) {
+                    String path = driver.getPhoto().getUrl().substring("file:/".length());
+                    file = new File(path);
+                }
+            } catch (Exception e) {
+                throw new NullPointerException();
+            }
             jdbcTemplate.update(sql, driver.getFirstName(), driver.getSurname(),
-                    new FileInputStream(file), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname());
+                    new FileInputStream(file), driver.getCountry(), driver.getBirthday(), driver.getRaceNumber(), driver.getFirstName(), driver.getSurname(), driver.getId());
         }
-
     }
 }

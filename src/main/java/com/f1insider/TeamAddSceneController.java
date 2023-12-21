@@ -208,7 +208,6 @@ public class TeamAddSceneController {
         firstNameLabel.setText("Name of Driver");
         secondNameLabel.setText("Name of Driver");
         teamFxModel = null;
-
     }
 
     @FXML
@@ -216,6 +215,8 @@ public class TeamAddSceneController {
         Team team = new Team();
         if (teamFxModel != null) {
             team = teamFxModel.getTeam();
+            firstDriver = team.getFirstDriver();
+            secondDriver = team.getSecondDriver();
         } else {
             team.setYear(year);
             if (teamNameTextField.getText().isEmpty()) {
@@ -350,10 +351,10 @@ public class TeamAddSceneController {
             preDrivers = driverDao.getDriversbyTeam(team.getIdTeam());
 
             if (preDrivers != null) {
-                firstDriver = preDrivers.get(0);
-                secondDriver = preDrivers.get(1);
-                firstNameLabel.setText(firstDriver.toString());
-                secondNameLabel.setText(secondDriver.toString());
+                teamFxModel.setFirstDriver(preDrivers.get(0));
+                teamFxModel.setSecondDriver(preDrivers.get(1));
+                firstNameLabel.setText(teamFxModel.getFirstDriver().toString());
+                secondNameLabel.setText(teamFxModel.getSecondDriver().toString());
             }
         }
     }
