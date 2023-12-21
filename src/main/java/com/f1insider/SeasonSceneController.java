@@ -71,6 +71,7 @@ public class SeasonSceneController {
     private int year;
     private RaceDao raceDao = DaoFactory.INSTANCE.getRaceDao();
     private SeasonDao seasonDao = DaoFactory.INSTANCE.getSeasonDao();
+    private RaceResultsDao raceResultsDao = DaoFactory.INSTANCE.getRaceResultsDao();
     private RaceFxModel raceFxModel;
     private User user;
     public SeasonSceneController(User user, int year){
@@ -119,6 +120,12 @@ public class SeasonSceneController {
 
             }
         });
+    dateOfRace.valueProperty().addListener((observable, oldValue, newValue) -> {
+        dateOfQualifying.setValue(newValue.minusDays(1));
+        dateOfpractice3.setValue(newValue.minusDays(1));
+        dateOfpractice2.setValue(newValue.minusDays(2));
+        dateOfpractice1.setValue(newValue.minusDays(2));
+    });
     }
 
     private Spinner<LocalTime> createNewSpinnerFactory() {
@@ -208,19 +215,7 @@ public class SeasonSceneController {
 
         raceDao.saveRace(race);
         listOfRaces.setItems(FXCollections.observableList(raceDao.getAllRaces(String.valueOf(year))));
-
-        timeOfRace.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfQualifying.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice3.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice2.setValueFactory(createNewSpinnerFactory().getValueFactory());
-        timeOfPractice1.setValueFactory(createNewSpinnerFactory().getValueFactory());
-
-        LocalDate defaultDate = LocalDate.now();
-        dateOfRace.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year));
-        dateOfQualifying.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
-        dateOfpractice3.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(1));
-        dateOfpractice2.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
-        dateOfpractice1.setValue(defaultDate.minusYears(LocalDate.now().getYear()-year).minusDays(2));
+        raceFxModel = null;
         nameOfGP.setText("");
         placeOfGP.setText("");
     }
@@ -228,6 +223,11 @@ public class SeasonSceneController {
     @FXML
     void onAddRaceResultsButton(ActionEvent event) {
         if(listOfRaces.getSelectionModel().getSelectedItem() != null) {
+            if (raceResultsDao.getRaceResults(raceDao.getRaceId(raceFxModel.getRace())).size()>0){
+                Alert alert = new Alert(Alert.AlertType.WARNING,"This race already has race results!");
+                alert.show();
+                return;
+            }
             try {
                 FXMLLoader loader = new FXMLLoader(
                         getClass().getResource("RaceResultsEditScene.fxml"));

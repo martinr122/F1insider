@@ -323,6 +323,7 @@ public class RaceResultsEditSceneController {
                     raceResults.setIntervalToWinner(Double.parseDouble(text));
                 }
                 raceResultsDao.saveRaceResults(raceResults);
+                racePlaceLabel.getScene().getWindow().hide();
             }
         }
     }

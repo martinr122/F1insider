@@ -181,7 +181,7 @@
             <TableColumn fx:id="toColumn" prefWidth="82.0" text="To " />
         </columns>
       </TableView>
-      <Pane fx:id="teamColorPane" layoutY="59.0" prefHeight="60.0" prefWidth="366.0" />
+      <Pane fx:id="teamColorPane" layoutY="59.0" prefHeight="449.0" prefWidth="367.0" />
       <Button fx:id="backButton" layoutX="10.0" layoutY="71.0" mnemonicParsing="false" onAction="#onBack" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
       <ImageView fx:id="driverPhoto" fitHeight="398.0" fitWidth="321.0" layoutX="21.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true" />
    </children>

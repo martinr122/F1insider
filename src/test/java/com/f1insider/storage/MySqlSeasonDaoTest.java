@@ -20,18 +20,11 @@ class MySqlSeasonDaoTest {
     }
     @Test
     void getWcc(int year){
-//TODO
+        assertNull(seasonDao.getWcc(2023));
     }
     @Test
     void getWdc(int year) {
-//TODO
+        assertNull(seasonDao.getWdc(2023));
     }
-    @Test
-    void setWcc(int year, String wcc){
-//TODO
-    }
-    @Test
-    void setWdc(int year, String wdc){
-//TODO
-    }
+
 }

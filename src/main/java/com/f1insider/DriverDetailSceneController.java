@@ -135,7 +135,9 @@ public class DriverDetailSceneController {
         racesLabel.setText(String.valueOf(raceResultsDao.getTotalRaces(driver.getId())));
         championshipsLabel.setText(String.valueOf(seasonDao.getChampionshipsOfDriver(driver.getId())));
         highestFinishLabel.setText(String.valueOf(raceResultsDao.getHighestFinish(driver.getId())));
-        teamColorPane.setStyle(" -fx-background-color: #" + teamDao.getTeamByDriver(driver.getId(), season).getTeamColor() + ";");
+        String teamColor = teamDao.getTeamByDriver(driver.getId(), season).getTeamColor();
+        String colorOpacity = teamColor + "80";
+        teamColorPane.setStyle(" -fx-background-color: #" + colorOpacity + ";");
         driverPhoto.setImage(driver.getPhoto());
         driverImage = driver.getPhoto();
 
